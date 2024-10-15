@@ -36,8 +36,16 @@ export default function CTA() {
 
       <motion.div variants={itemVariants}>
         <TextBlur
-          className="mx-auto max-w-[27rem] pt-1.5 text-center text-base text-zinc-300 sm:text-lg"
-          text="CarteBytes lets you take control of your menu with a seamless digital solution. Be first in line for alpha access to transform your menu experience"
+          className="mx-auto max-w-[29rem] pt-1.5 text-center text-base text-yellow-100 sm:text-lg"
+          text="CarteBytes lets you take control of your dining menu with a seamless digital solution."
+          duration={0.8}
+        />
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <TextBlur
+          className="mx-auto max-w-[27rem] pt-5 text-center text-base text-zinc-300 sm:text-lg"
+          text="Transform your menu—join the alpha waitlist today!"
           duration={0.8}
         />
       </motion.div>
