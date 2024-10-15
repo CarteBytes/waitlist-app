@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { Button } from "./ui/button";
+// import Link from "next/link";
+// import { Button } from "./ui/button";
 import { motion } from "framer-motion";
-import { FaGithub } from "react-icons/fa6";
+// import { FaGithub } from "react-icons/fa6";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
 
 export default function Header() {
@@ -12,7 +12,7 @@ export default function Header() {
       animate="visible"
       className="fixed right-0 top-0 z-[50] m-4">
       <motion.div variants={itemVariants}>
-        <Link href="https://github.com/lakshaybhushan/nextjs-notion-waitlist-template/fork">
+        {/* <Link href="https://github.com/lakshaybhushan/nextjs-notion-waitlist-template/fork">
           <Button
             size="sm"
             variant="secondary"
@@ -20,7 +20,7 @@ export default function Header() {
             <FaGithub className="md:mr-1.5" />
             <span className="hidden md:inline">Use this template</span>
           </Button>
-        </Link>
+        </Link> */}
       </motion.div>
     </motion.div>
   );

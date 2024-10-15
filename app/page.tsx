@@ -93,7 +93,7 @@ export default function Home() {
       },
       error: (error) => {
         if (error === "Rate limited") {
-          return "You're doing that too much. Please try again later";
+          return "You're doing that too much. Please try again later.";
         } else if (error === "Email sending failed") {
           return "Failed to send email. Please try again 😢.";
         } else if (error === "Notion insertion failed") {
@@ -124,10 +124,10 @@ export default function Home() {
           loading={loading}
         />
 
-        <Logos />
+        {/* <Logos /> */}
       </section>
 
-      <Footer />
+      {/* <Footer /> */}
 
       <Particles
         quantityDesktop={350}

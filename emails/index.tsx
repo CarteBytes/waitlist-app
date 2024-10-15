@@ -14,72 +14,74 @@ interface EmailProps {
   userFirstname: string;
 }
 
-export const NotionWaitlistEmail = ({ userFirstname }: EmailProps) => (
+export const CarteBytesWaitlistEmail = ({ userFirstname }: EmailProps) => (
   <Html>
     <Head />
-    <Preview>Thanks for Joining the Waitlist, {userFirstname}! 🎉</Preview>
+    <Preview>
+      Thanks for Joining the CarteBytes Waitlist, {userFirstname}! 🎉
+    </Preview>
     <Body style={main}>
       <Container style={container}>
         <Img
-          src={`https://nextjs-notion-waitlist.vercel.app/waitlist-logo.png`}
+          src={"/logo.svg"}
           width="220"
           height="100"
-          alt="Notion Waitlist Logo"
+          alt="CarteBytes Logo"
           style={logo}
         />
         <Text style={greeting}>Hi {userFirstname},</Text>
         <Text style={paragraph}>
-          Thanks for joining the waitlist for our Next.js + Notion CMS waitlist
-          template! I'm Lakshay, the developer behind this project. I'm glad to
-          have you on board.
+          Thanks for joining the waitlist for CarteBytes, where we're
+          reimagining the way restaurants manage their digital menus! We're
+          thrilled to have you on board.
         </Text>
         <Text style={paragraph}>
-          I'll keep you posted on the progress and notify you as soon as it's
-          ready for you to use. In the meantime, if you have any questions or
-          feedback, don't hesitate to reach out by replying directly to{" "}
-          <a href="mailto:lakshb.work@gmail.com" style={link}>
-            this email {""}
+          We’ll keep you updated on our progress and let you know as soon as
+          CarteBytes is ready for you to explore. In the meantime, if you have
+          any questions or feedback, feel free to reply directly to{" "}
+          <a href="mailto:cartebytes@gmail.com" style={link}>
+            this email
           </a>
-          — I'm here to listen!
+          — we’d love to hear from you!
         </Text>
         <Text style={paragraph}>
-          You can also follow me on X/Twitter for updates:{" "}
-          <a href="https://x.com/blakssh" style={link}>
-            @blakssh
+          You can also follow us for updates on our journey:{" "}
+          <a href="https://twitter.com/cartebytes" style={link}>
+            @CarteBytes
           </a>
         </Text>
         <Text style={signOff}>
           Best regards,
           <br />
-          Lakshay
+          The CarteBytes Team
         </Text>
         <Hr style={hr} />
         <Text style={footer}>
-          You received this email because you signed up for the Notion waitlist.
-          If you believe this is a mistake, feel free to ignore this email.
+          You received this email because you signed up for the CarteBytes
+          waitlist. If this was a mistake, feel free to ignore this email.
         </Text>
       </Container>
     </Body>
   </Html>
 );
 
-NotionWaitlistEmail.PreviewProps = {
-  userFirstname: "Tyler",
+CarteBytesWaitlistEmail.PreviewProps = {
+  userFirstname: "Allan",
 } as EmailProps;
 
-export default NotionWaitlistEmail;
+export default CarteBytesWaitlistEmail;
 
 const main = {
-  background: "linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%)",
+  background: "linear-gradient(-225deg, #FFA07A 0%, #FF4500 48%, #FF6347 100%)",
   fontFamily: 'figtree, "Helvetica Neue", Helvetica, Arial, sans-serif',
   padding: "40px 0",
-  color: "#cccccc",
+  color: "#ffffff",
 };
 
 const container = {
   margin: "0 auto",
   padding: "24px 32px 48px",
-  backgroundColor: "#1a1a1a",
+  backgroundColor: "#333333",
   borderRadius: "12px",
   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
   maxWidth: "600px",
@@ -102,7 +104,7 @@ const paragraph = {
 };
 
 const link = {
-  color: "#F7FF9B",
+  color: "#FFD700",
   textDecoration: "underline",
 };
 
@@ -113,11 +115,11 @@ const signOff = {
 };
 
 const hr = {
-  borderColor: "#cccccc",
+  borderColor: "#ffffff",
   margin: "20px 0",
 };
 
 const footer = {
-  color: "#8c8c8c",
+  color: "#cccccc",
   fontSize: "12px",
 };
