@@ -24,10 +24,7 @@ export default function RootLayout({
       <meta property="og:image:width" content="1280" />
       <meta property="og:image:height" content="832" />
       <meta property="og:site_name" content="CarteBytes | Waitlist" />
-      <meta
-        property="og:url"
-        content="https://nextjs-notion-waitlist.vercel.app/"
-      />
+      <meta property="og:url" content="https://www.cartebytes.com/" />
       <meta name="twitter:image" content="/social-logo.jpg" />
       <meta name="twitter:image:type" content="image/png" />
       <meta name="twitter:image:width" content="1280" />
