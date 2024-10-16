@@ -37,10 +37,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
   const { email, firstname } = await request.json();
 
   const { data, error } = await resend.emails.send({
-    from: "Allan<cartebytes@gmail.com>",
+    from: "Allan<hello@cartebytes.com>",
     to: [email],
     subject: "Thank you for wailisting CarteBytes!",
-    reply_to: "cartebytes@gmail.com",
+    reply_to: "hello@cartebytes.com",
     html: render(WelcomeTemplate({ userFirstname: firstname })),
   });
 

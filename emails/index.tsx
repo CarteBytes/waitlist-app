@@ -39,7 +39,7 @@ export const CarteBytesWaitlistEmail = ({ userFirstname }: EmailProps) => (
           We’ll keep you updated on our progress and let you know as soon as
           CarteBytes is ready for you to explore. In the meantime, if you have
           any questions or feedback, feel free to reply directly to{" "}
-          <a href="mailto:cartebytes@gmail.com" style={link}>
+          <a href="mailto:hello@cartebytes.com" style={link}>
             this email
           </a>
           — we’d love to hear from you!

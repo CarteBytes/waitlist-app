@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChangeEvent } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
