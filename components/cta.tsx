@@ -21,9 +21,9 @@ export default function CTA() {
       </motion.div>
 
       <motion.img
-        src="/logo.svg"
+        src="/logo_square.svg"
         alt="logo"
-        className="mx-auto h-24 w-24"
+        className="mx-auto h-24 w-auto"
         variants={itemVariants}
       />
 
@@ -44,8 +44,8 @@ export default function CTA() {
 
       <motion.div variants={itemVariants}>
         <TextBlur
-          className="mx-auto max-w-[27rem] pt-5 text-center text-base text-zinc-300 sm:text-lg"
-          text="Transform your menu—join the alpha waitlist today!"
+          className="mx-auto max-w-[27rem] pt-4 text-center text-base text-zinc-300 sm:text-lg"
+          text="Be first in line for alpha access to transform your menu experience"
           duration={0.8}
         />
       </motion.div>
