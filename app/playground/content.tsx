@@ -114,7 +114,124 @@ function generateRandomMenu(pagesCount = 3, sectionsPerPage = 3) {
   };
 }
 
-export const MENU = generateRandomMenu(
-  Math.floor(Math.random() * 10) + 1,
-  Math.floor(Math.random() * 3) + 1,
-);
+// export const MENU = generateRandomMenu(
+//   Math.floor(Math.random() * 10) + 1,
+//   Math.floor(Math.random() * 3) + 1,
+// );
+
+function getImageBySection(sectionName: string) {
+  const sectionImages = {
+    PARILLADAS:
+      "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg",
+    ENTRADAS:
+      "https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?cs=srgb&dl=pexels-ella-olsson-572949-1640772.jpg&fm=jpg",
+    POSTRES:
+      "https://media.istockphoto.com/id/1316145932/photo/table-top-view-of-spicy-food.jpg?s=612x612&w=0&k=20&c=eaKRSIAoRGHMibSfahMyQS6iFADyVy1pnPdy1O5rZ98=",
+  };
+  return (
+    sectionImages[sectionName as "PARILLADAS"] ||
+    "https://default-image-url.com"
+  ); // Fallback in case section name isn't found
+}
+
+function getFoodsForSection(sectionName: string) {
+  const sectionFoods = {
+    PARILLADAS: [
+      {
+        name: "Costilla de Cerdo",
+        description: "Juicy pork ribs, grilled to perfection.",
+        price: "22.99",
+      },
+      {
+        name: "Asado de Tira",
+        description: "Classic Argentine short ribs.",
+        price: "25.50",
+      },
+      {
+        name: "Bife de Chorizo",
+        description: "Prime Argentine steak with bold flavors.",
+        price: "29.00",
+      },
+    ],
+    ENTRADAS: [
+      {
+        name: "Chorizo Criollo",
+        description: "Traditional Argentine sausage.",
+        price: "7.50",
+      },
+      {
+        name: "Empanadas",
+        description: "Homemade empanadas with beef filling.",
+        price: "3.99",
+      },
+    ],
+    POSTRES: [
+      {
+        name: "Flan Casero",
+        description: "Classic caramel flan.",
+        price: "6.99",
+      },
+      {
+        name: "Chocotorta",
+        description: "Argentine layered chocolate cake.",
+        price: "8.50",
+      },
+    ],
+  };
+
+  return sectionFoods[sectionName as "PARILLADAS"] || [];
+}
+
+function generateMenu() {
+  const pages = [
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: getImageBySection("ENTRADAS"),
+        },
+
+        {
+          type: "food_items",
+          content: getFoodsForSection("ENTRADAS"),
+          title: "ENTRADAS",
+        },
+      ],
+    },
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: getImageBySection("PARILLADAS"),
+        },
+        {
+          type: "food_items",
+          content: getFoodsForSection("PARILLADAS"),
+          title: "PARILLADAS",
+        },
+      ],
+    },
+
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: getImageBySection("POSTRES"),
+        },
+        { type: "section_title", text: "PARILLADAS" },
+        {
+          type: "food_items",
+          content: getFoodsForSection("POSTRES"),
+        },
+      ],
+    },
+  ];
+
+  return {
+    id: "menuid" + Math.floor(Math.random() * 1000),
+    type: "menu",
+    pages,
+  };
+}
+
+export const MENU = generateMenu();
