@@ -49,8 +49,8 @@ export default function AvenidaMenu() {
     } else if (section.type === "food_items") {
       return (
         <div className="flex flex-col gap-1 px-7">
-          {section.content.map((foodItem: any) => (
-            <div className="flex items-start justify-between">
+          {section.content.map((foodItem: any, i: number) => (
+            <div key={i + 50} className="flex items-start justify-between">
               <div>
                 <p
                   className="text-xl"
@@ -144,14 +144,14 @@ export default function AvenidaMenu() {
         </div>
       </section>
       {MENU.pages.map((page, i) => {
-        console.log(i);
         return (
           <section
+            key={i}
             className="flex flex-col gap-20 py-32"
             style={{ background: getPageBackgroundColor(i) }}>
             {page.sections.map((section, j) => {
               const content = getContentComponent(section, i);
-              return <>{content}</>;
+              return <div key={j + 100}>{content}</div>;
             })}
           </section>
         );
