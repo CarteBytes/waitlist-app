@@ -123,7 +123,7 @@ export default function AvenidaMenu() {
         style={{ color: RESTAURANT.colors.primary_text }}>
         <section
           id="hero"
-          className={`hero duration-2000 flex h-[calc(100lvh-60px)] flex-col px-7 py-12 transition-all ease-linear`}
+          className={`hero duration-2000 flex h-[calc(100dvh-60px)] flex-col px-7 py-12 transition-all ease-linear`}
           style={{ background: gradientString }}>
           <div id="hero-header" className="flex justify-between">
             <h1 className="text-5xl font-semibold">
