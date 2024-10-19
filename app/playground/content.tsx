@@ -319,7 +319,6 @@ export const MENU = {
               calories: "1020 - 1210",
             },
           ],
-          //   title: "COMBOS",
         },
       ],
     },
@@ -329,30 +328,109 @@ export const MENU = {
           type: "hero_image",
           src: "https://images.prismic.io/raisingcanes/3558ffdc-ea93-48c6-81a3-56a848ba9adf_Tailgate%20(1).png?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C1681%2C1681&w=720&h=720",
         },
+        { type: "section_title", text: "TAILGATES™" },
         {
           type: "food_items",
-          content: getFoodsForSection("PARILLADAS"),
-          title: "TAILGATES™",
+          content: [
+            {
+              type: "food_item",
+              name: "25 Chicken Fingers",
+              description: "25 of our fresh, never frozen Chicken Fingers.",
+              price: "33.99",
+            },
+            {
+              type: "food_item",
+              name: "50 Chicken Fingers",
+              description: "50 of our fresh, never frozen Chicken Fingers.",
+              price: "65.99",
+            },
+            {
+              type: "food_item",
+              name: "75 Chicken Fingers",
+              description: "75 of our fresh, never frozen Chicken Fingers.",
+              price: "95.99",
+            },
+            {
+              type: "food_item",
+              name: "100 Chicken Fingers",
+              description: "100 of our fresh, never frozen Chicken Fingers.",
+              price: "127.99",
+            },
+          ],
         },
+        { type: "section_title", text: "EXTRAS" },
         {
           type: "food_items",
-          content: getFoodsForSection("PARILLADAS"),
-          title: "EXTRAS",
+          content: [
+            {
+              type: "food_item",
+              name: "Cane's Sauce®",
+              description: "Our signature Cane's Sauce® made fresh daily.",
+              price: "0.39",
+            },
+            {
+              type: "food_item",
+              name: "Crinkle-Cut Fries",
+              description: "Golden, crinkle-cut fries made fresh.",
+              price: "1.49",
+            },
+            {
+              type: "food_item",
+              name: "Texas Toast",
+              description: "Thick-cut, buttered, and grilled Texas toast.",
+              price: "0.99",
+            },
+            {
+              type: "food_item",
+              name: "Coleslaw",
+              description: "Crispy, tangy coleslaw made fresh daily.",
+              price: "0.99",
+            },
+          ],
         },
       ],
     },
-
     {
       sections: [
         {
           type: "hero_image",
           src: "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
         },
-        { type: "section_title", text: "DRINKS" },
         {
-          type: "food_items",
           title: "DRINKS",
-          content: getFoodsForSection("POSTRES"),
+          type: "food_items",
+          content: [
+            {
+              type: "food_item",
+              name: "Fountain Drink (22 oz.)",
+              description: "A refreshing selection of fountain drinks.",
+              price: "1.79",
+            },
+            {
+              type: "food_item",
+              name: "Fountain Drink (32 oz.)",
+              description: "A large refreshing selection of fountain drinks.",
+              price: "2.09",
+            },
+            {
+              type: "food_item",
+              name: "Sweet Tea (22 oz.)",
+              description: "Freshly brewed sweet tea, southern style.",
+              price: "1.79",
+            },
+            {
+              type: "food_item",
+              name: "Sweet Tea (32 oz.)",
+              description: "Freshly brewed sweet tea, southern style.",
+              price: "2.09",
+            },
+            {
+              type: "food_item",
+              name: "Lemonade (22 oz.)",
+              description: "Freshly squeezed lemonade made daily.",
+              price: "2.19",
+            },
+          ],
         },
         {
           type: "hero_image",

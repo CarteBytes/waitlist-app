@@ -11,6 +11,7 @@ import {
 import { MENU, RESTAURANT } from "./content";
 // import RusticEdge1 from "./svgs/RusticEdge1";
 import chroma from "chroma-js";
+import { isLight } from "./utils";
 
 export default function AvenidaMenu() {
   const getPageBackgroundColor = (index: number) => {
@@ -31,6 +32,11 @@ export default function AvenidaMenu() {
   const getPageSectionTitleColor = (index: number) => {
     const backgroundColor = getPageBackgroundColor(index);
     if (RESTAURANT.colors.primary === RESTAURANT.colors.secondary) {
+      if (isLight(RESTAURANT.colors.accent) && isLight(backgroundColor)) {
+        if (backgroundColor !== RESTAURANT.colors.primary)
+          return RESTAURANT.colors.primary;
+        return RESTAURANT.colors.secondary_text;
+      }
       return RESTAURANT.colors.accent;
     }
 
