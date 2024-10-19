@@ -1,7 +1,6 @@
 import React from "react";
 import FooterLogoCTA from "./components/FooterLogoCTA";
 import {
-  FaAddressBook,
   FaFacebookF,
   FaInstagram,
   FaPhone,
@@ -31,6 +30,10 @@ export default function AvenidaMenu() {
 
   const getPageSectionTitleColor = (index: number) => {
     const backgroundColor = getPageBackgroundColor(index);
+    if (RESTAURANT.colors.primary === RESTAURANT.colors.secondary) {
+      return RESTAURANT.colors.accent;
+    }
+
     // Title should be primary whenever the background is not primary
     if (backgroundColor !== RESTAURANT.colors.primary) {
       return RESTAURANT.colors.primary;
@@ -51,7 +54,7 @@ export default function AvenidaMenu() {
             {section.title}
           </h3>
 
-          <div className="flex flex-col gap-1 px-7 pb-8 pt-1">
+          <div className="flex flex-col gap-3 px-7 pb-8 pt-1">
             {section.content.map((foodItem: any, i: number) => (
               <div key={i + 50} className="flex items-start justify-between">
                 <div>
@@ -61,13 +64,23 @@ export default function AvenidaMenu() {
                     {foodItem.name}
                   </p>
                   <p
-                    className="text-md"
+                    className="text-md leading-tight"
                     style={{
                       color: getPageBodyTextColor(sectionIdx),
                       opacity: 0.75,
                     }}>
                     {foodItem.description}
                   </p>
+                  {foodItem.calories && (
+                    <p
+                      className="text-md font-thin leading-tight"
+                      style={{
+                        color: getPageBodyTextColor(sectionIdx),
+                        opacity: 0.75,
+                      }}>
+                      {foodItem.calories} Cal
+                    </p>
+                  )}
                 </div>
                 <div>
                   <p
@@ -106,11 +119,11 @@ export default function AvenidaMenu() {
     <div className="flex justify-center">
       <div
         id="menu"
-        className={`font-roboto w-full max-w-xl`}
+        className={`w-full max-w-xl font-sans`}
         style={{ color: RESTAURANT.colors.primary_text }}>
         <section
           id="hero"
-          className={`hero duration-2000 flex h-[calc(100dvh-100px)] flex-col px-7 py-12 transition-all ease-linear`}
+          className={`hero duration-2000 flex h-[calc(100lvh-60px)] flex-col px-7 py-12 transition-all ease-linear`}
           style={{ background: gradientString }}>
           <div id="hero-header" className="flex justify-between">
             <h1 className="text-5xl font-semibold">
@@ -126,6 +139,9 @@ export default function AvenidaMenu() {
             />
             {/* <h2 className="mt-6 text-4xl font-semibold">{RESTAURANT.name}</h2> */}
             {/* <h3 className="mt-2 text-xl font-semibold">{RESTAURANT.phone}</h3> */}
+            <h3 className="mt-4 text-xl font-semibold">
+              {RESTAURANT.city}, {RESTAURANT.state}
+            </h3>
           </div>
           <div id="hero-socials" className="flex justify-end gap-2">
             <div
@@ -185,7 +201,7 @@ export default function AvenidaMenu() {
         })}
         <section
           id="footer"
-          className="flex flex-col items-center gap-12 px-7 py-20"
+          className="flex flex-col items-center gap-12 px-7 py-24"
           style={{
             background: RESTAURANT.colors.secondary, //getPageBackgroundColor(MENU.pages.length + 2),
             color: RESTAURANT.colors.primary_text, //getPageBodyTextColor(MENU.pages.length + 2),

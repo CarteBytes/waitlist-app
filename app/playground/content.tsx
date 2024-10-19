@@ -1,24 +1,50 @@
+// export const RESTAURANT = {
+//   id: "123",
+//   name: "Monterrey Mexican Restaurant",
+//   phone: "(615) 567-1848",
+//   address: "1800 Antioch Pike",
+//   city: "Nashville",
+//   state: "TN",
+//   zipCode: "37802",
+//   logo: "https://monterreycocina.com/wp-content/uploads/2024/04/logo-monterrey-color.png",
+//   colors: {
+//     primary: "#EF4544",
+//     secondary: "#45090B",
+//     primary_text: "#FFF4E8",
+//     secondary_text: "#000000",
+//     accent: "#F8B500",
+//   },
+//   socials: {
+//     facebook: "",
+//     instagram: "",
+//     tiktok: "",
+//     whatsapp: "",
+//   },
+// };
+
 export const RESTAURANT = {
   id: "123",
-  name: "Monterrey Mexican Restaurant",
+  name: "Raising Cane's",
   phone: "(615) 567-1848",
   address: "1800 Antioch Pike",
   city: "Nashville",
   state: "TN",
   zipCode: "37802",
-  logo: "https://monterreycocina.com/wp-content/uploads/2024/04/logo-monterrey-color.png",
+  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
   colors: {
-    primary: "#EF4544",
-    secondary: "#45090B",
-    primary_text: "#FFF4E8",
-    secondary_text: "#000000",
-    accent: "#F8B500",
+    primary: "#E82531",
+    secondary: "#E82531",
+    primary_text: "#FFFFFF",
+    secondary_text: "#0A0808",
+    accent: "#FFF01B",
   },
   socials: {
-    facebook: "",
-    instagram: "",
-    tiktok: "",
+    facebook: "https://www.facebook.com/RaisingCanesChickenFingers",
+    instagram: "https://www.instagram.com/raisingcanes/",
+    tiktok: "https://www.tiktok.com/@raisingcanes",
     whatsapp: "",
+    twitter: "https://twitter.com/raisingcanes",
+    youtube: "https://www.youtube.com/user/RaisingCanesOneLove",
   },
 };
 
@@ -209,6 +235,16 @@ function generateMenu() {
           content: getFoodsForSection("PARILLADAS"),
           title: "PARILLADAS",
         },
+        {
+          type: "food_items",
+          content: getFoodsForSection("PARILLADAS"),
+          title: "TACOS",
+        },
+        {
+          type: "food_items",
+          content: getFoodsForSection("PARILLADAS"),
+          title: "PLATILLOS",
+        },
       ],
     },
 
@@ -218,7 +254,7 @@ function generateMenu() {
           type: "hero_image",
           src: getImageBySection("POSTRES"),
         },
-        { type: "section_title", text: "PARILLADAS" },
+        { type: "section_title", text: "DESSERTS" },
         {
           type: "food_items",
           content: getFoodsForSection("POSTRES"),
@@ -234,4 +270,95 @@ function generateMenu() {
   };
 }
 
-export const MENU = generateMenu();
+// export const MENU = generateMenu();
+
+export const MENU = {
+  id: "menuid" + Math.floor(Math.random() * 1000),
+  type: "menu",
+  pages: [
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: "https://images.prismic.io/raisingcanes/MDMyNTQxNjQtMjAyMi00OTFjLTkxZWYtMmQzNDMzMmY0MmUx_d17f94cb-3ccb-48fd-92e4-ffde94917322_food-prep-basic-hero.jpg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C2500%2C1000&w=1280&h=512",
+        },
+        { type: "section_title", text: "COMBOS" },
+        {
+          type: "food_items",
+          content: [
+            {
+              type: "food_item",
+              name: "THE BOX COMBO®",
+              description:
+                "4 Chicken Fingers, Crinkle-Cut Fries, One Cane’s Sauce®, Texas Toast, Coleslaw, Regular Fountain Drink/Tea (22 oz.)",
+              price: "10.98",
+              calories: "1250 - 1440",
+            },
+            {
+              type: "food_item",
+              name: "THE CANIAC™ COMBO",
+              description:
+                "6 Chicken Fingers, Crinkle-Cut Fries, 2 Cane’s Sauce®, Texas Toast, Coleslaw, Large Fountain Drink/Tea (32 oz.)",
+              price: "14.98",
+              calories: "1790 - 2040",
+            },
+            {
+              type: "food_item",
+              name: "THE 3 FINGER COMBO®",
+              description:
+                "3 Chicken Fingers, Crinkle-Cut Fries, One Cane’s Sauce®, Texas Toast, Regular Fountain Drink/Tea (22 oz.)",
+              price: "7.98",
+              calories: "1020 - 1210",
+            },
+            {
+              type: "food_item",
+              name: "THE SANDWICH COMBO",
+              description:
+                "3 Chicken Fingers, Cane’s Sauce®, Lettuce, Toasted Bun, Crinkle-Cut Fries, Regular Fountain Drink/Tea (22 oz.)",
+              price: "9.98",
+              calories: "1020 - 1210",
+            },
+          ],
+          //   title: "COMBOS",
+        },
+      ],
+    },
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: "https://images.prismic.io/raisingcanes/3558ffdc-ea93-48c6-81a3-56a848ba9adf_Tailgate%20(1).png?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C1681%2C1681&w=720&h=720",
+        },
+        {
+          type: "food_items",
+          content: getFoodsForSection("PARILLADAS"),
+          title: "TAILGATES™",
+        },
+        {
+          type: "food_items",
+          content: getFoodsForSection("PARILLADAS"),
+          title: "EXTRAS",
+        },
+      ],
+    },
+
+    {
+      sections: [
+        {
+          type: "hero_image",
+          src: "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
+        },
+        { type: "section_title", text: "DRINKS" },
+        {
+          type: "food_items",
+          title: "DRINKS",
+          content: getFoodsForSection("POSTRES"),
+        },
+        {
+          type: "hero_image",
+          src: "https://thumbs.dreamstime.com/b/raising-cane-s-joliet-il-joliet-il-usa-november-raising-cane-s-american-fast-food-restaurant-chain-specializes-262380147.jpg",
+        },
+      ],
+    },
+  ],
+};
