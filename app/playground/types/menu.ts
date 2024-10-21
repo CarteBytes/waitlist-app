@@ -1,8 +1,10 @@
 export type MenuT = {
   id: string;
   type: string;
-  pages: { sections: MenuPageSectionT[] }[];
+  pages: MenuPageT[];
 };
+
+export type MenuPageT = { sections: MenuPageSectionT[] };
 
 export type MenuPageSectionT =
   | {

@@ -4,8 +4,9 @@ import { FaPhone, FaStore } from "react-icons/fa6";
 import chroma from "chroma-js";
 import { isLight } from "../utils";
 import { RestaurantT } from "../types/restaurant";
-import { MenuT } from "../types/menu";
+import { MenuPageSectionT, MenuPageT, MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
+import AdminWrapper from "./AdminWrapper";
 
 function AvenidaMenu({
   restaurant,
@@ -60,7 +61,7 @@ function AvenidaMenu({
             {section.title}
           </h3>
 
-          <div className="flex flex-col gap-3 px-7 pb-8 pt-1">
+          <div className="flex flex-col gap-3 px-8 pb-8 pt-1">
             {section.content.map((foodItem: any, i: number) => (
               <div key={i + 50} className="flex items-start justify-between">
                 <div>
@@ -124,11 +125,11 @@ function AvenidaMenu({
   return (
     <div
       id="menu"
-      className={`w-full max-w-xl font-sans`}
+      className={`w-full max-w-xl overflow-hidden font-sans`}
       style={{ color: restaurant.colors.primary_text }}>
       <section
         id="hero"
-        className={`hero duration-2000 flex h-[calc(100dvh-60px)] flex-col px-7 py-12 transition-all ease-linear`}
+        className={`hero duration-2000 flex h-[calc(100dvh-60px)] flex-col px-8 py-12 transition-all ease-linear`}
         style={{ background: gradientString }}>
         <div id="hero-header" className="flex justify-between">
           <h1 className="text-5xl font-semibold">
@@ -140,9 +141,11 @@ function AvenidaMenu({
           <img className="h-auto w-full" id="hero-logo" src={restaurant.logo} />
           {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
           {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
-          <h3 className="mt-4 text-xl font-semibold">
-            {restaurant.city}, {restaurant.state}
-          </h3>
+          <AdminWrapper>
+            <h3 className="mt-4 text-xl font-semibold">
+              {restaurant.city}, {restaurant.state}
+            </h3>
+          </AdminWrapper>
         </div>
         <SocialMediaGroup
           id="hero_socials"
@@ -155,17 +158,39 @@ function AvenidaMenu({
     color={restaurant.colors.primary}
     className="relative z-10 mb-[-20%]"
   /> */}
-      {menu.pages.map((page: any, i: number) => {
+      {menu.pages.map((page: MenuPageT, i: number) => {
         return (
           <section
             key={i}
             className="flex flex-col gap-20 pb-20"
             style={{ background: getPageBackgroundColor(i) }}>
-            {page.sections.map((section: any, j: number) => {
+            {page.sections.map((section: MenuPageSectionT, j: number) => {
               const content = getContentComponent(section, i);
               return (
-                <div key={j + 100} className="before:pt-4">
-                  {content}
+                <div className="relative">
+                  {/* {section.type !== "hero_image" && (
+                    <div className="absolute left-[-4%] top-4">
+                      <Shape
+                        className="h-12 w-12 rotate-90"
+                        color={restaurant.colors.accent}
+                      />
+                      <Shape
+                        className="h-12 w-12 rotate-90"
+                        color={restaurant.colors.accent}
+                      />
+                      <Shape
+                        className="h-12 w-12 rotate-90"
+                        color={restaurant.colors.accent}
+                      />
+                      <Shape
+                        className="h-12 w-12 rotate-90"
+                        color={restaurant.colors.accent}
+                      />
+                    </div>
+                  )} */}
+                  <div key={j + 100} className="before:pt-4">
+                    {content}
+                  </div>
                 </div>
               );
             })}
@@ -174,7 +199,7 @@ function AvenidaMenu({
       })}
       <section
         id="footer"
-        className="flex flex-col items-center gap-12 px-7 py-24"
+        className="flex flex-col items-center gap-12 px-8 py-24"
         style={{
           background: restaurant.colors.secondary, //getPageBackgroundColor(menu.pages.length + 2),
           color: restaurant.colors.primary_text, //getPageBodyTextColor(menu.pages.length + 2),
