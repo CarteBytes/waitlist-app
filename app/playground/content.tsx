@@ -22,7 +22,10 @@
 //   },
 // };
 
-export const RESTAURANT = {
+import { MenuT } from "./types/menu";
+import { RestaurantT } from "./types/restaurant";
+
+export const RESTAURANT: RestaurantT = {
   id: "123",
   name: "Raising Cane's",
   phone: "(615) 567-1848",
@@ -39,12 +42,12 @@ export const RESTAURANT = {
     accent: "#FFF01B",
   },
   socials: {
-    facebook: "https://www.facebook.com/RaisingCanesChickenFingers",
-    instagram: "https://www.instagram.com/raisingcanes/",
-    tiktok: "https://www.tiktok.com/@raisingcanes",
-    whatsapp: "",
-    twitter: "https://twitter.com/raisingcanes",
-    youtube: "https://www.youtube.com/user/RaisingCanesOneLove",
+    facebookUrl: "https://www.facebook.com/RaisingCanesChickenFingers",
+    instagramUrl: "https://www.instagram.com/raisingcanes/",
+    tiktokUrl: "https://www.tiktok.com/@raisingcanes",
+    whatsappUrl: "",
+    twitterUrl: "https://twitter.com/raisingcanes",
+    youtubeUrl: "https://www.youtube.com/user/RaisingCanesOneLove",
   },
 };
 
@@ -272,7 +275,7 @@ function generateMenu() {
 
 // export const MENU = generateMenu();
 
-export const MENU = {
+export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   type: "menu",
   pages: [
@@ -282,7 +285,7 @@ export const MENU = {
           type: "hero_image",
           src: "https://images.prismic.io/raisingcanes/MDMyNTQxNjQtMjAyMi00OTFjLTkxZWYtMmQzNDMzMmY0MmUx_d17f94cb-3ccb-48fd-92e4-ffde94917322_food-prep-basic-hero.jpg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C2500%2C1000&w=1280&h=512",
         },
-        { type: "section_title", text: "COMBOS" },
+        // { type: "section_title", text: "COMBOS" },
         {
           type: "food_items",
           content: [
@@ -328,7 +331,7 @@ export const MENU = {
           type: "hero_image",
           src: "https://images.prismic.io/raisingcanes/3558ffdc-ea93-48c6-81a3-56a848ba9adf_Tailgate%20(1).png?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C1681%2C1681&w=720&h=720",
         },
-        { type: "section_title", text: "TAILGATES™" },
+        // { type: "section_title", text: "TAILGATES™" },
         {
           type: "food_items",
           content: [
@@ -358,7 +361,7 @@ export const MENU = {
             },
           ],
         },
-        { type: "section_title", text: "EXTRAS" },
+        // { type: "section_title", text: "EXTRAS" },
         {
           type: "food_items",
           content: [
@@ -397,7 +400,7 @@ export const MENU = {
           src: "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
         },
         {
-          title: "DRINKS",
+          // title: "DRINKS",
           type: "food_items",
           content: [
             {
