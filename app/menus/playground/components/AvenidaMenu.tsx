@@ -169,7 +169,7 @@ function AvenidaMenu({
           {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
           {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
           <AdminWrapper>
-            <h3 className="mt-4 text-xl font-semibold">
+            <h3 className="mt-4 text-2xl font-semibold">
               {restaurant.city}, {restaurant.state}
             </h3>
           </AdminWrapper>
