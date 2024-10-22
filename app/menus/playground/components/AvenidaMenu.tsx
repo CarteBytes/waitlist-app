@@ -147,7 +147,7 @@ function AvenidaMenu({
       style={{ color: restaurant.colors.primary_text }}>
       <section
         id="hero"
-        className={`hero duration-2000 flex h-[calc(100dvh-60px)] flex-col px-8 py-12 transition-all ease-linear`}
+        className={`hero duration-2000 flex h-dvh flex-col px-8 py-12 transition-all ease-linear`}
         style={{ background: gradientString }}>
         <div id="hero-header" className="flex justify-between">
           <h1 className="text-5xl font-semibold">
