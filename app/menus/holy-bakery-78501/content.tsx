@@ -1,4 +1,7 @@
-export const RESTAURANT = {
+import { MenuT } from "../playground/types/menu";
+import { RestaurantT } from "../playground/types/restaurant";
+
+export const RESTAURANT: RestaurantT = {
   id: "holy-bakery-78501",
   name: "Holy Bakery",
   phone: "(956) 777-2507",
@@ -15,16 +18,16 @@ export const RESTAURANT = {
     accent: "#B39E79",
   },
   socials: {
-    facebook: "https://www.facebook.com/RaisingCanesChickenFingers",
-    instagram: "https://www.instagram.com/raisingcanes/",
-    tiktok: "https://www.tiktok.com/@raisingcanes",
-    whatsapp: "",
-    twitter: "https://twitter.com/raisingcanes",
-    youtube: "https://www.youtube.com/user/RaisingCanesOneLove",
+    facebookUrl: "https://www.facebook.com/RaisingCanesChickenFingers",
+    instagramUrl: "https://www.instagram.com/raisingcanes/",
+    tiktokUrl: "https://www.tiktok.com/@raisingcanes",
+    whatsappUrl: "",
+    twitterUrl: "https://twitter.com/raisingcanes",
+    youtubeUrl: "https://www.youtube.com/user/RaisingCanesOneLove",
   },
 };
 
-export const MENU = {
+export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   type: "menu",
   pages: [

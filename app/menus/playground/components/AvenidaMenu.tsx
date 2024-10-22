@@ -55,11 +55,21 @@ function AvenidaMenu({
     } else if (section.type === "food_items") {
       return (
         <div>
-          <h3
-            className="pl-7 pt-8 text-3xl font-semibold"
-            style={{ color: getPageSectionTitleColor(sectionIdx) }}>
-            {section.title}
-          </h3>
+          <div className="flex items-start justify-between px-8 pt-8">
+            <h3
+              className="text-3xl font-semibold"
+              style={{ color: getPageSectionTitleColor(sectionIdx) }}>
+              {section.group_title}
+            </h3>
+
+            {section.group_price && (
+              <h3
+                className="text-3xl font-semibold"
+                style={{ color: getPageSectionTitleColor(sectionIdx) }}>
+                ${section.group_price}
+              </h3>
+            )}
+          </div>
 
           <div className="flex flex-col gap-3 px-8 pb-8 pt-1">
             {section.content.map((foodItem: any, i: number) => (
@@ -89,13 +99,15 @@ function AvenidaMenu({
                     </p>
                   )}
                 </div>
-                <div>
-                  <p
-                    className="text-lg font-semibold"
-                    style={{ color: getPageBodyTextColor(sectionIdx) }}>
-                    ${foodItem.price}
-                  </p>
-                </div>
+                {foodItem.price && (
+                  <div>
+                    <p
+                      className="text-lg font-semibold"
+                      style={{ color: getPageBodyTextColor(sectionIdx) }}>
+                      ${foodItem.price}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -207,22 +219,26 @@ function AvenidaMenu({
         <img className="h-auto w-full" id="footer-logo" src={restaurant.logo} />
         <div className="flex h-full flex-col justify-center">
           {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
-          <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-            <div className="mt-1">
-              <FaPhone />
-            </div>
-            <div>{restaurant.phone}</div>
-          </h3>
-          <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-            <div className="mt-1">
-              <FaStore />
-            </div>
-            <div>
-              {" "}
-              {restaurant.address} <br /> {restaurant.city}, {restaurant.state}{" "}
-              {restaurant.zipCode}
-            </div>
-          </h3>
+          {restaurant.phone && (
+            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
+              <div className="mt-1">
+                <FaPhone />
+              </div>
+              <div>{restaurant.phone}</div>
+            </h3>
+          )}
+          {restaurant.address && (
+            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
+              <div className="mt-1">
+                <FaStore />
+              </div>
+              <div>
+                {" "}
+                {restaurant.address} <br /> {restaurant.city},{" "}
+                {restaurant.state} {restaurant.zipCode}
+              </div>
+            </h3>
+          )}
         </div>
         <SocialMediaGroup
           id="hero_socials"
