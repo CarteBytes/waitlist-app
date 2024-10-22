@@ -1,3 +1,8 @@
+import { NextResponse } from "next/server";
+import { organizations } from "../organizations/route";
+import { eq } from "drizzle-orm";
+import { db } from "@/lib/db";
+
 // import { NextRequest, NextResponse } from "next/server";
 // import { db } from "@/lib/db";
 // import {
@@ -104,19 +109,19 @@
 //   }
 // }
 
-// const checkOrgExists = async (orgId: number) => {
-//   const organizationExists = await db
-//     .select()
-//     .from(organizations)
-//     .where(eq(organizations.id, orgId))
-//     .limit(1);
-//   if (organizationExists.length === 0) {
-//     return NextResponse.json(
-//       { error: "Organization not found" },
-//       { status: 404 },
-//     );
-//   }
-// };
+export const checkOrgExists = async (orgId: number) => {
+  const organizationExists = await db
+    .select()
+    .from(organizations)
+    .where(eq(organizations.id, orgId))
+    .limit(1);
+  if (organizationExists.length === 0) {
+    return NextResponse.json(
+      { error: "Organization not found" },
+      { status: 404 },
+    );
+  }
+};
 
 // // PUT request to update a menu
 // export const updateMenuSchema = z.object({
