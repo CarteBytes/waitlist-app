@@ -8,6 +8,7 @@ export type RestaurantT = {
   zipCode: string;
   logo: string;
   colors: RestaurantColorsT;
+  currencyPrefix: "$" | "L. ";
   socials: {
     mainUrl?: string;
     facebookUrl?: string;

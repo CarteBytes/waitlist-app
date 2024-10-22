@@ -9,12 +9,16 @@ import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 
 function AvenidaMenu({
+  lang = "eng",
   restaurant,
   menu,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
+  lang?: "eng" | "esp";
 }) {
+  const isSpanish = lang === "esp";
+
   const getPageBackgroundColor = (index: number) => {
     if (index % 2 !== 0) return restaurant.colors.primary;
     if (index % 4 === 0) return restaurant.colors.secondary;
@@ -66,7 +70,8 @@ function AvenidaMenu({
               <h3
                 className="text-3xl font-semibold"
                 style={{ color: getPageSectionTitleColor(sectionIdx) }}>
-                ${section.group_price}
+                {restaurant.currencyPrefix}
+                {section.group_price}
               </h3>
             )}
           </div>
@@ -104,7 +109,8 @@ function AvenidaMenu({
                     <p
                       className="text-lg font-semibold"
                       style={{ color: getPageBodyTextColor(sectionIdx) }}>
-                      ${foodItem.price}
+                      {restaurant.currencyPrefix}
+                      {foodItem.price}
                     </p>
                   </div>
                 )}
@@ -145,8 +151,17 @@ function AvenidaMenu({
         style={{ background: gradientString }}>
         <div id="hero-header" className="flex justify-between">
           <h1 className="text-5xl font-semibold">
-            Digital <br />
-            Menu
+            {isSpanish ? (
+              <>
+                Menu <br />
+                Digital{" "}
+              </>
+            ) : (
+              <>
+                Digital <br />
+                Menu{" "}
+              </>
+            )}
           </h1>
         </div>
         <div className="flex h-full flex-col justify-center text-center">
@@ -247,7 +262,7 @@ function AvenidaMenu({
           {...restaurant.socials}
         />
       </section>
-      <FooterLogoCTA />
+      <FooterLogoCTA lang={lang} />
     </div>
   );
 }
