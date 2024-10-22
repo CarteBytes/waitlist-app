@@ -1,47 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { pgTable, text, timestamp, serial } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  serial,
+  jsonb,
+  integer,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { ZodError } from "zod";
+// import { organizations } from "../organizations/route";
+import { eq, and } from "drizzle-orm";
+import { z } from "zod";
 
-// Define the table
-export const organizations = pgTable("organizations", {
+const organizations = pgTable("organizations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Define the types and schemas
-export type TOrganization = typeof organizations.$inferInsert;
-export const insertOrganizationSchema = createInsertSchema(organizations);
+// Define the table
+const menus = pgTable("menus", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").default(""), // Optional description
+  pages: jsonb("pages").notNull(), // Storing the pages structure as JSONB
+  created_at: timestamp("created_at").defaultNow().notNull(),
+  org_id: integer("organization_id")
+    .references(() => organizations.id)
+    .notNull(), // Foreign key
+});
+
+// Define the schema for inserting menus
+type TMenu = typeof menus.$inferInsert;
+const insertMenuSchema = createInsertSchema(menus);
 
 export async function POST(req: NextRequest) {
+  const checkOrgExists = async (orgId: number) => {
+    const organizationExists = await db
+      .select()
+      .from(organizations)
+      .where(eq(organizations.id, orgId))
+      .limit(1);
+    if (organizationExists.length === 0) {
+      return NextResponse.json(
+        { error: "Organization not found" },
+        { status: 404 },
+      );
+    }
+  };
+
   try {
     // Parse request body
     const body = await req.json();
     // Validate the request body using the schema
-    const parsedData = insertOrganizationSchema.parse(body); // Will throw if validation fails
+    const parsedData = insertMenuSchema.parse(body); // Will throw if validation fails
 
-    const { name } = parsedData;
+    const { name, pages, org_id } = parsedData;
+
+    // Check if the organization exists
+    checkOrgExists(org_id);
 
     // Validate the request
-    if (!name) {
+    if (!name || !pages) {
       return NextResponse.json(
-        { error: "Organization name is required" },
+        { error: "Menu name and pages are required" },
         { status: 400 },
       );
     }
 
-    // Insert organization into the database
-    const [newOrganization] = await db
-      .insert(organizations)
-      .values(parsedData) // Insert the name into the table
-      .returning(); // Get the inserted organization back
+    // Insert menu into the database
+    const [newMenu] = await db.insert(menus).values(parsedData).returning(); // Return the inserted menu
 
-    // Return the newly created organization
-    return NextResponse.json(newOrganization, { status: 201 });
+    // Return the newly created menu
+    return NextResponse.json(newMenu, { status: 201 });
   } catch (error) {
-    console.error("Error creating organization:", error);
+    console.error("Error creating menu:", error);
     if (error instanceof ZodError) {
       // Handle validation errors
       return NextResponse.json({ error: error.errors }, { status: 400 });
@@ -52,90 +87,6 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-// import { NextRequest, NextResponse } from "next/server";
-// import { db } from "@/lib/db";
-// import {
-//   pgTable,
-//   text,
-//   timestamp,
-//   serial,
-//   jsonb,
-//   integer,
-// } from "drizzle-orm/pg-core";
-// import { createInsertSchema } from "drizzle-zod";
-// import { ZodError } from "zod";
-// import { organizations } from "../organizations/route";
-// import { eq, and } from "drizzle-orm";
-// import { z } from "zod";
-
-// // Define the table
-// export const menus = pgTable("menus", {
-//   id: serial("id").primaryKey(),
-//   name: text("name").notNull(),
-//   description: text("description").default(""), // Optional description
-//   pages: jsonb("pages").notNull(), // Storing the pages structure as JSONB
-//   created_at: timestamp("created_at").defaultNow().notNull(),
-//   org_id: integer("organization_id")
-//     .references(() => organizations.id)
-//     .notNull(), // Foreign key
-// });
-
-// // Define the schema for inserting menus
-// export type TMenu = typeof menus.$inferInsert;
-// export const insertMenuSchema = createInsertSchema(menus);
-
-// export async function POST(req: NextRequest) {
-//   const checkOrgExists = async (orgId: number) => {
-//     const organizationExists = await db
-//       .select()
-//       .from(organizations)
-//       .where(eq(organizations.id, orgId))
-//       .limit(1);
-//     if (organizationExists.length === 0) {
-//       return NextResponse.json(
-//         { error: "Organization not found" },
-//         { status: 404 },
-//       );
-//     }
-//   };
-
-//   try {
-//     // Parse request body
-//     const body = await req.json();
-//     // Validate the request body using the schema
-//     const parsedData = insertMenuSchema.parse(body); // Will throw if validation fails
-
-//     const { name, pages, org_id } = parsedData;
-
-//     // Check if the organization exists
-//     checkOrgExists(org_id);
-
-//     // Validate the request
-//     if (!name || !pages) {
-//       return NextResponse.json(
-//         { error: "Menu name and pages are required" },
-//         { status: 400 },
-//       );
-//     }
-
-//     // Insert menu into the database
-//     const [newMenu] = await db.insert(menus).values(parsedData).returning(); // Return the inserted menu
-
-//     // Return the newly created menu
-//     return NextResponse.json(newMenu, { status: 201 });
-//   } catch (error) {
-//     console.error("Error creating menu:", error);
-//     if (error instanceof ZodError) {
-//       // Handle validation errors
-//       return NextResponse.json({ error: error.errors }, { status: 400 });
-//     }
-//     return NextResponse.json(
-//       { error: "Internal server error" },
-//       { status: 500 },
-//     );
-//   }
-// }
 
 // // GET request to fetch a menu for an organization
 // export async function GET(req: NextRequest) {

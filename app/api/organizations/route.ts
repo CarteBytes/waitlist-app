@@ -5,15 +5,15 @@ import { createInsertSchema } from "drizzle-zod";
 import { ZodError } from "zod";
 
 // Define the table
-export const organizations = pgTable("organizations", {
+const organizations = pgTable("organizations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
 // Define the types and schemas
-export type TOrganization = typeof organizations.$inferInsert;
-export const insertOrganizationSchema = createInsertSchema(organizations);
+type TOrganization = typeof organizations.$inferInsert;
+const insertOrganizationSchema = createInsertSchema(organizations);
 
 export async function POST(req: NextRequest) {
   try {
