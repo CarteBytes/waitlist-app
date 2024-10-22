@@ -39,7 +39,7 @@ export const MENU: MenuT = {
         {
           type: "food_items",
           group_title: "PIKI DOGS",
-          group_price: "85",
+          group_price: "85 c/u",
           content: [
             {
               type: "food_item",
@@ -50,7 +50,7 @@ export const MENU: MenuT = {
             {
               type: "food_item",
               name: "PIKI CLASICO",
-              description: "Salchicha, envuelto en masa de trigo, empanado",
+              description: "Salchicha, envuelto en masa de trigo, empanado.",
             },
             {
               type: "food_item",
@@ -67,14 +67,20 @@ export const MENU: MenuT = {
             {
               type: "food_item",
               name: "PIKIRELA",
+              description:
+                "Queso mozzarela envuelto en masa de trigo, empanado mas 2 salsas.",
             },
             {
               type: "food_item",
               name: "PIKI CHEESE",
+              description:
+                "Queso mozzarela y salchicha, envuelto en masa de trigo, empanado y cubierto de Ruffles queso.",
             },
             {
               type: "food_item",
               name: "PIKI BLUE",
+              description:
+                "Salchicha jugosa, mozzarela derritido, envuelto en masa crujiente y empanado con Takis azules.",
             },
           ],
         },

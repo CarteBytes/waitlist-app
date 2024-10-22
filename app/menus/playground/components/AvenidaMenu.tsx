@@ -153,7 +153,7 @@ function AvenidaMenu({
           <h1 className="text-5xl font-semibold">
             {isSpanish ? (
               <>
-                Menu <br />
+                Menú <br />
                 Digital{" "}
               </>
             ) : (
