@@ -5,7 +5,7 @@ export const RESTAURANT: RestaurantT = {
   id: "holy-bakery-78501",
   name: "Piki Dogs",
   phone: "+504 9449-7249",
-  address: "701 E US HWY 83",
+  address: "Bazar del Sabado Blvd. Juan Pablo II",
   city: "Tegucigalpa",
   state: "HN",
   zipCode: "",
