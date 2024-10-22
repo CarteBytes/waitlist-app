@@ -20,7 +20,7 @@ function AdminWrapper({ children }: { children: React.ReactNode }) {
   const handleClick = () => {
     console.log(clickCount);
     let newCount = clickCount + 1;
-    if (newCount === 5) {
+    if (newCount === 100) {
       setClickCount(0);
       setShowPasswordModal(true);
     } else {
