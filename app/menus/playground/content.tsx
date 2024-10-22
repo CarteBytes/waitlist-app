@@ -31,6 +31,7 @@ export const RESTAURANT: RestaurantT = {
   phone: "(615) 567-1848",
   address: "1800 Antioch Pike",
   city: "Nashville",
+  currencyPrefix: "$",
   state: "TN",
   zipCode: "37802",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
