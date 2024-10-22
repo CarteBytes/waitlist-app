@@ -31,6 +31,20 @@ export type TMenu = typeof menus.$inferInsert;
 export const insertMenuSchema = createInsertSchema(menus);
 
 export async function POST(req: NextRequest) {
+  const checkOrgExists = async (orgId: number) => {
+    const organizationExists = await db
+      .select()
+      .from(organizations)
+      .where(eq(organizations.id, orgId))
+      .limit(1);
+    if (organizationExists.length === 0) {
+      return NextResponse.json(
+        { error: "Organization not found" },
+        { status: 404 },
+      );
+    }
+  };
+
   try {
     // Parse request body
     const body = await req.json();
@@ -103,20 +117,6 @@ export async function POST(req: NextRequest) {
 //     );
 //   }
 // }
-
-const checkOrgExists = async (orgId: number) => {
-  const organizationExists = await db
-    .select()
-    .from(organizations)
-    .where(eq(organizations.id, orgId))
-    .limit(1);
-  if (organizationExists.length === 0) {
-    return NextResponse.json(
-      { error: "Organization not found" },
-      { status: 404 },
-    );
-  }
-};
 
 // // PUT request to update a menu
 // export const updateMenuSchema = z.object({
