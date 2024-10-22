@@ -194,7 +194,7 @@ function AvenidaMenu({
             {page.sections.map((section: MenuPageSectionT, j: number) => {
               const content = getContentComponent(section, i);
               return (
-                <div className="relative">
+                <div className="relative" key={j + 30}>
                   {/* {section.type !== "hero_image" && (
                     <div className="absolute left-[-4%] top-4">
                       <Shape
