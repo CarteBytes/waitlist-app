@@ -289,6 +289,7 @@ export const MENU: MenuT = {
         // { type: "section_title", text: "COMBOS" },
         {
           type: "food_items",
+          group_title: "COMBOS",
           content: [
             {
               type: "food_item",
@@ -335,6 +336,7 @@ export const MENU: MenuT = {
         // { type: "section_title", text: "TAILGATES™" },
         {
           type: "food_items",
+          group_title: "TAILGATES™",
           content: [
             {
               type: "food_item",
@@ -365,6 +367,7 @@ export const MENU: MenuT = {
         // { type: "section_title", text: "EXTRAS" },
         {
           type: "food_items",
+          group_title: "EXTRAS",
           content: [
             {
               type: "food_item",
@@ -401,7 +404,7 @@ export const MENU: MenuT = {
           src: "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
         },
         {
-          // title: "DRINKS",
+          group_title: "DRINKS",
           type: "food_items",
           content: [
             {
