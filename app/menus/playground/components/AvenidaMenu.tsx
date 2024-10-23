@@ -7,15 +7,22 @@ import { RestaurantT } from "../types/restaurant";
 import { MenuPageSectionT, MenuPageT, MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
+import EditRestaurantForm from "./EditRestaurantForm";
 
 function AvenidaMenu({
   lang = "eng",
   restaurant,
   menu,
+  isEdit = false,
+  onChangeMenu,
+  onChangeRestaurant,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
   lang?: "eng" | "esp";
+  isEdit?: boolean;
+  onChangeMenu?: (newMenu: MenuT) => void;
+  onChangeRestaurant?: (newRes: RestaurantT) => void;
 }) {
   const isSpanish = lang === "esp";
 
@@ -141,61 +148,72 @@ function AvenidaMenu({
   const gradientString = `linear-gradient(90deg, ${gradientColors.join(", ")})`;
 
   return (
-    <div
-      id="menu"
-      className={`w-full max-w-xl overflow-hidden font-sans`}
-      style={{ color: restaurant.colors.primary_text }}>
-      <section
-        id="hero"
-        className={`hero duration-2000 flex h-dvh flex-col px-8 py-12 transition-all ease-linear`}
-        style={{ background: gradientString }}>
-        <div id="hero-header" className="flex justify-between">
-          <h1 className="text-5xl font-semibold">
-            {isSpanish ? (
-              <>
-                Menú <br />
-                Digital{" "}
-              </>
-            ) : (
-              <>
-                Digital <br />
-                Menu{" "}
-              </>
-            )}
-          </h1>
-        </div>
-        <div className="flex h-full flex-col justify-center text-center">
-          <img className="h-auto w-full" id="hero-logo" src={restaurant.logo} />
-          {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
-          {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
-          <AdminWrapper>
-            <h3 className="mt-4 text-2xl font-semibold">
-              {restaurant.city}, {restaurant.state}
-            </h3>
-          </AdminWrapper>
-        </div>
-        <SocialMediaGroup
-          id="hero_socials"
-          colors={restaurant.colors}
-          className="justify-end"
-          {...restaurant.socials}
+    <div>
+      {isEdit && (
+        <EditRestaurantForm
+          restaurant={restaurant}
+          onChangeRestaurant={onChangeRestaurant!}
         />
-      </section>
-      {/* <RusticEdge1
+      )}
+      <div
+        id="menu"
+        className={`w-full max-w-xl overflow-hidden font-sans`}
+        style={{ color: restaurant.colors.primary_text }}>
+        <section
+          id="hero"
+          className={`hero duration-2000 flex h-dvh flex-col px-8 py-12 transition-all ease-linear`}
+          style={{ background: gradientString }}>
+          <div id="hero-header" className="flex justify-between">
+            <h1 className="text-5xl font-semibold">
+              {isSpanish ? (
+                <>
+                  Menú <br />
+                  Digital{" "}
+                </>
+              ) : (
+                <>
+                  Digital <br />
+                  Menu{" "}
+                </>
+              )}
+            </h1>
+          </div>
+          <div className="flex h-full flex-col justify-center text-center">
+            <img
+              className="h-auto w-full"
+              id="hero-logo"
+              src={restaurant.logo}
+            />
+            {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
+            {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
+            <AdminWrapper>
+              <h3 className="mt-4 text-2xl font-semibold">
+                {restaurant.city}, {restaurant.state}
+              </h3>
+            </AdminWrapper>
+          </div>
+          <SocialMediaGroup
+            id="hero_socials"
+            colors={restaurant.colors}
+            className="justify-end"
+            {...restaurant.socials}
+          />
+        </section>
+        {/* <RusticEdge1
     color={restaurant.colors.primary}
     className="relative z-10 mb-[-20%]"
   /> */}
-      {menu.pages.map((page: MenuPageT, i: number) => {
-        return (
-          <section
-            key={i}
-            className="flex flex-col gap-20 pb-20"
-            style={{ background: getPageBackgroundColor(i) }}>
-            {page.sections.map((section: MenuPageSectionT, j: number) => {
-              const content = getContentComponent(section, i);
-              return (
-                <div className="relative" key={j + 30}>
-                  {/* {section.type !== "hero_image" && (
+        {menu.pages.map((page: MenuPageT, i: number) => {
+          return (
+            <section
+              key={i}
+              className="flex flex-col gap-20 pb-20"
+              style={{ background: getPageBackgroundColor(i) }}>
+              {page.sections.map((section: MenuPageSectionT, j: number) => {
+                const content = getContentComponent(section, i);
+                return (
+                  <div className="relative" key={j + 30}>
+                    {/* {section.type !== "hero_image" && (
                     <div className="absolute left-[-4%] top-4">
                       <Shape
                         className="h-12 w-12 rotate-90"
@@ -215,54 +233,59 @@ function AvenidaMenu({
                       />
                     </div>
                   )} */}
-                  <div key={j + 100} className="before:pt-4">
-                    {content}
+                    <div key={j + 100} className="before:pt-4">
+                      {content}
+                    </div>
                   </div>
+                );
+              })}
+            </section>
+          );
+        })}
+        <section
+          id="footer"
+          className="flex flex-col items-center gap-12 px-8 py-24"
+          style={{
+            background: restaurant.colors.secondary, //getPageBackgroundColor(menu.pages.length + 2),
+            color: restaurant.colors.primary_text, //getPageBodyTextColor(menu.pages.length + 2),
+          }}>
+          <img
+            className="h-auto w-full"
+            id="footer-logo"
+            src={restaurant.logo}
+          />
+          <div className="flex h-full flex-col justify-center">
+            {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
+            {restaurant.phone && (
+              <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
+                <div className="mt-1">
+                  <FaPhone />
                 </div>
-              );
-            })}
-          </section>
-        );
-      })}
-      <section
-        id="footer"
-        className="flex flex-col items-center gap-12 px-8 py-24"
-        style={{
-          background: restaurant.colors.secondary, //getPageBackgroundColor(menu.pages.length + 2),
-          color: restaurant.colors.primary_text, //getPageBodyTextColor(menu.pages.length + 2),
-        }}>
-        <img className="h-auto w-full" id="footer-logo" src={restaurant.logo} />
-        <div className="flex h-full flex-col justify-center">
-          {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
-          {restaurant.phone && (
-            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-              <div className="mt-1">
-                <FaPhone />
-              </div>
-              <div>{restaurant.phone}</div>
-            </h3>
-          )}
-          {restaurant.address && (
-            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-              <div className="mt-1">
-                <FaStore />
-              </div>
-              <div>
-                {" "}
-                {restaurant.address} <br /> {restaurant.city},{" "}
-                {restaurant.state} {restaurant.zipCode}
-              </div>
-            </h3>
-          )}
-        </div>
-        <SocialMediaGroup
-          id="hero_socials"
-          colors={restaurant.colors}
-          className="justify-center"
-          {...restaurant.socials}
-        />
-      </section>
-      <FooterLogoCTA lang={lang} />
+                <div>{restaurant.phone}</div>
+              </h3>
+            )}
+            {restaurant.address && (
+              <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
+                <div className="mt-1">
+                  <FaStore />
+                </div>
+                <div>
+                  {" "}
+                  {restaurant.address} <br /> {restaurant.city},{" "}
+                  {restaurant.state} {restaurant.zipCode}
+                </div>
+              </h3>
+            )}
+          </div>
+          <SocialMediaGroup
+            id="hero_socials"
+            colors={restaurant.colors}
+            className="justify-center"
+            {...restaurant.socials}
+          />
+        </section>
+        <FooterLogoCTA lang={lang} />
+      </div>
     </div>
   );
 }
