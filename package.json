@@ -10,6 +10,7 @@
     "email": "email dev"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@neondatabase/serverless": "^0.10.1",
     "@notionhq/client": "^2.2.15",
     "@radix-ui/react-dialog": "^1.1.2",
