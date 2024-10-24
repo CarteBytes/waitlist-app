@@ -1,3 +1,5 @@
+"use client";
+
 import { RestaurantT } from "../types/restaurant";
 import { Input } from "@/components/ui/input";
 import {
@@ -9,27 +11,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
-import { FaFloppyDisk } from "react-icons/fa6";
-
-const restaurantSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  phone: z.string().min(1, "Phone number is required"),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  zipCode: z.string().optional(),
-  primaryColor: z.string().optional(),
-  secondaryColor: z.string().optional(),
-  primaryTextColor: z.string().optional(),
-  secondaryTextColor: z.string().optional(),
-  accentColor: z.string().optional(),
-  facebookUrl: z.string().url().optional(),
-  instagramUrl: z.string().url().optional(),
-  whatsappUrl: z.string().url().optional(),
-});
+import {
+  FaFacebook,
+  FaFloppyDisk,
+  FaInstagram,
+  FaTiktok,
+  FaTwitter,
+  FaWhatsapp,
+  FaYoutube,
+} from "react-icons/fa6";
+import { useState } from "react";
+import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 
 const EditRestaurantForm = ({
   restaurant,
@@ -38,8 +32,17 @@ const EditRestaurantForm = ({
   restaurant: RestaurantT;
   onChangeRestaurant: (newRest: RestaurantT) => void;
 }) => {
+  const [socialToggles, setSocialToggles] = useState({
+    facebook: false,
+    instagram: false,
+    twitter: false,
+    tiktok: false,
+    youtube: false,
+    whatsapp: false,
+  });
+
   const form = useForm({
-    resolver: zodResolver(restaurantSchema),
+    resolver: zodResolver(insertRestaurantSchema),
     defaultValues: restaurant, // Set default values from the restaurant prop
   });
 
@@ -74,6 +77,14 @@ const EditRestaurantForm = ({
       colors: { ...restaurant.colors, [colorKey]: value },
     };
     onChangeRestaurant(updatedRestaurant);
+  };
+
+  const handleToggleSocial = (socialKey: keyof typeof socialToggles) => {
+    const updatedKeys = {
+      ...socialToggles,
+      [socialKey]: !socialToggles[socialKey],
+    };
+    setSocialToggles(updatedKeys);
   };
 
   const onSubmit = (data: any) => {
@@ -328,7 +339,44 @@ const EditRestaurantForm = ({
           {/* Social Links */}
           <div>
             <h2 className="text-lg font-semibold">Social Media Links</h2>
-
+            <div className="my-6 flex justify-between">
+              <FaFacebook
+                size="1.5em"
+                className={
+                  socialToggles.facebook ? "opacity-100" : "opacity-40"
+                }
+                onClick={() => handleToggleSocial("facebook")}
+              />
+              <FaInstagram
+                size="1.5em"
+                className={
+                  socialToggles.instagram ? "opacity-100" : "opacity-40"
+                }
+                onClick={() => handleToggleSocial("instagram")}
+              />
+              <FaTwitter
+                size="1.5em"
+                className={socialToggles.twitter ? "opacity-100" : "opacity-40"}
+                onClick={() => handleToggleSocial("twitter")}
+              />
+              <FaTiktok
+                size="1.5em"
+                className={socialToggles.tiktok ? "opacity-100" : "opacity-40"}
+                onClick={() => handleToggleSocial("tiktok")}
+              />
+              <FaYoutube
+                size="1.5em"
+                className={socialToggles.youtube ? "opacity-100" : "opacity-40"}
+                onClick={() => handleToggleSocial("youtube")}
+              />
+              <FaWhatsapp
+                size="1.5em"
+                className={
+                  socialToggles.whatsapp ? "opacity-100" : "opacity-40"
+                }
+                onClick={() => handleToggleSocial("whatsapp")}
+              />
+            </div>
             <div className="mt-3 flex flex-col gap-y-3">
               <FormField
                 control={form.control}
@@ -366,6 +414,72 @@ const EditRestaurantForm = ({
                         onChange={(e) => {
                           field.onChange(e);
                           handleSocialsChange(e, "instagramUrl");
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="socials.twitterUrl"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-y-0">
+                    <FormLabel>Twitter URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Twitter URL"
+                        {...field}
+                        value={restaurant.socials.twitterUrl}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleSocialsChange(e, "twitterUrl");
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="socials.tiktokUrl"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-y-0">
+                    <FormLabel>TikTok URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="TikTok URL"
+                        {...field}
+                        value={restaurant.socials.tiktokUrl}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleSocialsChange(e, "tiktokUrl");
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="socials.youtubeUrl"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-y-0">
+                    <FormLabel>Youtube URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Youtube URL"
+                        {...field}
+                        value={restaurant.socials.youtubeUrl}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleSocialsChange(e, "youtubeUrl");
                         }}
                       />
                     </FormControl>

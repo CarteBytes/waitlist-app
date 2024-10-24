@@ -5,31 +5,35 @@ import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import { ZodError } from "zod";
 import { eq } from "drizzle-orm";
 import { checkOrgExists } from "@/lib/helpers";
-import { menus } from "@/models/menu";
-import { insertMenuSchema } from "@/schemas/menuSchema";
 
-// GET ALL MENUS
+// GET ALL RESTAURANTS
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const orgId = searchParams.get("org_id");
 
   checkOrgExists(orgId!);
 
-  const all = await db.select().from(menus).where(eq(menus.org_id, orgId!));
+  const all = await db
+    .select()
+    .from(restaurants)
+    .where(eq(restaurants.org_id, orgId!));
   return NextResponse.json(all);
 }
 
-// CREATE MENU
+// CREATE RESTAURANT
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parsedData = insertMenuSchema.parse(body);
+    const parsedData = insertRestaurantSchema.parse(body);
 
     checkOrgExists(parsedData.org_id);
 
-    const [newMenu] = await db.insert(menus).values(parsedData).returning();
+    const [newRestaurant] = await db
+      .insert(restaurants)
+      .values(parsedData)
+      .returning();
 
-    return NextResponse.json(newMenu, { status: 201 });
+    return NextResponse.json(newRestaurant, { status: 201 });
   } catch (error: unknown) {
     console.error("Error creating organization:", error);
     if (error instanceof ZodError) {
