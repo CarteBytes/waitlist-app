@@ -77,7 +77,7 @@ function AvenidaMenu({
               <h3
                 className="text-3xl font-semibold"
                 style={{ color: getPageSectionTitleColor(sectionIdx) }}>
-                {restaurant.currencyPrefix}
+                {restaurant.currency_prefix}
                 {section.group_price}
               </h3>
             )}
@@ -116,7 +116,7 @@ function AvenidaMenu({
                     <p
                       className="text-lg font-semibold"
                       style={{ color: getPageBodyTextColor(sectionIdx) }}>
-                      {restaurant.currencyPrefix}
+                      {restaurant.currency_prefix}
                       {foodItem.price}
                     </p>
                   </div>
@@ -272,7 +272,7 @@ function AvenidaMenu({
                 <div>
                   {" "}
                   {restaurant.address} <br /> {restaurant.city},{" "}
-                  {restaurant.state} {restaurant.zipCode}
+                  {restaurant.state} {restaurant.zip_code}
                 </div>
               </h3>
             )}

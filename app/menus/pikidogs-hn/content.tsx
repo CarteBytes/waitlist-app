@@ -8,9 +8,9 @@ export const RESTAURANT: RestaurantT = {
   address: "Bazar del Sabado Blvd. Juan Pablo II",
   city: "Tegucigalpa",
   state: "HN",
-  zipCode: "",
+  zip_code: "",
   logo: "/business-logos/pikidogs-logo.png",
-  currencyPrefix: "L. ",
+  currency_prefix: "L. ",
   colors: {
     primary: "#E6C1FF",
     secondary: "#E6C1FF",

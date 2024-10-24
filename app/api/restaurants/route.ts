@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newRestaurant, { status: 201 });
   } catch (error: unknown) {
-    console.error("Error creating organization:", error);
+    console.error("Error creating restaurant:", error);
     if (error instanceof ZodError) {
       // Handle validation errors
       return NextResponse.json({ error: error.errors }, { status: 400 });

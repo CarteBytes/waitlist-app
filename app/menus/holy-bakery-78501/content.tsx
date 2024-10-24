@@ -8,8 +8,8 @@ export const RESTAURANT: RestaurantT = {
   address: "701 E US HWY 83",
   city: "McAllen",
   state: "TX",
-  zipCode: "78501",
-  currencyPrefix: "$",
+  zip_code: "78501",
+  currency_prefix: "$",
   logo: "https://scontent-dfw5-1.xx.fbcdn.net/v/t39.30808-6/231281157_244341884177172_5119711346654086510_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=oaM3hMXoh1UQ7kNvgFNzh6W&_nc_zt=23&_nc_ht=scontent-dfw5-1.xx&_nc_gid=ADAnr01ihz1TaO8_7GZ4A6H&oh=00_AYCED_S2FVH_nhMeoFvbgHu8IqvrcRve9cwaLvdqd-P6RQ&oe=671A61A7",
   colors: {
     primary: "#F7B1CB",

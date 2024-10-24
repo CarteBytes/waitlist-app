@@ -5,7 +5,7 @@
 //   address: "1800 Antioch Pike",
 //   city: "Nashville",
 //   state: "TN",
-//   zipCode: "37802",
+//   zip_code: "37802",
 //   logo: "https://monterreycocina.com/wp-content/uploads/2024/04/logo-monterrey-color.png",
 //   colors: {
 //     primary: "#EF4544",
@@ -31,9 +31,9 @@ export const RESTAURANT: RestaurantT = {
   phone: "(615) 567-1848",
   address: "1800 Antioch Pike",
   city: "Nashville",
-  currencyPrefix: "$",
+  currency_prefix: "$",
   state: "TN",
-  zipCode: "37802",
+  zip_code: "37802",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
   colors: {
     primary: "#E82531",

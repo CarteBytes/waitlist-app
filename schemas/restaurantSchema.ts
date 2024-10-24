@@ -1,6 +1,5 @@
 import { restaurants } from "@/models/restaurant";
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
 
 // export const restaurantSchema = z.object({
 //   org_id: z.string().min(1),
@@ -9,8 +8,8 @@ import { z } from "zod";
 //   address: z.string(),
 //   city: z.string(),
 //   state: z.string().length(2),
-//   zipCode: z.string().length(5),
-//   currencyPrefix: z.string().optional(),
+//   zip_code: z.string().length(5),
+//   currency_prefix: z.string().optional(),
 //   logo: z.string().url().optional(),
 //   colors: z.object({
 //     primary: z.string().length(7),

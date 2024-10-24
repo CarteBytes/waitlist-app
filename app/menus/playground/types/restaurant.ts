@@ -5,10 +5,10 @@ export type RestaurantT = {
   address: string;
   city: string;
   state: string;
-  zipCode: string;
+  zip_code: string;
   logo: string;
   colors: RestaurantColorsT;
-  currencyPrefix: "$" | "L. ";
+  currency_prefix: "$" | "L. ";
   socials: {
     mainUrl?: string;
     facebookUrl?: string;
