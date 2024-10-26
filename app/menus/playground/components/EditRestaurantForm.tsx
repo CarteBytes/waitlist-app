@@ -569,14 +569,14 @@ const EditRestaurantForm = ({
             </div>
           </div>
 
-          <EnhancedButton
+          {/* <EnhancedButton
             variant="expandIcon"
             Icon={FaFloppyDisk}
             type="submit"
             iconPlacement="right"
             className="w-full">
             Save changes
-          </EnhancedButton>
+          </EnhancedButton> */}
         </form>
       </Form>
     </div>
