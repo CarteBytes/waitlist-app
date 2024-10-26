@@ -1,6 +1,6 @@
 import { MENU, RESTAURANT } from "./content";
-import AvenidaMenu from "../playground/components/AvenidaMenu";
 import { Metadata } from "next";
+import LiberoMenu from "../playground/components/LiberoMenu";
 
 export const metadata: Metadata = {
   title: "Piki Dogs HN | CarteBytes",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="flex justify-center">
-      <AvenidaMenu restaurant={RESTAURANT} menu={MENU} lang="esp" />
+      <LiberoMenu restaurant={RESTAURANT} menu={MENU} lang="esp" />
     </div>
   );
 }

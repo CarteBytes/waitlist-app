@@ -1,7 +1,18 @@
+import { FoodItemT } from "./foodItem";
+
 export type MenuT = {
   id: string;
-  type: string;
   pages: MenuPageT[];
+  content: MenuContentT[];
+};
+
+export type MenuContentT = {
+  page_index: number;
+  hero_image?: string;
+  sub_image?: string;
+  group_title?: string;
+  group_price?: string;
+  food_items?: FoodItemT[];
 };
 
 export type MenuPageT = { sections: MenuPageSectionT[] };
