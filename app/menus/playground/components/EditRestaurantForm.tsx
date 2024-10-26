@@ -22,8 +22,9 @@ import {
   FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
+import autoAnimate from "@formkit/auto-animate";
 
 const EditRestaurantForm = ({
   restaurant,
@@ -40,11 +41,36 @@ const EditRestaurantForm = ({
     youtube: false,
     whatsapp: false,
   });
+  const parent = useRef(null);
 
   const form = useForm({
     resolver: zodResolver(insertRestaurantSchema),
     defaultValues: restaurant, // Set default values from the restaurant prop
   });
+
+  useEffect(() => {
+    const updatedToggles = { ...socialToggles };
+    Object.keys(restaurant.socials).map((socialKey) => {
+      const socialValue = (restaurant.socials as any)?.[socialKey];
+
+      const socialToggleKeyMap = {
+        facebookUrl: "facebook",
+        instagramUrl: "instagram",
+        twitterUrl: "twitter",
+        tiktokUrl: "tiktok",
+        youtubeUrl: "youtube",
+        whatsappUrl: "whatsapp",
+      };
+
+      (updatedToggles as any)[(socialToggleKeyMap as any)[socialKey]] =
+        !!socialValue;
+    });
+    setSocialToggles(updatedToggles);
+  }, []);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -80,11 +106,30 @@ const EditRestaurantForm = ({
   };
 
   const handleToggleSocial = (socialKey: keyof typeof socialToggles) => {
+    const newVal = !socialToggles[socialKey];
+
     const updatedKeys = {
       ...socialToggles,
-      [socialKey]: !socialToggles[socialKey],
+      [socialKey]: newVal,
     };
     setSocialToggles(updatedKeys);
+
+    if (!newVal) {
+      const socialUrlKeyMap = {
+        facebook: "facebookUrl",
+        instagram: "instagramUrl",
+        whatsapp: "whatsappUrl",
+        youtube: "youtubeUrl",
+        twitter: "twitterUrl",
+        tiktok: "tiktokUrl",
+      };
+
+      const updatedRestaurant = {
+        ...restaurant,
+        socials: { ...restaurant.socials, [socialUrlKeyMap[socialKey]]: "" },
+      };
+      onChangeRestaurant(updatedRestaurant);
+    }
   };
 
   const onSubmit = (data: any) => {
@@ -377,138 +422,150 @@ const EditRestaurantForm = ({
                 onClick={() => handleToggleSocial("whatsapp")}
               />
             </div>
-            <div className="mt-3 flex flex-col gap-y-3">
-              <FormField
-                control={form.control}
-                name="socials.facebookUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>Facebook URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Facebook URL"
-                        {...field}
-                        value={restaurant.socials.facebookUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "facebookUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="mt-3 flex flex-col gap-y-3" ref={parent}>
+              {socialToggles.facebook && (
+                <FormField
+                  control={form.control}
+                  name="socials.facebookUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>Facebook URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Facebook URL"
+                          {...field}
+                          value={restaurant.socials.facebookUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "facebookUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
-              <FormField
-                control={form.control}
-                name="socials.instagramUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>Instagram URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Instagram URL"
-                        {...field}
-                        value={restaurant.socials.instagramUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "instagramUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {socialToggles.instagram && (
+                <FormField
+                  control={form.control}
+                  name="socials.instagramUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>Instagram URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Instagram URL"
+                          {...field}
+                          value={restaurant.socials.instagramUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "instagramUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
-              <FormField
-                control={form.control}
-                name="socials.twitterUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>Twitter URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Twitter URL"
-                        {...field}
-                        value={restaurant.socials.twitterUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "twitterUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {socialToggles.twitter && (
+                <FormField
+                  control={form.control}
+                  name="socials.twitterUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>Twitter URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Twitter URL"
+                          {...field}
+                          value={restaurant.socials.twitterUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "twitterUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
-              <FormField
-                control={form.control}
-                name="socials.tiktokUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>TikTok URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="TikTok URL"
-                        {...field}
-                        value={restaurant.socials.tiktokUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "tiktokUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {socialToggles.tiktok && (
+                <FormField
+                  control={form.control}
+                  name="socials.tiktokUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>TikTok URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="TikTok URL"
+                          {...field}
+                          value={restaurant.socials.tiktokUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "tiktokUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
-              <FormField
-                control={form.control}
-                name="socials.youtubeUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>Youtube URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Youtube URL"
-                        {...field}
-                        value={restaurant.socials.youtubeUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "youtubeUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {socialToggles.youtube && (
+                <FormField
+                  control={form.control}
+                  name="socials.youtubeUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>Youtube URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Youtube URL"
+                          {...field}
+                          value={restaurant.socials.youtubeUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "youtubeUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
-              <FormField
-                control={form.control}
-                name="socials.whatsappUrl"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col gap-y-0">
-                    <FormLabel>WhatsApp URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="WhatsApp URL"
-                        {...field}
-                        value={restaurant.socials.whatsappUrl}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleSocialsChange(e, "whatsappUrl");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {socialToggles.whatsapp && (
+                <FormField
+                  control={form.control}
+                  name="socials.whatsappUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-0">
+                      <FormLabel>WhatsApp URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="WhatsApp URL"
+                          {...field}
+                          value={restaurant.socials.whatsappUrl}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleSocialsChange(e, "whatsappUrl");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
           </div>
 
