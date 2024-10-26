@@ -2,35 +2,16 @@ import { FoodItemT } from "./foodItem";
 
 export type MenuT = {
   id: string;
-  pages: MenuPageT[];
+  theme: string;
   content: MenuContentT[];
 };
 
 export type MenuContentT = {
   page_index: number;
+  // section_index: number; // for more fine grained ordering within a page?
   hero_image?: string;
   sub_image?: string;
   group_title?: string;
   group_price?: string;
   food_items?: FoodItemT[];
 };
-
-export type MenuPageT = { sections: MenuPageSectionT[] };
-
-export type MenuPageSectionT =
-  | {
-      type: "hero_image";
-      src: string;
-    }
-  | {
-      type: "food_items";
-      group_title?: string;
-      group_price?: string;
-      content: {
-        type: "food_item";
-        name: string;
-        price?: string;
-        description?: string;
-        calories?: string;
-      }[];
-    };

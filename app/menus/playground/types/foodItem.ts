@@ -3,8 +3,7 @@ export type FoodItemT = {
   name: string;
   description?: string;
   price?: string;
-  min_calories?: number;
-  max_calories?: number;
+  calories?: string;
   category?: string;
   allergens?: string;
   image_url?: string;

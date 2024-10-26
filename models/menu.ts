@@ -20,7 +20,6 @@ export const menus = pgTable("menus", {
   theme: text("theme").notNull(),
   name: text("name").notNull(),
   description: text("description").default(""), // Optional description
-  pages: jsonb("pages").notNull(), // Storing the pages structure as JSONB
   created_at: timestamp("created_at").defaultNow().notNull(),
   last_updated: timestamp("created_at").defaultNow().notNull(),
 });

@@ -1,11 +1,11 @@
 import React from "react";
 import { RESTAURANT, MENU } from "./content";
-import AvenidaMenu from "./components/AvenidaMenu";
+import LiberoMenu from "./components/LiberoMenu";
 
 export default function Page() {
   return (
     <div className="flex justify-center">
-      <AvenidaMenu restaurant={RESTAURANT} menu={MENU} />
+      <LiberoMenu restaurant={RESTAURANT} menu={MENU} />
     </div>
   );
 }

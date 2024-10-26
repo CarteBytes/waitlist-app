@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import AvenidaMenu from "../components/AvenidaMenu";
 import { MENU, RESTAURANT } from "../content";
+import LiberoMenu from "../components/LiberoMenu";
 
 export default function Page() {
   const [restaurantObject, setRestaurantObject] = useState(RESTAURANT);
@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <div className="flex justify-center">
-      <AvenidaMenu
+      <LiberoMenu
         restaurant={restaurantObject}
         menu={menuObject}
         isEdit

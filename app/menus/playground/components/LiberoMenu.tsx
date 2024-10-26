@@ -9,7 +9,7 @@ import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
 
-function AvenidaMenu({
+function LiberoMenu({
   lang = "eng",
   restaurant,
   menu,
@@ -99,7 +99,7 @@ const ContentPages = ({
           <section
             key={i}
             className="flex flex-col"
-            style={{ background: getPageBackgroundColor(i) }}>
+            style={{ background: getPageBackgroundColor(section.page_index) }}>
             {section.hero_image && (
               <img src={section.hero_image} className="h-auto w-full" />
             )}
@@ -283,4 +283,4 @@ const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
   );
 };
 
-export default AvenidaMenu;
+export default LiberoMenu;

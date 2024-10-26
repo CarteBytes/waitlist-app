@@ -28,6 +28,7 @@ export const RESTAURANT: RestaurantT = {
 
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
+  theme: "Libero",
   content: [
     {
       page_index: 0,
@@ -88,30 +89,6 @@ export const MENU: MenuT = {
       page_index: 0,
       hero_image:
         "https://scontent-dfw5-1.xx.fbcdn.net/v/t39.30808-6/455171482_122173706102205723_2337354666880462048_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=5ef8FGmWud0Q7kNvgEZ85MH&_nc_zt=23&_nc_ht=scontent-dfw5-1.xx&_nc_gid=Afm-Ewbnxre-6NNBkbZ7i7d&oh=00_AYDeBZ0w9GjyZW-mRcF2wwwyVcEdzIjd06Fri9X3Q-CEkg&oe=671CD134",
-    },
-  ],
-  pages: [
-    {
-      sections: [
-        {
-          type: "hero_image",
-          src: "https://scontent-dfw5-2.xx.fbcdn.net/v/t39.30808-6/448434942_122157456110205723_4929824613455055627_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=RQWgbovObgEQ7kNvgF5akpa&_nc_zt=23&_nc_ht=scontent-dfw5-2.xx&_nc_gid=Afm-Ewbnxre-6NNBkbZ7i7d&oh=00_AYC72dudAsPObDe0FJ4MKOMmUASxoumKYOrtsHQNSu-PHw&oe=671CD5FF",
-        },
-        {
-          type: "food_items",
-          group_title: "PIKI DOGS",
-          group_price: "85 c/u",
-          content: [],
-        },
-        {
-          type: "hero_image",
-          src: "https://scontent-dfw5-2.xx.fbcdn.net/v/t39.30808-6/448359908_122157192476205723_7020524754990933909_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=nJpB-nII-i0Q7kNvgGuQgoP&_nc_zt=23&_nc_ht=scontent-dfw5-2.xx&_nc_gid=Afm-Ewbnxre-6NNBkbZ7i7d&oh=00_AYDuFXrrIHLbumjxKrWdW_-OkfF-wGNpIQ6QZhVjbsqrmw&oe=671CDB55",
-        },
-        {
-          type: "hero_image",
-          src: "https://scontent-dfw5-1.xx.fbcdn.net/v/t39.30808-6/455171482_122173706102205723_2337354666880462048_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=5ef8FGmWud0Q7kNvgEZ85MH&_nc_zt=23&_nc_ht=scontent-dfw5-1.xx&_nc_gid=Afm-Ewbnxre-6NNBkbZ7i7d&oh=00_AYDeBZ0w9GjyZW-mRcF2wwwyVcEdzIjd06Fri9X3Q-CEkg&oe=671CD134",
-        },
-      ],
     },
   ],
 };
