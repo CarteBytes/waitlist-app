@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import {
+  FaArrowRight,
   FaFacebook,
   FaFloppyDisk,
   FaInstagram,
@@ -25,6 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import autoAnimate from "@formkit/auto-animate";
+import Link from "next/link";
 
 const EditRestaurantForm = ({
   restaurant,
@@ -569,14 +571,16 @@ const EditRestaurantForm = ({
             </div>
           </div>
 
-          {/* <EnhancedButton
-            variant="expandIcon"
-            Icon={FaFloppyDisk}
-            type="submit"
-            iconPlacement="right"
-            className="w-full">
-            Save changes
-          </EnhancedButton> */}
+          <Link href="/">
+            <EnhancedButton
+              variant="expandIcon"
+              Icon={FaArrowRight}
+              type="submit"
+              iconPlacement="right"
+              className="mt-12 w-full">
+              Go to waitlist
+            </EnhancedButton>
+          </Link>
         </form>
       </Form>
     </div>
