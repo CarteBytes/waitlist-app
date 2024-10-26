@@ -1,21 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { restaurants } from "@/models/restaurant";
-import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import { ZodError } from "zod";
-import { eq } from "drizzle-orm";
-import { checkOrgExists } from "@/lib/helpers";
+import { eq, and } from "drizzle-orm";
+import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
 import { menus } from "@/models/menu";
 import { insertMenuSchema } from "@/schemas/menuSchema";
 
-// GET ALL MENUS
+// GET ALL RESTAURANT MENUS
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const orgId = searchParams.get("org_id");
+  const restaurantId = searchParams.get("restaurant_id");
 
   checkOrgExists(orgId!);
+  checkRestaurantExists(restaurantId!);
 
-  const all = await db.select().from(menus).where(eq(menus.org_id, orgId!));
+  const all = await db
+    .select()
+    .from(menus)
+    .where(
+      and(eq(menus.org_id, orgId!), eq(menus.restaurant_id, restaurantId!)),
+    );
+
   return NextResponse.json(all);
 }
 
