@@ -4,12 +4,12 @@ import { RestaurantT } from "./types/restaurant";
 export const RESTAURANT: RestaurantT = {
   id: "123",
   name: "Raising Cane's",
-  phone: "(615) 567-1848",
-  address: "1800 Antioch Pike",
+  phone: "(615) 882-3050",
+  address: "36 White Bridge Pike",
   city: "Nashville",
   currency_prefix: "$",
   state: "TN",
-  zip_code: "37802",
+  zip_code: "37205",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
   colors: {
     primary: "#E82531",

@@ -8,6 +8,7 @@ import { MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
+import Link from "next/link";
 
 function LiberoMenu({
   lang = "eng",
@@ -265,11 +266,15 @@ const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
             <div className="mt-1">
               <FaStore />
             </div>
-            <div>
-              {" "}
-              {restaurant.address} <br /> {restaurant.city}, {restaurant.state}{" "}
-              {restaurant.zip_code}
-            </div>
+            <Link
+              href={`http://maps.google.com/?q=${restaurant.address}%20${restaurant.city}%20${restaurant.state}%20${restaurant.zip_code}`}
+              target="_blank">
+              <div>
+                {" "}
+                {restaurant.address} <br /> {restaurant.city},{" "}
+                {restaurant.state} {restaurant.zip_code}
+              </div>
+            </Link>
           </h3>
         )}
       </div>
