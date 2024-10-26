@@ -2,9 +2,9 @@ import {
   pgTable,
   text,
   timestamp,
-  jsonb,
   uuid,
   varchar,
+  integer,
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organization";
 import { restaurants } from "./restaurant";
@@ -22,6 +22,26 @@ export const menus = pgTable("menus", {
   description: text("description").default(""), // Optional description
   created_at: timestamp("created_at").defaultNow().notNull(),
   last_updated: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const menu_contents = pgTable("menu_contents", {
+  id: uuid("id").primaryKey().defaultRandom(), // Automatically generates a UUID
+  org_id: uuid("org_id")
+    .notNull()
+    .references(() => organizations.id),
+  restaurant_id: uuid("restaurant_id")
+    .notNull()
+    .references(() => restaurants.id),
+  menu_id: uuid("menu_id")
+    .notNull()
+    .references(() => menus.id),
+  page_index: integer("page_index").notNull(),
+  section_index: integer("page_index").notNull(),
+  hero_image: text("hero_image"),
+  sub_image: text("sub_image"),
+  group_title: text("group_title"),
+  group_price: text("group_price"),
+  food_items: uuid("food_items").array(), // Array of UUIDs for food items
 });
 
 type TMenu = typeof menus.$inferInsert;
