@@ -117,7 +117,7 @@ const ContentPages = ({
 
                 {section.group_price && (
                   <h3
-                    className="text-3xl font-semibold"
+                    className="ml-4 w-max text-nowrap text-3xl font-semibold"
                     style={{
                       color: getPageSectionTitleColor(section.page_index),
                     }}>
@@ -128,20 +128,43 @@ const ContentPages = ({
               </div>
             )}
 
-            {(section.food_items?.length ?? 0) > 0 && (
-              <div className="flex flex-col gap-3 px-8 pb-20 pt-1">
+            {section.group_description && (
+              <div
+                className="px-8 text-lg leading-tight"
+                style={{ color: getPageSectionTitleColor(section.page_index) }}>
+                <p>{section.group_description}</p>
+              </div>
+            )}
+
+            {(!!section.extra_details ||
+              (section?.food_items?.length ?? 0) > 0) && (
+              <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
                 {section.food_items?.map((foodItem: any, i: number) => (
-                  <div
-                    key={i + 50}
-                    className="flex items-start justify-between">
-                    <div>
-                      <p
-                        className="text-xl font-semibold"
-                        style={{
-                          color: getPageBodyTextColor(section.page_index),
-                        }}>
-                        {foodItem.name}
-                      </p>
+                  <div key={i + 50}>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <p
+                          className="text-xl font-semibold"
+                          style={{
+                            color: getPageBodyTextColor(section.page_index),
+                          }}>
+                          {foodItem.name}
+                        </p>
+                      </div>
+                      {foodItem.price && (
+                        <div>
+                          <p
+                            className="ml-4 w-max text-nowrap text-lg font-semibold"
+                            style={{
+                              color: getPageBodyTextColor(section.page_index),
+                            }}>
+                            {restaurant.currency_prefix}
+                            {foodItem.price}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    {foodItem.description && (
                       <p
                         className="text-md leading-tight"
                         style={{
@@ -150,31 +173,32 @@ const ContentPages = ({
                         }}>
                         {foodItem.description}
                       </p>
-                      {foodItem.calories && (
-                        <p
-                          className="text-md font-thin leading-tight"
-                          style={{
-                            color: getPageBodyTextColor(section.page_index),
-                            opacity: 0.75,
-                          }}>
-                          {foodItem.calories} Cal
-                        </p>
-                      )}
-                    </div>
-                    {foodItem.price && (
-                      <div>
-                        <p
-                          className="text-lg font-semibold"
-                          style={{
-                            color: getPageBodyTextColor(section.page_index),
-                          }}>
-                          {restaurant.currency_prefix}
-                          {foodItem.price}
-                        </p>
-                      </div>
+                    )}
+                    {foodItem.calories && (
+                      <p
+                        className="text-md font-thin leading-tight"
+                        style={{
+                          color: getPageBodyTextColor(section.page_index),
+                          opacity: 0.75,
+                        }}>
+                        {foodItem.calories} Cal
+                      </p>
                     )}
                   </div>
                 ))}
+
+                <div
+                  className="flex items-start justify-between text-lg leading-tight"
+                  style={{
+                    color: getPageSectionTitleColor(section.page_index),
+                  }}>
+                  {section.extra_details && <p>{section.extra_details}</p>}
+                  {section.extra_price && (
+                    <p className="ml-4 w-max text-nowrap">
+                      {restaurant.currency_prefix} {section.extra_price}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
           </section>

@@ -13,5 +13,8 @@ export type MenuContentT = {
   sub_image?: string;
   group_title?: string;
   group_price?: string;
+  group_description?: string;
   food_items?: FoodItemT[];
+  extra_details?: string;
+  extra_price?: string;
 };
