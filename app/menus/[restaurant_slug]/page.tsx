@@ -8,12 +8,12 @@ type Props = {
 
 const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
   const restaurantData = await fetch(
-    `http://localhost:3000/api/restaurants/${restaurantSlug}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurantSlug}`,
     //{ cache: "no-store" },
   );
   const restaurant = await restaurantData.json();
   const menuData = await fetch(
-    `http://localhost:3000/api/restaurants/${restaurant.id}/menus?default`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurant.id}/menus?default`,
     //{ cache: "no-store" },
   );
   const menu = await menuData.json();
