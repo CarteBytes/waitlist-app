@@ -131,5 +131,15 @@ export const MENU: MenuT = {
       //   },
       // ],
     },
+    {
+      page_index: 2,
+      hero_image:
+        "https://i.ibb.co/4JQTZjR/73389827-4ad4-405c-9f44-d2596f695824.jpg",
+    },
+    {
+      page_index: 2,
+      hero_image:
+        "https://i.ibb.co/h8rr0WQ/0d558ad1-b19f-44c6-b9a5-2441ba342ac1.jpg",
+    },
   ],
 };
