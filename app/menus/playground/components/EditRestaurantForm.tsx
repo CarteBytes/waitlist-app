@@ -16,7 +16,6 @@ import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import {
   FaArrowRight,
   FaFacebook,
-  FaFloppyDisk,
   FaInstagram,
   FaTiktok,
   FaTwitter,
@@ -51,23 +50,14 @@ const EditRestaurantForm = ({
   });
 
   useEffect(() => {
-    const updatedToggles = { ...socialToggles };
-    Object.keys(restaurant.socials).map((socialKey) => {
-      const socialValue = (restaurant.socials as any)?.[socialKey];
-
-      const socialToggleKeyMap = {
-        facebookUrl: "facebook",
-        instagramUrl: "instagram",
-        twitterUrl: "twitter",
-        tiktokUrl: "tiktok",
-        youtubeUrl: "youtube",
-        whatsappUrl: "whatsapp",
-      };
-
-      (updatedToggles as any)[(socialToggleKeyMap as any)[socialKey]] =
-        !!socialValue;
+    setSocialToggles({
+      facebook: !!restaurant?.facebook_url,
+      instagram: !!restaurant?.instagram_url,
+      whatsapp: !!restaurant?.whatsapp_url,
+      youtube: !!restaurant?.youtube_url,
+      tiktok: !!restaurant?.tiktok_url,
+      twitter: !!restaurant?.twitter_url,
     });
-    setSocialToggles(updatedToggles);
   }, []);
 
   useEffect(() => {
@@ -83,30 +73,6 @@ const EditRestaurantForm = ({
     onChangeRestaurant(updatedRestaurant);
   };
 
-  const handleSocialsChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    socialKey: string,
-  ) => {
-    const { value } = e.target;
-    const updatedRestaurant = {
-      ...restaurant,
-      socials: { ...restaurant.socials, [socialKey]: value },
-    };
-    onChangeRestaurant(updatedRestaurant);
-  };
-
-  const handleColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    colorKey: string,
-  ) => {
-    const { value } = e.target;
-    const updatedRestaurant = {
-      ...restaurant,
-      colors: { ...restaurant.colors, [colorKey]: value },
-    };
-    onChangeRestaurant(updatedRestaurant);
-  };
-
   const handleToggleSocial = (socialKey: keyof typeof socialToggles) => {
     const newVal = !socialToggles[socialKey];
 
@@ -118,17 +84,17 @@ const EditRestaurantForm = ({
 
     if (!newVal) {
       const socialUrlKeyMap = {
-        facebook: "facebookUrl",
-        instagram: "instagramUrl",
-        whatsapp: "whatsappUrl",
-        youtube: "youtubeUrl",
-        twitter: "twitterUrl",
-        tiktok: "tiktokUrl",
+        facebook: "facebook_url",
+        instagram: "instagram_url",
+        whatsapp: "whatsapp_url",
+        youtube: "youtube_url",
+        twitter: "twitter_url",
+        tiktok: "tiktok_url",
       };
 
       const updatedRestaurant = {
         ...restaurant,
-        socials: { ...restaurant.socials, [socialUrlKeyMap[socialKey]]: "" },
+        [socialUrlKeyMap[socialKey]]: "",
       };
       onChangeRestaurant(updatedRestaurant);
     }
@@ -271,7 +237,7 @@ const EditRestaurantForm = ({
             <div className="space-y-2">
               <FormField
                 control={form.control}
-                name="colors.primary"
+                name="primary_color"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between space-y-0">
                     <FormLabel>Primary Color</FormLabel>
@@ -280,10 +246,10 @@ const EditRestaurantForm = ({
                         className="mt-0 w-12 p-0"
                         type="color"
                         {...field}
-                        value={restaurant.colors.primary}
+                        value={restaurant.primary_color}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleColorChange(e, "primary");
+                          handleInputChange(e);
                         }}
                       />
                     </FormControl>
@@ -294,7 +260,7 @@ const EditRestaurantForm = ({
 
               <FormField
                 control={form.control}
-                name="colors.secondary"
+                name="secondary_color"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between space-y-0">
                     <FormLabel>Secondary Color</FormLabel>
@@ -303,10 +269,10 @@ const EditRestaurantForm = ({
                         className="w-12 p-0"
                         type="color"
                         {...field}
-                        value={restaurant.colors.secondary}
+                        value={restaurant.secondary_color}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleColorChange(e, "secondary");
+                          handleInputChange(e);
                         }}
                       />
                     </FormControl>
@@ -316,7 +282,7 @@ const EditRestaurantForm = ({
               />
               <FormField
                 control={form.control}
-                name="colors.accent"
+                name="accent_color"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between space-y-0">
                     <FormLabel>Accent Color</FormLabel>
@@ -325,10 +291,10 @@ const EditRestaurantForm = ({
                         className="w-12 p-0"
                         type="color"
                         {...field}
-                        value={restaurant.colors.accent}
+                        value={restaurant.accent_color}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleColorChange(e, "accent");
+                          handleInputChange(e);
                         }}
                       />
                     </FormControl>
@@ -338,7 +304,7 @@ const EditRestaurantForm = ({
               />
               <FormField
                 control={form.control}
-                name="colors.primary_text"
+                name="primary_text_color"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between space-y-0">
                     <FormLabel>Primary Text Color</FormLabel>
@@ -347,10 +313,10 @@ const EditRestaurantForm = ({
                         className="w-12 p-0"
                         type="color"
                         {...field}
-                        value={restaurant.colors.primary_text}
+                        value={restaurant.primary_text_color}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleColorChange(e, "primary_text");
+                          handleInputChange(e);
                         }}
                       />
                     </FormControl>
@@ -360,7 +326,7 @@ const EditRestaurantForm = ({
               />
               <FormField
                 control={form.control}
-                name="colors.secondary_text"
+                name="secondary_text_color"
                 render={({ field }) => (
                   <FormItem className="flex items-center justify-between space-y-0">
                     <FormLabel>Secondary Text Color</FormLabel>
@@ -369,10 +335,10 @@ const EditRestaurantForm = ({
                         className="w-12 p-0"
                         type="color"
                         {...field}
-                        value={restaurant.colors.secondary_text}
+                        value={restaurant.secondary_text_color}
                         onChange={(e) => {
                           field.onChange(e);
-                          handleColorChange(e, "secondary_text");
+                          handleInputChange(e);
                         }}
                       />
                     </FormControl>
@@ -428,7 +394,7 @@ const EditRestaurantForm = ({
               {socialToggles.facebook && (
                 <FormField
                   control={form.control}
-                  name="socials.facebookUrl"
+                  name="facebook_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>Facebook URL</FormLabel>
@@ -436,10 +402,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="Facebook URL"
                           {...field}
-                          value={restaurant.socials.facebookUrl}
+                          value={restaurant.facebook_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "facebookUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>
@@ -452,7 +418,7 @@ const EditRestaurantForm = ({
               {socialToggles.instagram && (
                 <FormField
                   control={form.control}
-                  name="socials.instagramUrl"
+                  name="instagram_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>Instagram URL</FormLabel>
@@ -460,10 +426,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="Instagram URL"
                           {...field}
-                          value={restaurant.socials.instagramUrl}
+                          value={restaurant.instagram_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "instagramUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>
@@ -476,7 +442,7 @@ const EditRestaurantForm = ({
               {socialToggles.twitter && (
                 <FormField
                   control={form.control}
-                  name="socials.twitterUrl"
+                  name="twitter_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>Twitter URL</FormLabel>
@@ -484,10 +450,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="Twitter URL"
                           {...field}
-                          value={restaurant.socials.twitterUrl}
+                          value={restaurant.twitter_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "twitterUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>
@@ -500,7 +466,7 @@ const EditRestaurantForm = ({
               {socialToggles.tiktok && (
                 <FormField
                   control={form.control}
-                  name="socials.tiktokUrl"
+                  name="tiktok_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>TikTok URL</FormLabel>
@@ -508,10 +474,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="TikTok URL"
                           {...field}
-                          value={restaurant.socials.tiktokUrl}
+                          value={restaurant.tiktok_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "tiktokUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>
@@ -524,7 +490,7 @@ const EditRestaurantForm = ({
               {socialToggles.youtube && (
                 <FormField
                   control={form.control}
-                  name="socials.youtubeUrl"
+                  name="youtube_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>Youtube URL</FormLabel>
@@ -532,10 +498,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="Youtube URL"
                           {...field}
-                          value={restaurant.socials.youtubeUrl}
+                          value={restaurant.youtube_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "youtubeUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>
@@ -548,7 +514,7 @@ const EditRestaurantForm = ({
               {socialToggles.whatsapp && (
                 <FormField
                   control={form.control}
-                  name="socials.whatsappUrl"
+                  name="whatsapp_url"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-y-0">
                       <FormLabel>WhatsApp URL</FormLabel>
@@ -556,10 +522,10 @@ const EditRestaurantForm = ({
                         <Input
                           placeholder="WhatsApp URL"
                           {...field}
-                          value={restaurant.socials.whatsappUrl}
+                          value={restaurant.whatsapp_url}
                           onChange={(e) => {
                             field.onChange(e);
-                            handleSocialsChange(e, "whatsappUrl");
+                            handleInputChange(e);
                           }}
                         />
                       </FormControl>

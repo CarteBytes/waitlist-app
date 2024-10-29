@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { restaurants } from "@/models/restaurant";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { checkOrgExists } from "@/lib/helpers";
 
 export async function GET(
@@ -12,7 +12,9 @@ export async function GET(
   const restaurant = await db
     .select()
     .from(restaurants)
-    .where(eq(restaurants.slug, params.slug!));
+    .where(
+      or(eq(restaurants.slug, params.slug!), eq(restaurants.id, params.slug!)),
+    );
   if (!restaurant) {
     return NextResponse.json(
       { error: "Restaurant not found" },

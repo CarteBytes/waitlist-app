@@ -7,23 +7,16 @@ export type RestaurantT = {
   state: string;
   zip_code: string;
   logo: string;
-  colors: RestaurantColorsT;
+  primary_color: string;
+  secondary_color: string;
+  primary_text_color: string;
+  secondary_text_color: string;
+  accent_color: string;
   currency_prefix: "$" | "L. ";
-  socials: {
-    mainUrl?: string;
-    facebookUrl?: string;
-    instagramUrl?: string;
-    tiktokUrl?: string;
-    whatsappUrl?: string;
-    twitterUrl?: string;
-    youtubeUrl?: string;
-  };
-};
-
-export type RestaurantColorsT = {
-  primary: string;
-  secondary: string;
-  primary_text: string;
-  secondary_text: string;
-  accent: string;
+  facebook_url?: string;
+  instagram_url?: string;
+  tiktok_url?: string;
+  whatsapp_url?: string;
+  twitter_url?: string;
+  youtube_url?: string;
 };

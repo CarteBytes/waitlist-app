@@ -11,19 +11,15 @@ export const RESTAURANT: RestaurantT = {
   zip_code: "",
   logo: "/business-logos/pikidogs-logo.png",
   currency_prefix: "L. ",
-  colors: {
-    primary: "#E6C1FF",
-    secondary: "#E6C1FF",
-    primary_text: "#37046E",
-    secondary_text: "#FFFFFF",
-    accent: "#FEAD41",
-  },
-  socials: {
-    facebookUrl: "https://www.facebook.com/profile.php?id=61556171714190",
-    instagramUrl: "https://www.instagram.com/pikidogs.hn/",
-    whatsappUrl:
-      "https://api.whatsapp.com/send?phone=%2B50494497249&context=ARCPdqV9m1y3y4IXE3T0A1GUgJGVfmc24m4U_oVrWF1c5zFjC1cMDDNxPZ_33Yo1YjKu_xuYTTF3qEKJV9Dnm6Ri2CCkCV1D7vThkEIqbjWeRQPEjOJ40YR9k_obyIjpvqCwtGqrumgRk7oNAQOQCfo&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwY2xjawGD19dleHRuA2FlbQIxMAABHeBHilbFvosPe03VZgsez4ApO_AKcUJxeL1Xh0tnfApVOnl6ypvRTfDHBg_aem_hNtYvOZtDYGiMwqLMdXjnQ",
-  },
+  primary_color: "#E6C1FF",
+  secondary_color: "#E6C1FF",
+  primary_text_color: "#37046E",
+  secondary_text_color: "#FFFFFF",
+  accent_color: "#FEAD41",
+  facebook_url: "https://www.facebook.com/profile.php?id=61556171714190",
+  instagram_url: "https://www.instagram.com/pikidogs.hn/",
+  whatsapp_url:
+    "https://api.whatsapp.com/send?phone=%2B50494497249&context=ARCPdqV9m1y3y4IXE3T0A1GUgJGVfmc24m4U_oVrWF1c5zFjC1cMDDNxPZ_33Yo1YjKu_xuYTTF3qEKJV9Dnm6Ri2CCkCV1D7vThkEIqbjWeRQPEjOJ40YR9k_obyIjpvqCwtGqrumgRk7oNAQOQCfo&source=FB_Page&app=facebook&entry_point=page_cta&fbclid=IwY2xjawGD19dleHRuA2FlbQIxMAABHeBHilbFvosPe03VZgsez4ApO_AKcUJxeL1Xh0tnfApVOnl6ypvRTfDHBg_aem_hNtYvOZtDYGiMwqLMdXjnQ",
 };
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),

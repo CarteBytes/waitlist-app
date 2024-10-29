@@ -11,21 +11,17 @@ export const RESTAURANT: RestaurantT = {
   state: "TN",
   zip_code: "37205",
   logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
-  colors: {
-    primary: "#E82531",
-    secondary: "#E82531",
-    primary_text: "#FFFFFF",
-    secondary_text: "#0A0808",
-    accent: "#FFF01B",
-  },
-  socials: {
-    facebookUrl: "https://www.facebook.com/RaisingCanesChickenFingers",
-    instagramUrl: "https://www.instagram.com/raisingcanes/",
-    tiktokUrl: "https://www.tiktok.com/@raisingcanes",
-    whatsappUrl: "",
-    twitterUrl: "https://twitter.com/raisingcanes",
-    youtubeUrl: "https://www.youtube.com/user/RaisingCanesOneLove",
-  },
+  primary_color: "#E82531",
+  secondary_color: "#E82531",
+  primary_text_color: "#FFFFFF",
+  secondary_text_color: "#0A0808",
+  accent_color: "#FFF01B",
+  facebook_url: "https://www.facebook.com/RaisingCanesChickenFingers",
+  instagram_url: "https://www.instagram.com/raisingcanes/",
+  tiktok_url: "https://www.tiktok.com/@raisingcanes",
+  whatsapp_url: "",
+  twitter_url: "https://twitter.com/raisingcanes",
+  youtube_url: "https://www.youtube.com/user/RaisingCanesOneLove",
 };
 
 export const MENU: MenuT = {

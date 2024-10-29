@@ -5,7 +5,6 @@ import {
   FaTiktok,
   FaWhatsapp,
 } from "react-icons/fa6";
-import { RestaurantColorsT } from "../types/restaurant";
 import Link from "next/link";
 
 function SocialMediaGroup({
@@ -14,8 +13,9 @@ function SocialMediaGroup({
   instagramUrl,
   whatsappUrl,
   tiktokUrl,
-  colors,
   className,
+  primaryTextColor,
+  secondaryTextColor,
 }: {
   id?: string;
   className?: string;
@@ -23,7 +23,8 @@ function SocialMediaGroup({
   instagramUrl?: string;
   whatsappUrl?: string;
   tiktokUrl?: string;
-  colors: RestaurantColorsT;
+  primaryTextColor: string;
+  secondaryTextColor: string;
 }) {
   return (
     <div id={id} className={`flex gap-2 ${className}`}>
@@ -31,10 +32,10 @@ function SocialMediaGroup({
         <Link href={facebookUrl} target="_blank">
           <div
             className={`hero-social flex h-12 w-12 items-center justify-center rounded-full`}
-            style={{ background: colors.primary_text }}>
+            style={{ background: primaryTextColor }}>
             <FaFacebookF
               className={`h-7 w-7`}
-              style={{ color: colors.secondary_text }}
+              style={{ color: secondaryTextColor }}
             />
           </div>
         </Link>
@@ -43,10 +44,10 @@ function SocialMediaGroup({
         <Link href={instagramUrl} target="_blank">
           <div
             className={`hero-social flex h-12 w-12 items-center justify-center rounded-full`}
-            style={{ background: colors.primary_text }}>
+            style={{ background: primaryTextColor }}>
             <FaInstagram
               className={`h-7 w-7`}
-              style={{ color: colors.secondary_text }}
+              style={{ color: secondaryTextColor }}
             />
           </div>
         </Link>
@@ -55,10 +56,10 @@ function SocialMediaGroup({
         <Link href={whatsappUrl} target="_blank">
           <div
             className={`hero-social flex h-12 w-12 items-center justify-center rounded-full`}
-            style={{ background: colors.primary_text }}>
+            style={{ background: primaryTextColor }}>
             <FaWhatsapp
               className={`h-7 w-7`}
-              style={{ color: colors.secondary_text }}
+              style={{ color: secondaryTextColor }}
             />
           </div>
         </Link>
@@ -67,10 +68,10 @@ function SocialMediaGroup({
         <Link href={tiktokUrl} target="_blank">
           <div
             className={`hero-social flex h-12 w-12 items-center justify-center rounded-full`}
-            style={{ background: colors.primary_text }}>
+            style={{ background: primaryTextColor }}>
             <FaTiktok
               className={`h-7 w-7`}
-              style={{ color: colors.secondary_text }}
+              style={{ color: secondaryTextColor }}
             />
           </div>
         </Link>

@@ -38,10 +38,10 @@ function LiberoMenu({
       <div
         id="menu"
         className={`w-full max-w-xl overflow-hidden font-sans`}
-        style={{ color: restaurant.colors.primary_text }}>
+        style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
         {/* <RusticEdge1
-    color={restaurant.colors.primary}
+    color={restaurant.primary_color}
     className="relative z-10 mb-[-20%]"
   /> */}
         <ContentPages restaurant={restaurant} menu={menu} />
@@ -60,37 +60,37 @@ const ContentPages = ({
   menu: MenuT;
 }) => {
   const getPageBackgroundColor = (index: number) => {
-    if (index % 2 !== 0) return restaurant.colors.primary;
-    if (index % 4 === 0) return restaurant.colors.secondary;
-    return restaurant.colors.primary_text;
+    if (index % 2 !== 0) return restaurant.primary_color;
+    if (index % 4 === 0) return restaurant.secondary_color;
+    return restaurant.primary_text_color;
   };
 
   const getPageBodyTextColor = (index: number) => {
     const backgroundColor = getPageBackgroundColor(index);
     // Body text should be primary_text except when the background is primary_text
-    if (backgroundColor === restaurant.colors.primary_text) {
-      return restaurant.colors.secondary_text; // Use secondary_text to avoid conflict with primary_text background
+    if (backgroundColor === restaurant.primary_text_color) {
+      return restaurant.secondary_text_color; // Use secondary_text to avoid conflict with primary_text background
     }
-    return restaurant.colors.primary_text;
+    return restaurant.primary_text_color;
   };
 
   const getPageSectionTitleColor = (index: number) => {
     const backgroundColor = getPageBackgroundColor(index);
-    if (restaurant.colors.primary === restaurant.colors.secondary) {
-      if (isLight(restaurant.colors.accent) && isLight(backgroundColor)) {
-        if (backgroundColor !== restaurant.colors.primary)
-          return restaurant.colors.primary;
-        return restaurant.colors.secondary_text;
+    if (restaurant.primary_color === restaurant.secondary_color) {
+      if (isLight(restaurant.accent_color) && isLight(backgroundColor)) {
+        if (backgroundColor !== restaurant.primary_color)
+          return restaurant.primary_color;
+        return restaurant.secondary_text_color;
       }
-      return restaurant.colors.accent;
+      return restaurant.accent_color;
     }
 
     // Title should be primary whenever the background is not primary
-    if (backgroundColor !== restaurant.colors.primary) {
-      return restaurant.colors.primary;
+    if (backgroundColor !== restaurant.primary_color) {
+      return restaurant.primary_color;
     }
     // Fallback title color when background is primary
-    return restaurant.colors.secondary;
+    return restaurant.secondary_color;
   };
 
   return (
@@ -216,9 +216,9 @@ const TitlePage = ({
 }) => {
   const gradientColors = chroma
     .scale([
-      chroma(restaurant.colors.primary).brighten(0.2),
-      restaurant.colors.primary,
-      chroma(restaurant.colors.primary).darken(0.2),
+      chroma(restaurant.primary_color).brighten(0.2),
+      restaurant.primary_color,
+      chroma(restaurant.primary_color).darken(0.2),
     ])
     .mode("lab")
     .colors(5);
@@ -256,9 +256,13 @@ const TitlePage = ({
       </div>
       <SocialMediaGroup
         id="hero_socials"
-        colors={restaurant.colors}
         className="justify-end"
-        {...restaurant.socials}
+        primaryTextColor={restaurant.primary_text_color}
+        secondaryTextColor={restaurant.secondary_text_color}
+        facebookUrl={restaurant.facebook_url}
+        instagramUrl={restaurant.instagram_url}
+        whatsappUrl={restaurant.whatsapp_url}
+        tiktokUrl={restaurant.tiktok_url}
       />
     </section>
   );
@@ -270,8 +274,8 @@ const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
       id="footer"
       className="flex flex-col items-center gap-12 px-8 py-24"
       style={{
-        background: restaurant.colors.secondary, //getPageBackgroundColor(menu.pages.length + 2),
-        color: restaurant.colors.primary_text, //getPageBodyTextColor(menu.pages.length + 2),
+        background: restaurant.secondary_color, //getPageBackgroundColor(menu.pages.length + 2),
+        color: restaurant.primary_text_color, //getPageBodyTextColor(menu.pages.length + 2),
       }}>
       <img className="h-auto w-full" id="footer-logo" src={restaurant.logo} />
       <div className="flex h-full flex-col justify-center">
@@ -303,9 +307,13 @@ const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
       </div>
       <SocialMediaGroup
         id="hero_socials"
-        colors={restaurant.colors}
         className="justify-center"
-        {...restaurant.socials}
+        primaryTextColor={restaurant.primary_text_color}
+        secondaryTextColor={restaurant.secondary_text_color}
+        facebookUrl={restaurant.facebook_url}
+        instagramUrl={restaurant.instagram_url}
+        whatsappUrl={restaurant.whatsapp_url}
+        tiktokUrl={restaurant.tiktok_url}
       />
     </section>
   );
