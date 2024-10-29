@@ -1,8 +1,10 @@
-import { FoodItemT } from "./foodItem";
+import { ItemT } from "./item";
 
 export type MenuT = {
   id: string;
   theme: string;
+  name: string;
+  description: string;
   content: MenuContentT[];
 };
 
@@ -14,7 +16,7 @@ export type MenuContentT = {
   group_title?: string;
   group_price?: string;
   group_description?: string;
-  food_items?: FoodItemT[];
+  items?: ItemT[];
   extra_details?: string;
   extra_price?: string;
 };

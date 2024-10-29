@@ -31,13 +31,15 @@ export const RESTAURANT: RestaurantT = {
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   theme: "Libero",
+  name: "Raising Cane's General Menu",
+  description: "The basic menu for Raising canes",
   content: [
     {
       page_index: 0,
       hero_image:
         "https://images.prismic.io/raisingcanes/MDMyNTQxNjQtMjAyMi00OTFjLTkxZWYtMmQzNDMzMmY0MmUx_d17f94cb-3ccb-48fd-92e4-ffde94917322_food-prep-basic-hero.jpg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C2500%2C1000&w=1280&h=512",
       group_title: "COMBOS",
-      food_items: [
+      items: [
         {
           id: "1",
           name: "THE BOX COMBO®",
@@ -77,7 +79,7 @@ export const MENU: MenuT = {
       hero_image:
         "https://images.prismic.io/raisingcanes/3558ffdc-ea93-48c6-81a3-56a848ba9adf_Tailgate%20(1).png?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C1681%2C1681&w=720&h=720",
       group_title: "TAILGATES™",
-      food_items: [
+      items: [
         {
           id: "15",
           name: "25 Chicken Fingers",
@@ -107,7 +109,7 @@ export const MENU: MenuT = {
     {
       page_index: 1,
       group_title: "EXTRAS",
-      food_items: [
+      items: [
         {
           id: "19",
           name: "Cane's Sauce®",
@@ -139,7 +141,7 @@ export const MENU: MenuT = {
       hero_image:
         "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
       group_title: "DRINKS",
-      food_items: [
+      items: [
         {
           id: "113",
           name: "Fountain Drink (22 oz.)",

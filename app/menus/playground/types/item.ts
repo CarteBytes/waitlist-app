@@ -1,4 +1,4 @@
-export type FoodItemT = {
+export type ItemT = {
   id: string;
   name: string;
   description?: string;

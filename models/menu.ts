@@ -20,8 +20,8 @@ export const menus = pgTable("menus", {
   theme: text("theme").notNull(),
   name: text("name").notNull(),
   description: text("description").default(""), // Optional description
-  created_at: timestamp("created_at").defaultNow().notNull(),
-  last_updated: timestamp("created_at").defaultNow().notNull(),
+  created_at: timestamp("created_at").defaultNow(),
+  last_updated: timestamp("last_updated").defaultNow(),
 });
 
 export const menu_contents = pgTable("menu_contents", {
@@ -35,13 +35,16 @@ export const menu_contents = pgTable("menu_contents", {
   menu_id: uuid("menu_id")
     .notNull()
     .references(() => menus.id),
-  page_index: integer("page_index").notNull(),
-  section_index: integer("page_index").notNull(),
-  hero_image: text("hero_image"),
-  sub_image: text("sub_image"),
-  group_title: text("group_title"),
-  group_price: text("group_price"),
-  food_items: uuid("food_items").array(), // Array of UUIDs for food items
+  page_index: integer("page_index").notNull().default(0),
+  section_index: integer("section_index").notNull().default(0),
+  hero_image: text("hero_image").default(""),
+  sub_image: text("sub_image").default(""),
+  group_title: text("group_title").default(""),
+  group_price: text("group_price").default(""),
+  group_description: text("group_description").default(""),
+  extra_details: text("extra_details").default(""),
+  extra_price: text("extra_price").default(""),
+  items: uuid("items").array(), // Array of UUIDs for food items
 });
 
 type TMenu = typeof menus.$inferInsert;

@@ -136,10 +136,9 @@ const ContentPages = ({
               </div>
             )}
 
-            {(!!section.extra_details ||
-              (section?.food_items?.length ?? 0) > 0) && (
+            {(!!section.extra_details || (section?.items?.length ?? 0) > 0) && (
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
-                {section.food_items?.map((foodItem: any, i: number) => (
+                {section.items?.map((item: any, i: number) => (
                   <div key={i + 50}>
                     <div className="flex items-start justify-between">
                       <div>
@@ -148,10 +147,10 @@ const ContentPages = ({
                           style={{
                             color: getPageBodyTextColor(section.page_index),
                           }}>
-                          {foodItem.name}
+                          {item.name}
                         </p>
                       </div>
-                      {foodItem.price && (
+                      {item.price && (
                         <div>
                           <p
                             className="ml-4 w-max text-nowrap text-lg font-semibold"
@@ -159,29 +158,29 @@ const ContentPages = ({
                               color: getPageBodyTextColor(section.page_index),
                             }}>
                             {restaurant.currency_prefix}
-                            {foodItem.price}
+                            {item.price}
                           </p>
                         </div>
                       )}
                     </div>
-                    {foodItem.description && (
+                    {item.description && (
                       <p
                         className="text-md leading-tight"
                         style={{
                           color: getPageBodyTextColor(section.page_index),
                           opacity: 0.75,
                         }}>
-                        {foodItem.description}
+                        {item.description}
                       </p>
                     )}
-                    {foodItem.calories && (
+                    {item.calories && (
                       <p
                         className="text-md font-thin leading-tight"
                         style={{
                           color: getPageBodyTextColor(section.page_index),
                           opacity: 0.75,
                         }}>
-                        {foodItem.calories} Cal
+                        {item.calories} Cal
                       </p>
                     )}
                   </div>

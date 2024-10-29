@@ -28,6 +28,8 @@ export const RESTAURANT: RestaurantT = {
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   theme: "Libero",
+  name: "Piki Dog Menu Octubre",
+  description: "Menu especial para el mes de Octubre",
   content: [
     {
       page_index: 2, // Todo: page indices out of order to get the halloween colors on first
@@ -36,9 +38,7 @@ export const MENU: MenuT = {
       group_description:
         "Queso cheddar y salchicha, envuelto en masa de trigo, cubierto de papas fritas, panko y Takis fuego.",
       extra_details: "Edicion Limitada",
-      food_items: [
-        { id: "1", name: "", description: "Acompañado de salsa ranch" },
-      ],
+      items: [{ id: "1", name: "", description: "Acompañado de salsa ranch" }],
       group_price: "95",
     },
     {
@@ -47,7 +47,7 @@ export const MENU: MenuT = {
       group_price: "85 c/u",
       group_title: "PIKI DOGS",
       group_description: "Korean Corn Dogs",
-      food_items: [
+      items: [
         {
           id: "1",
           name: "PIKIRELA",
@@ -100,7 +100,7 @@ export const MENU: MenuT = {
         "https://i.ibb.co/cLYmDpd/448359908-122157192476205723-7020524754990933909-n.jpg",
       // group_title: "SALSAS",
       // group_description: "Cada Piki viene con 2 salsas",
-      // food_items: [
+      // items: [
       //   {
       //     id: "1",
       //     name: "GOCHUJANG",

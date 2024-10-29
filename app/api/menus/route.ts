@@ -4,7 +4,11 @@ import { ZodError } from "zod";
 import { eq, and } from "drizzle-orm";
 import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
 import { menu_contents, menus } from "@/models/menu";
-import { insertMenuSchema } from "@/schemas/menuSchema";
+import {
+  insertMenuContentSchema,
+  insertMenuSchema,
+} from "@/schemas/menuSchema";
+import { MenuContentT } from "@/app/menus/playground/types/menu";
 
 // GET ALL RESTAURANT MENUS
 export async function GET(req: NextRequest) {
@@ -46,16 +50,45 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const parsedData = insertMenuSchema.parse(body);
 
-    checkOrgExists(parsedData.org_id);
-    checkRestaurantExists(parsedData.restaurant_id);
+    // Ensure organization and restaurant exist
+    await checkOrgExists(body.org_id);
+    await checkRestaurantExists(body.restaurant_id);
 
-    const [newMenu] = await db.insert(menus).values(parsedData).returning();
+    // Insert new menu and return its details
+    const [newMenu] = await db
+      .insert(menus)
+      .values({
+        org_id: body.org_id,
+        restaurant_id: body.restaurant_id,
+        name: body.name, // or other fields as per your schema
+        description: body.description,
+        theme: body.theme,
+      })
+      .returning();
 
-    return NextResponse.json(newMenu, { status: 201 });
+    // Map content items to include the new menu's ID and insert into menu_contents
+    const contentItems = body.content.map((item: MenuContentT) => ({
+      menu_id: newMenu.id,
+      org_id: body.org_id,
+      restaurant_id: body.restaurant_id,
+      ...item,
+      // other fields as per menu_contents schema
+    }));
+
+    // Insert all content items
+    const newMenuContents = await db
+      .insert(menu_contents)
+      .values(contentItems)
+      .returning();
+
+    // Return the new menu along with its content
+    return NextResponse.json(
+      { ...newMenu, content: newMenuContents },
+      { status: 201 },
+    );
   } catch (error: unknown) {
-    console.error("Error creating organization:", error);
+    console.error("Error creating menu:", error);
     if (error instanceof ZodError) {
       // Handle validation errors
       return NextResponse.json({ error: error.errors }, { status: 400 });
