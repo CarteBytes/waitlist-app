@@ -1,5 +1,6 @@
 import { Metadata, ResolvingMetadata } from "next";
 import LiberoMenu from "../playground/components/LiberoMenu";
+import { oswald } from "@/app/ui/fonts";
 
 type Props = {
   params: { restaurant_slug: string };
@@ -52,7 +53,7 @@ export default async function Page({
   );
 
   return (
-    <div className="flex justify-center">
+    <div className={`${oswald.className} flex justify-center antialiased`}>
       <LiberoMenu restaurant={restaurant} menu={menu} />
     </div>
   );

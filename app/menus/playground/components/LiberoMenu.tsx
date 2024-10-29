@@ -37,7 +37,7 @@ function LiberoMenu({
       )}
       <div
         id="menu"
-        className={`w-full max-w-xl overflow-hidden font-sans`}
+        className={`w-full max-w-xl overflow-hidden`}
         style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
         {/* <RusticEdge1

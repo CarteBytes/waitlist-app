@@ -1,6 +1,7 @@
 import { MENU, RESTAURANT } from "./content";
 import { Metadata } from "next";
 import LiberoMenu from "../playground/components/LiberoMenu";
+import { dPuff } from "@/app/ui/fonts";
 
 export const metadata: Metadata = {
   title: "Piki Dogs HN | CarteBytes",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex justify-center">
+    <div className={`${dPuff.className} flex justify-center antialiased`}>
       <LiberoMenu restaurant={RESTAURANT} menu={MENU} lang="esp" />
     </div>
   );
