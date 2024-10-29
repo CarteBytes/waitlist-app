@@ -5,6 +5,7 @@ import {
   uuid,
   varchar,
   integer,
+  boolean,
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organization";
 import { restaurants } from "./restaurant";
@@ -14,6 +15,7 @@ export const menus = pgTable("menus", {
   org_id: varchar("org_id")
     .references(() => organizations.id)
     .notNull(), // Foreign key
+  is_default: boolean("is_default").default(false),
   restaurant_id: varchar("restaurant_id")
     .references(() => restaurants.id)
     .notNull(), // Foreign key

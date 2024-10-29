@@ -6,11 +6,15 @@ import { and, eq, inArray } from "drizzle-orm";
 import { menu_contents, menus } from "@/models/menu";
 import { items } from "@/models/item";
 
+// this gets a particular menu
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { menu_id: string } },
 ) {
-  const menu = await db.select().from(menus).where(eq(menus.id, params.id));
+  const menu = await db
+    .select()
+    .from(menus)
+    .where(eq(menus.id, params.menu_id));
   if (!menu) {
     return NextResponse.json({ error: "Menu not found" }, { status: 404 });
   }
@@ -18,7 +22,7 @@ export async function GET(
   const content = await db
     .select()
     .from(menu_contents)
-    .where(eq(menu_contents.menu_id, params.id));
+    .where(eq(menu_contents.menu_id, params.menu_id));
 
   const itemIdsMap: Record<string, any> = {};
   content.forEach((c) =>
@@ -42,9 +46,10 @@ export async function GET(
   return NextResponse.json({ ...menu[0], content });
 }
 
+// TODO: not done
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string; org_id: string } },
+  { params }: { params: { menu_id: string; org_id: string } },
 ) {
   try {
     const body = await req.json();
@@ -56,7 +61,7 @@ export async function PUT(
       .where(
         and(
           eq(restaurants.org_id, params.org_id),
-          eq(restaurants.id, params.id),
+          eq(restaurants.id, params.menu_id),
         ),
       );
 
@@ -71,10 +76,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { menu_id: string } },
 ) {
   try {
-    await db.delete(restaurants).where(eq(restaurants.id, params.id));
+    await db.delete(restaurants).where(eq(restaurants.id, params.menu_id));
     return NextResponse.json({ message: "Restaurant deleted" });
   } catch (error: unknown) {
     return NextResponse.json(

@@ -12,9 +12,7 @@ export async function GET(
   const restaurant = await db
     .select()
     .from(restaurants)
-    .where(
-      or(eq(restaurants.slug, params.slug!), eq(restaurants.id, params.slug!)),
-    );
+    .where(eq(restaurants.slug, params.slug!));
   if (!restaurant) {
     return NextResponse.json(
       { error: "Restaurant not found" },
