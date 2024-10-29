@@ -53,7 +53,7 @@ export default async function Page({
 
   return (
     <div className="flex justify-center">
-      <LiberoMenu restaurant={restaurant} menu={menu} lang="esp" />
+      <LiberoMenu restaurant={restaurant} menu={menu} />
     </div>
   );
 }
