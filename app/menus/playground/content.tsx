@@ -3,6 +3,7 @@ import { RestaurantT } from "./types/restaurant";
 
 export const RESTAURANT: RestaurantT = {
   id: "123",
+  font_family: "Oswald",
   name: "Raising Cane's",
   phone: "(615) 882-3050",
   address: "36 White Bridge Pike",
@@ -27,6 +28,7 @@ export const RESTAURANT: RestaurantT = {
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   theme: "Libero",
+  language: "en",
   name: "Raising Cane's General Menu",
   description: "The basic menu for Raising canes",
   content: [

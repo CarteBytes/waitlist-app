@@ -3,15 +3,21 @@ import FooterLogoCTA from "./FooterLogoCTA";
 import { FaPhone, FaStore } from "react-icons/fa6";
 import chroma from "chroma-js";
 import { isLight } from "../utils";
-import { RestaurantT } from "../types/restaurant";
+import { RestaurantT, SupportedFontFamilies } from "../types/restaurant";
 import { MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
 import Link from "next/link";
+import { dynaPuff, oswald } from "@/app/ui/fonts";
+
+const getFontFamily = (fontFamily: SupportedFontFamilies) => {
+  if (fontFamily === "DynaPuff") return dynaPuff.className;
+
+  return oswald.className;
+};
 
 function LiberoMenu({
-  lang = "eng",
   restaurant,
   menu,
   isEdit = false,
@@ -20,15 +26,14 @@ function LiberoMenu({
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
-  lang?: "eng" | "esp";
   isEdit?: boolean;
   onChangeMenu?: (newMenu: MenuT) => void;
   onChangeRestaurant?: (newRes: RestaurantT) => void;
 }) {
-  const isSpanish = lang === "esp";
+  const isSpanish = menu.language === "es";
 
   return (
-    <div>
+    <div className={`${getFontFamily(restaurant.font_family)} antialiased`}>
       {isEdit && (
         <EditRestaurantForm
           restaurant={restaurant}
@@ -46,7 +51,7 @@ function LiberoMenu({
   /> */}
         <ContentPages restaurant={restaurant} menu={menu} />
         <FooterPage restaurant={restaurant} />
-        <FooterLogoCTA lang={lang} />
+        <FooterLogoCTA lang={menu.language} />
       </div>
     </div>
   );

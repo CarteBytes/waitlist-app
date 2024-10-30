@@ -2,6 +2,7 @@ export type RestaurantT = {
   id: string;
   name: string;
   phone: string;
+  font_family: SupportedFontFamilies;
   address: string;
   city: string;
   state: string;
@@ -20,3 +21,5 @@ export type RestaurantT = {
   twitter_url?: string;
   youtube_url?: string;
 };
+
+export type SupportedFontFamilies = "DynaPuff" | "Oswald";

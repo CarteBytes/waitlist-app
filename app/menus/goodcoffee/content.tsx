@@ -3,6 +3,7 @@ import { RestaurantT } from "../playground/types/restaurant";
 
 export const RESTAURANT: RestaurantT = {
   id: "123",
+  font_family: "Oswald",
   name: "The Good Coffee Company",
   phone: "(256)508-8925",
   address: "320 Arch St",
@@ -27,6 +28,7 @@ export const RESTAURANT: RestaurantT = {
 export const MENU: MenuT = {
   id: "menuid" + Math.floor(Math.random() * 1000),
   theme: "Libero",
+  language: "en",
   name: "The Good Coffee Co. Menu",
   description: "The basic menu for our Coffee Shop",
   content: [

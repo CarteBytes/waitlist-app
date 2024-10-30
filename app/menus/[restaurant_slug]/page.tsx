@@ -1,6 +1,5 @@
 import { Metadata, ResolvingMetadata } from "next";
 import LiberoMenu from "../playground/components/LiberoMenu";
-import { oswald } from "@/app/ui/fonts";
 
 type Props = {
   params: { restaurant_slug: string };
@@ -10,12 +9,12 @@ type Props = {
 const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
   const restaurantData = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurantSlug}`,
-    //{ cache: "no-store" },
+    { cache: "no-store" },
   );
   const restaurant = await restaurantData.json();
   const menuData = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurant.id}/menus?default`,
-    //{ cache: "no-store" },
+    { cache: "no-store" },
   );
   const menu = await menuData.json();
 
@@ -53,7 +52,7 @@ export default async function Page({
   );
 
   return (
-    <div className={`${oswald.className} flex justify-center antialiased`}>
+    <div className={"flex justify-center"}>
       <LiberoMenu restaurant={restaurant} menu={menu} />
     </div>
   );

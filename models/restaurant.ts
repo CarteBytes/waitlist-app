@@ -17,6 +17,7 @@ export const restaurants = pgTable("restaurants", {
   country: varchar("country", { length: 255 }),
   currency_prefix: varchar("currency_prefix", { length: 10 }).default("$"),
   logo: text("logo"),
+  font_family: text("font_family").notNull().default("Oswald"),
   // Colors breakdown into individual columns
   primary_color: varchar("primary_color", { length: 10 }).notNull(),
   secondary_color: varchar("secondary_color", { length: 10 }).notNull(),

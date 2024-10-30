@@ -2,6 +2,7 @@ import { ItemT } from "./item";
 
 export type MenuT = {
   id: string;
+  language: "en" | "es";
   theme: string;
   name: string;
   description: string;

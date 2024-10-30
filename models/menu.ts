@@ -21,6 +21,7 @@ export const menus = pgTable("menus", {
     .notNull(), // Foreign key
   theme: text("theme").notNull(),
   name: text("name").notNull(),
+  language: text("language").notNull().default("en"),
   description: text("description").default(""), // Optional description
   created_at: timestamp("created_at").defaultNow(),
   last_updated: timestamp("last_updated").defaultNow(),
