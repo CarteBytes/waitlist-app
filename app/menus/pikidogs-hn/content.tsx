@@ -2,7 +2,7 @@ import { MenuT } from "../playground/types/menu";
 import { RestaurantT } from "../playground/types/restaurant";
 
 export const RESTAURANT: RestaurantT = {
-  id: "holy-bakery-78501",
+  id: "piki-dogs-78501",
   name: "Piki Dogs",
   phone: "+504 9449-7249",
   address: "Bazar del Sabado Blvd. Juan Pablo II",
@@ -16,6 +16,7 @@ export const RESTAURANT: RestaurantT = {
   primary_text_color: "#37046E",
   secondary_text_color: "#FFFFFF",
   accent_color: "#FEAD41",
+  tiktok_url: "https://www.tiktok.com/@pikidogs.hn?_t=8qxfEsvut4x&_r=1",
   facebook_url: "https://www.facebook.com/profile.php?id=61556171714190",
   instagram_url: "https://www.instagram.com/pikidogs.hn/",
   whatsapp_url:
