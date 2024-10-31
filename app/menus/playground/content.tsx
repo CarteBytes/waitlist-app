@@ -34,6 +34,7 @@ export const MENU: MenuT = {
   content: [
     {
       page_index: 0,
+      section_index: 0,
       hero_image:
         "https://images.prismic.io/raisingcanes/MDMyNTQxNjQtMjAyMi00OTFjLTkxZWYtMmQzNDMzMmY0MmUx_d17f94cb-3ccb-48fd-92e4-ffde94917322_food-prep-basic-hero.jpg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C2500%2C1000&w=1280&h=512",
       group_title: "COMBOS",
@@ -74,6 +75,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 1,
+      section_index: 0,
       hero_image:
         "https://images.prismic.io/raisingcanes/3558ffdc-ea93-48c6-81a3-56a848ba9adf_Tailgate%20(1).png?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max&rect=0%2C0%2C1681%2C1681&w=720&h=720",
       group_title: "TAILGATES™",
@@ -106,6 +108,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 1,
+      section_index: 1,
       group_title: "EXTRAS",
       items: [
         {
@@ -136,6 +139,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 2,
+      section_index: 0,
       hero_image:
         "https://gibbonsgazette.org/wp-content/uploads/2024/01/Screenshot-2024-01-30-3.24.48-PM.png",
       group_title: "DRINKS",
@@ -173,6 +177,7 @@ export const MENU: MenuT = {
       ],
     },
     {
+      section_index: 0,
       page_index: 3,
       hero_image:
         "https://thumbs.dreamstime.com/b/raising-cane-s-joliet-il-joliet-il-usa-november-raising-cane-s-american-fast-food-restaurant-chain-specializes-262380147.jpg",

@@ -33,7 +33,7 @@ function LiberoMenu({
   const isSpanish = menu.language === "es";
 
   return (
-    <div className={`${getFontFamily(restaurant.font_family)} antialiased`}>
+    <div>
       {isEdit && (
         <EditRestaurantForm
           restaurant={restaurant}
@@ -42,7 +42,7 @@ function LiberoMenu({
       )}
       <div
         id="menu"
-        className={`w-full max-w-xl overflow-hidden`}
+        className={`w-full max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}
         style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
         {/* <RusticEdge1
