@@ -108,7 +108,7 @@ const ContentPages = ({
         return (
           <React.Fragment key={i}>
             <div className="mt-10 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
-              Page {section.page_index + 1}, Block {section.section_index + 1}
+              Page {section.page_index + 1}, Section {section.section_index + 1}
             </div>
             <section
               className="flex flex-col"
