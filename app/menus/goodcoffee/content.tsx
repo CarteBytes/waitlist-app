@@ -34,6 +34,7 @@ export const MENU: MenuT = {
   content: [
     {
       page_index: 0,
+      section_index: 0,
       hero_image: "https://i.ibb.co/qJFHDGW/Logo-Mockup-Black.png",
       group_title: "THE CLASSICS",
       items: [
@@ -72,6 +73,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 1,
+      section_index: 0,
       hero_image: "https://i.ibb.co/8BM0VPW/Logo-Mockup-Black-copy.png",
       group_title: "HOUSE SIGNATURES",
       items: [
@@ -105,6 +107,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 1,
+      section_index: 1,
       group_title: "Everything Else",
       items: [
         {
@@ -137,6 +140,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 2,
+      section_index: 0,
       hero_image: "https://i.ibb.co/ZzzQmYF/Logo-Black.png",
       group_title: "Bakery",
       items: [
@@ -174,6 +178,7 @@ export const MENU: MenuT = {
     },
     {
       page_index: 3,
+      section_index: 0,
       hero_image: "https://i.ibb.co/CbvmPH7/Logo-White.png",
     },
   ],
