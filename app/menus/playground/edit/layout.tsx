@@ -14,9 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <CSPostHogProvider>
-        <body>{children}</body>
-      </CSPostHogProvider>
+      {/* <CSPostHogProvider> */}
+      <body>{children}</body>
+      {/* </CSPostHogProvider> */}
     </html>
   );
 }

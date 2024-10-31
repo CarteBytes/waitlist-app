@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MENU, RESTAURANT } from "../content";
-import LiberoMenu from "../components/LiberoMenu";
+import EditLiberoMenu from "../components/EditLiberoMenu";
 
 export default function Page() {
   const [restaurantObject, setRestaurantObject] = useState(RESTAURANT);
@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <div className="flex justify-center">
-      <LiberoMenu
+      <EditLiberoMenu
         restaurant={restaurantObject}
         menu={menuObject}
         isEdit
