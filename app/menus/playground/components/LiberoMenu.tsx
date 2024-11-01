@@ -7,39 +7,25 @@ import { RestaurantT, SupportedFontFamilies } from "../types/restaurant";
 import { MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
-import EditRestaurantForm from "./EditRestaurantForm";
 import Link from "next/link";
 import { dynaPuff, oswald } from "@/app/ui/fonts";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
-
   return oswald.className;
 };
 
 function LiberoMenu({
   restaurant,
   menu,
-  isEdit = false,
-  onChangeMenu,
-  onChangeRestaurant,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
-  isEdit?: boolean;
-  onChangeMenu?: (newMenu: MenuT) => void;
-  onChangeRestaurant?: (newRes: RestaurantT) => void;
 }) {
   const isSpanish = menu.language === "es";
 
   return (
     <div>
-      {isEdit && (
-        <EditRestaurantForm
-          restaurant={restaurant}
-          onChangeRestaurant={onChangeRestaurant!}
-        />
-      )}
       <div
         id="menu"
         className={`w-full max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}

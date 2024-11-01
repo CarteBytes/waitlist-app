@@ -1,9 +1,10 @@
+"use client";
+
 import React from "react";
 import FooterLogoCTA from "./FooterLogoCTA";
 import {
   FaBowlFood,
   FaDollarSign,
-  FaGripLines,
   FaImage,
   FaPhone,
   FaStore,
@@ -18,10 +19,10 @@ import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
 import Link from "next/link";
 import { dynaPuff, oswald } from "@/app/ui/fonts";
+import ExpandingTextArea from "./ExpandingTextArea";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
-
   return oswald.className;
 };
 
@@ -64,9 +65,11 @@ function EditLiberoMenu({
 const ContentPages = ({
   restaurant,
   menu,
+  onChangeMenu,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
+  onChangeMenu?: (newMenu: MenuT) => void;
 }) => {
   const getPageBackgroundColor = (index: number) => {
     if (index % 2 !== 0) return restaurant.primary_color;
@@ -132,14 +135,22 @@ const ContentPages = ({
 
                 <div className="flex items-start justify-between">
                   {section.group_title ? (
-                    <h3
-                      className="text-3xl font-semibold"
+                    <ExpandingTextArea
+                      value={section.group_title!}
+                      className={`mt-2 ${getFontFamily(restaurant.font_family)} text-3xl font-semibold`}
                       style={{
                         color: getPageSectionTitleColor(section.page_index),
-                      }}>
-                      {section.group_title}
-                    </h3>
+                        background: getPageBackgroundColor(section.page_index),
+                      }}
+                    />
                   ) : (
+                    // <h3
+                    //   className="text-3xl font-semibold"
+                    //   style={{
+                    //     color: getPageSectionTitleColor(section.page_index),
+                    //   }}>
+                    //   {section.group_title}
+                    // </h3>
                     <EditButton
                       className="w-1/2"
                       preIcon={<FaUtensils className="text-xl" />}>
@@ -174,11 +185,28 @@ const ContentPages = ({
                 </div>
               ) : (
                 <div className="px-8">
-                  <EditButton
+                  <ExpandingTextArea
+                    value={section.group_description!}
+                    className={`mt-2 ${getFontFamily(restaurant.font_family)} text-lg leading-tight`}
+                    style={{
+                      color: getPageSectionTitleColor(section.page_index),
+                      background: getPageBackgroundColor(section.page_index),
+                    }}
+                    onChange={(e) => {
+                      const newMenu = { ...menu };
+                      const newSection = {
+                        ...section,
+                        group_description: e.target.value,
+                      };
+                      newMenu.content[i] = newSection;
+                      onChangeMenu && onChangeMenu(newMenu);
+                    }}
+                  />
+                  {/* <EditButton
                     className="mt-2 w-full"
                     preIcon={<FaGripLines className="text-xl" />}>
                     Add Group Description
-                  </EditButton>
+                  </EditButton> */}
                 </div>
               )}
 
