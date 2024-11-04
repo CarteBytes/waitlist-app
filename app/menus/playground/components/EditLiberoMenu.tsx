@@ -1,25 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import FooterLogoCTA from "./FooterLogoCTA";
 import {
+  FaArrowRight,
   FaBowlFood,
   FaDollarSign,
+  FaFloppyDisk,
+  FaGripLines,
   FaImage,
   FaPhone,
   FaStore,
   FaUtensils,
 } from "react-icons/fa6";
 import chroma from "chroma-js";
-import { isLight } from "../utils";
+import { doesNotExist, isLight } from "../utils";
 import { RestaurantT, SupportedFontFamilies } from "../types/restaurant";
-import { MenuT } from "../types/menu";
+import { MenuSectionT, MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
 import Link from "next/link";
 import { dynaPuff, oswald } from "@/app/ui/fonts";
 import ExpandingTextArea from "./ExpandingTextArea";
+import LiberoMenu from "./LiberoMenu";
+import { EnhancedButton } from "@/components/ui/enhanced-btn";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
@@ -29,34 +34,69 @@ const getFontFamily = (fontFamily: SupportedFontFamilies) => {
 function EditLiberoMenu({
   restaurant,
   menu,
-  isEdit = false,
   onChangeMenu,
   onChangeRestaurant,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
-  isEdit?: boolean;
   onChangeMenu?: (newMenu: MenuT) => void;
   onChangeRestaurant?: (newRes: RestaurantT) => void;
 }) {
+  const [showPreview, setShowPreview] = useState(false);
+  // const [showSave, setShowSave] = useState(false);
+
   const isSpanish = menu.language === "es";
 
-  return (
-    <div>
-      {isEdit && (
-        <EditRestaurantForm
-          restaurant={restaurant}
-          onChangeRestaurant={onChangeRestaurant!}
-        />
-      )}
+  let content = (
+    <>
+      <EditRestaurantForm
+        restaurant={restaurant}
+        onChangeRestaurant={onChangeRestaurant!}
+      />
       <div
         id="menu"
         className={`w-full max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}
         style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
-        <ContentPages restaurant={restaurant} menu={menu} />
+        <ContentPages
+          onChangeMenu={onChangeMenu}
+          restaurant={restaurant}
+          menu={menu}
+        />
         <FooterPage restaurant={restaurant} />
-        <FooterLogoCTA lang={menu.language} />
+        {/* <FooterLogoCTA lang={menu.language} /> */}
+      </div>
+    </>
+  );
+
+  if (showPreview) {
+    content = <LiberoMenu restaurant={restaurant} menu={menu} />;
+  }
+
+  return (
+    <div>
+      {content}
+
+      <div
+        className={
+          "sticky bottom-0 flex h-16 items-center justify-center border-t-2 bg-[#F6FE9B] shadow-2xl"
+        }>
+        <EnhancedButton
+          variant="expandIcon"
+          Icon={FaArrowRight}
+          type="submit"
+          iconPlacement="right"
+          className="mr-2"
+          onClick={() => setShowPreview(!showPreview)}>
+          {showPreview ? "Hide" : "Show"} Preview
+        </EnhancedButton>
+        <EnhancedButton
+          variant="expandIcon"
+          Icon={FaFloppyDisk}
+          type="submit"
+          iconPlacement="right">
+          Save now
+        </EnhancedButton>
       </div>
     </div>
   );
@@ -105,6 +145,35 @@ const ContentPages = ({
     return restaurant.secondary_color;
   };
 
+  const handleChangeSection = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    section: MenuSectionT,
+    sectionIdx: number,
+  ) => {
+    const newMenu = { ...menu };
+    const newSection = {
+      ...section,
+      [e.target.name]: e.target.value,
+    };
+    newMenu.content[sectionIdx] = newSection;
+    onChangeMenu && onChangeMenu(newMenu);
+  };
+
+  const handleEditSectionField = (
+    field: keyof MenuSectionT,
+    value: string,
+    section: MenuSectionT,
+    sectionIdx: number,
+  ) => {
+    const newMenu = { ...menu };
+    const newSection = {
+      ...section,
+      [field]: "",
+    };
+    newMenu.content[sectionIdx] = newSection;
+    onChangeMenu && onChangeMenu(newMenu);
+  };
+
   return (
     <>
       {menu.content?.map((section, i) => {
@@ -134,81 +203,93 @@ const ContentPages = ({
                 </div>
 
                 <div className="flex items-start justify-between">
-                  {section.group_title ? (
+                  {doesNotExist(section.group_title) ? (
+                    <EditButton
+                      className="w-1/2"
+                      preIcon={<FaUtensils className="text-xl" />}
+                      onClick={() =>
+                        handleEditSectionField("group_title", "", section, i)
+                      }>
+                      Add Group Name
+                    </EditButton>
+                  ) : (
                     <ExpandingTextArea
+                      name="group_title"
+                      id={`group_title_${i}`}
+                      placeholder="Group Name"
                       value={section.group_title!}
-                      className={`mt-2 ${getFontFamily(restaurant.font_family)} text-3xl font-semibold`}
+                      className={`${getFontFamily(restaurant.font_family)} text-3xl font-semibold`}
                       style={{
                         color: getPageSectionTitleColor(section.page_index),
                         background: getPageBackgroundColor(section.page_index),
                       }}
+                      onChange={(e) => handleChangeSection(e, section, i)}
                     />
+                  )}
+
+                  {doesNotExist(section.group_price) ? (
+                    <EditButton
+                      preIcon={<FaDollarSign className="text-xl" />}
+                      onClick={() =>
+                        handleEditSectionField("group_price", "", section, i)
+                      }>
+                      Add Group Price
+                    </EditButton>
                   ) : (
+                    <ExpandingTextArea
+                      name="group_price"
+                      id={`group_price_${i}`}
+                      placeholder={restaurant.currency_prefix}
+                      value={section.group_price!}
+                      className={`ml-4 text-right ${getFontFamily(restaurant.font_family)} ml-4 w-max text-nowrap text-3xl font-semibold`}
+                      style={{
+                        color: getPageSectionTitleColor(section.page_index),
+                        background: getPageBackgroundColor(section.page_index),
+                      }}
+                      onChange={(e) => handleChangeSection(e, section, i)}
+                    />
                     // <h3
-                    //   className="text-3xl font-semibold"
+                    //   className="ml-4 w-max text-nowrap text-3xl font-semibold"
                     //   style={{
                     //     color: getPageSectionTitleColor(section.page_index),
                     //   }}>
-                    //   {section.group_title}
+                    //   {restaurant.currency_prefix}
+                    //   {section.group_price}
                     // </h3>
-                    <EditButton
-                      className="w-1/2"
-                      preIcon={<FaUtensils className="text-xl" />}>
-                      Add Group Name
-                    </EditButton>
-                  )}
-
-                  {section.group_price ? (
-                    <h3
-                      className="ml-4 w-max text-nowrap text-3xl font-semibold"
-                      style={{
-                        color: getPageSectionTitleColor(section.page_index),
-                      }}>
-                      {restaurant.currency_prefix}
-                      {section.group_price}
-                    </h3>
-                  ) : (
-                    <EditButton preIcon={<FaDollarSign className="text-xl" />}>
-                      Add Group Price
-                    </EditButton>
                   )}
                 </div>
               </div>
 
-              {section.group_description ? (
-                <div
-                  className="px-8 text-lg leading-tight"
-                  style={{
-                    color: getPageSectionTitleColor(section.page_index),
-                  }}>
-                  <p>{section.group_description}</p>
-                </div>
-              ) : (
-                <div className="px-8">
+              <div className="px-8 text-lg leading-tight">
+                {doesNotExist(section.group_description) ? (
+                  <EditButton
+                    className="mt-2 w-full"
+                    preIcon={<FaGripLines className="text-xl" />}
+                    onClick={() =>
+                      handleEditSectionField(
+                        "group_description",
+                        "",
+                        section,
+                        i,
+                      )
+                    }>
+                    Add Group Description
+                  </EditButton>
+                ) : (
                   <ExpandingTextArea
+                    name="group_description"
+                    id={`group_description_${i}`}
+                    placeholder="Group Description"
                     value={section.group_description!}
-                    className={`mt-2 ${getFontFamily(restaurant.font_family)} text-lg leading-tight`}
+                    className={`${getFontFamily(restaurant.font_family)} text-lg leading-tight`}
                     style={{
                       color: getPageSectionTitleColor(section.page_index),
                       background: getPageBackgroundColor(section.page_index),
                     }}
-                    onChange={(e) => {
-                      const newMenu = { ...menu };
-                      const newSection = {
-                        ...section,
-                        group_description: e.target.value,
-                      };
-                      newMenu.content[i] = newSection;
-                      onChangeMenu && onChangeMenu(newMenu);
-                    }}
+                    onChange={(e) => handleChangeSection(e, section, i)}
                   />
-                  {/* <EditButton
-                    className="mt-2 w-full"
-                    preIcon={<FaGripLines className="text-xl" />}>
-                    Add Group Description
-                  </EditButton> */}
-                </div>
-              )}
+                )}
+              </div>
 
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
                 {section.items?.map((item: any, i: number) => (
@@ -268,19 +349,49 @@ const ContentPages = ({
                   style={{
                     color: getPageSectionTitleColor(section.page_index),
                   }}>
-                  {section.extra_details ? (
-                    <p>{section.extra_details}</p>
+                  {doesNotExist(section.extra_details) ? (
+                    <EditButton
+                      className="px-6 text-sm"
+                      onClick={() =>
+                        handleEditSectionField("extra_details", "", section, i)
+                      }>
+                      Add Extras
+                    </EditButton>
                   ) : (
-                    <EditButton className="px-6 text-sm">Add Extras</EditButton>
+                    <ExpandingTextArea
+                      name="extra_details"
+                      id={`extra_details_${i}`}
+                      placeholder="Extra Details"
+                      value={section.extra_details!}
+                      className={`${getFontFamily(restaurant.font_family)}`}
+                      style={{
+                        color: getPageSectionTitleColor(section.page_index),
+                        background: getPageBackgroundColor(section.page_index),
+                      }}
+                      onChange={(e) => handleChangeSection(e, section, i)}
+                    />
                   )}
-                  {section.extra_price ? (
-                    <p className="ml-4 w-max text-nowrap">
-                      {restaurant.currency_prefix} {section.extra_price}
-                    </p>
-                  ) : (
-                    <EditButton className="text-sm">
+                  {doesNotExist(section.extra_price) ? (
+                    <EditButton
+                      className="text-sm"
+                      onClick={() =>
+                        handleEditSectionField("extra_price", "", section, i)
+                      }>
                       Add Extras Price
                     </EditButton>
+                  ) : (
+                    <ExpandingTextArea
+                      name="extra_price"
+                      id={`extra_price_${i}`}
+                      placeholder="$"
+                      value={section.extra_price!}
+                      className={`${getFontFamily(restaurant.font_family)} ml-4 w-max text-nowrap text-right`}
+                      style={{
+                        color: getPageSectionTitleColor(section.page_index),
+                        background: getPageBackgroundColor(section.page_index),
+                      }}
+                      onChange={(e) => handleChangeSection(e, section, i)}
+                    />
                   )}
                 </div>
               </div>
@@ -296,14 +407,17 @@ const EditButton = ({
   children,
   className,
   preIcon,
+  onClick,
 }: {
   children: React.ReactNode;
   preIcon?: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }) => {
   return (
     <button
-      className={`margin-x min-h-12 rounded-xl border-2 border-black bg-[#F6FE9B] px-4 font-bold text-black ${className}`}>
+      onClick={() => onClick && onClick()}
+      className={`margin-x min-h-10 rounded-xl border-2 border-black bg-[#F6FE9B] px-4 font-bold text-black ${className}`}>
       <span className="flex items-center justify-center">
         {preIcon && <span className="mr-2">{preIcon}</span>} {children}
       </span>

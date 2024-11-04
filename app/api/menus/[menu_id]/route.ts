@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { restaurants } from "@/models/restaurant";
-import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
+import { ZodError } from "zod";
 import { and, eq, inArray } from "drizzle-orm";
 import { menu_contents, menus } from "@/models/menu";
 import { items } from "@/models/item";
+import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
+import { MenuSectionT } from "@/app/menus/playground/types/menu";
 
 // this gets a particular menu
 export async function GET(
@@ -46,30 +47,71 @@ export async function GET(
   return NextResponse.json({ ...menu[0], content });
 }
 
-// TODO: not done
+// UPDATE MENU
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { menu_id: string; org_id: string } },
+  { params }: { params: { menu_id: string } },
 ) {
   try {
     const body = await req.json();
-    const updatedRestaurant = insertRestaurantSchema.parse(body);
+    const menu_id = params.menu_id;
 
-    const result = await db
-      .update(restaurants)
-      .set(updatedRestaurant)
-      .where(
-        and(
-          eq(restaurants.org_id, params.org_id),
-          eq(restaurants.id, params.menu_id),
-        ),
+    if (!menu_id) {
+      return NextResponse.json(
+        { error: "menu_id is required" },
+        { status: 400 },
       );
+    }
 
-    return NextResponse.json(result);
-  } catch (error: unknown) {
+    // Ensure organization and restaurant exist
+    await checkOrgExists(body.org_id);
+    await checkRestaurantExists(body.restaurant_id);
+
+    // Update the menu details
+    const [updatedMenu] = await db
+      .update(menus)
+      .set({
+        // org_id: body.org_id,
+        // restaurant_id: body.restaurant_id,
+        name: body.name, // or other fields as per your schema
+        description: body.description,
+        theme: body.theme,
+      })
+      .where(eq(menus.id, menu_id))
+      .returning();
+
+    // Delete existing content items for this menu
+    await db.delete(menu_contents).where(eq(menu_contents.menu_id, menu_id));
+
+    // Map new content items to include the menu's ID and insert into menu_contents
+    const contentItems = body.content.map((item: MenuSectionT) => ({
+      menu_id: menu_id,
+      org_id: body.org_id,
+      restaurant_id: body.restaurant_id,
+      ...item,
+      // other fields as per menu_contents schema
+    }));
+
+    // Insert all new content items
+    const updatedMenuContents = await db
+      .insert(menu_contents)
+      .values(contentItems)
+      .returning();
+
+    // Return the updated menu along with its new content
     return NextResponse.json(
-      { error: (error as Error).message },
-      { status: 400 },
+      { ...updatedMenu, content: updatedMenuContents },
+      { status: 200 },
+    );
+  } catch (error: unknown) {
+    console.error("Error updating menu:", error);
+    if (error instanceof ZodError) {
+      // Handle validation errors
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    }
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -79,8 +121,11 @@ export async function DELETE(
   { params }: { params: { menu_id: string } },
 ) {
   try {
-    await db.delete(restaurants).where(eq(restaurants.id, params.menu_id));
-    return NextResponse.json({ message: "Restaurant deleted" });
+    await db
+      .delete(menu_contents)
+      .where(eq(menu_contents.menu_id, params.menu_id));
+    await db.delete(menus).where(eq(menus.id, params.menu_id));
+    return NextResponse.json({ message: "Menu and content deleted" });
   } catch (error: unknown) {
     return NextResponse.json(
       { error: (error as Error).message },

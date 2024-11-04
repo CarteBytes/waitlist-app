@@ -3,12 +3,16 @@ import "./style.css";
 import useAutosizeTextArea from "../../hooks/useAutosizeTextArea";
 
 export default function ExpandingTextArea({
+  name,
+  id,
   className,
   style,
   placeholder,
   value,
   onChange,
 }: {
+  name?: string;
+  id?: string;
   className?: string;
   style?: Record<string, any>;
   placeholder?: string;
@@ -20,7 +24,9 @@ export default function ExpandingTextArea({
 
   return (
     <textarea
-      className={`${className} border-0 focus:border-b-[1px]`}
+      id={id}
+      name={name}
+      className={`${className} h-100 border-0 border-black focus:border-2`}
       style={style}
       onChange={onChange}
       placeholder={placeholder}

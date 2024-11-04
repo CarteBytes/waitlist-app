@@ -4,3 +4,7 @@ export function isLight(color: string) {
   const luminance = chroma(color).luminance();
   return luminance > 0.5;
 }
+
+export function doesNotExist(el: any) {
+  return el === null || el === undefined;
+}

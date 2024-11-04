@@ -4,11 +4,7 @@ import { ZodError } from "zod";
 import { eq, and } from "drizzle-orm";
 import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
 import { menu_contents, menus } from "@/models/menu";
-import {
-  insertMenuContentSchema,
-  insertMenuSchema,
-} from "@/schemas/menuSchema";
-import { MenuContentT } from "@/app/menus/playground/types/menu";
+import { MenuSectionT } from "@/app/menus/playground/types/menu";
 
 // GET ALL RESTAURANT MENUS
 export async function GET(req: NextRequest) {
@@ -68,7 +64,7 @@ export async function POST(req: NextRequest) {
       .returning();
 
     // Map content items to include the new menu's ID and insert into menu_contents
-    const contentItems = body.content.map((item: MenuContentT) => ({
+    const contentItems = body.content.map((item: MenuSectionT) => ({
       menu_id: newMenu.id,
       org_id: body.org_id,
       restaurant_id: body.restaurant_id,

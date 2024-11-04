@@ -6,10 +6,10 @@ export type MenuT = {
   theme: string;
   name: string;
   description: string;
-  content: MenuContentT[];
+  content: MenuSectionT[];
 };
 
-export type MenuContentT = {
+export type MenuSectionT = {
   page_index: number;
   section_index: number;
   hero_image?: string;
