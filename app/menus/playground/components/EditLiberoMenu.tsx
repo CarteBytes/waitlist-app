@@ -88,7 +88,7 @@ function EditLiberoMenu({
       />
       <div
         id="menu"
-        className={`w-full max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}
+        className={`${getFontFamily(restaurant.font_family)} overflow-hidden antialiased`}
         style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
         <ContentPages
@@ -107,7 +107,7 @@ function EditLiberoMenu({
   }
 
   return (
-    <div>
+    <div className="w-full max-w-xl">
       {content}
 
       <div
