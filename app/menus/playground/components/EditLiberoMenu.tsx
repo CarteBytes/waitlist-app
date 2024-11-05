@@ -3,8 +3,10 @@
 import { toast } from "sonner";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  FaArrowDown,
   FaArrowLeft,
   FaArrowRight,
+  FaArrowUp,
   FaBowlFood,
   FaDollarSign,
   FaFloppyDisk,
@@ -24,7 +26,7 @@ import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import EditRestaurantForm from "./EditRestaurantForm";
 import Link from "next/link";
-import { dynaPuff, oswald } from "@/app/ui/fonts";
+import { dynaPuff, oswald, figtree } from "@/app/ui/fonts";
 import ExpandingTextArea from "./ExpandingTextArea";
 import LiberoMenu from "./LiberoMenu";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
@@ -112,7 +114,7 @@ function EditLiberoMenu({
 
       <div
         className={
-          "sticky bottom-0 flex h-16 items-center justify-center border-t-2 bg-[#F6FE9B] shadow-2xl"
+          "sticky bottom-0 flex h-16 items-center justify-between border-t-2 bg-[#F6FE9B] px-8 shadow-2xl"
         }>
         <EnhancedButton
           variant="expandIcon"
@@ -182,6 +184,20 @@ const ContentPages = ({
     }
     // Fallback title color when background is primary
     return restaurant.secondary_color;
+  };
+
+  const switchIndices = (indexA: number, indexB: number) => {
+    const newMenuContent = menu.content.map((section) => {
+      if (section.page_index === indexA) {
+        section.page_index = indexB;
+      } else if (section.page_index === indexB) {
+        section.page_index = indexA;
+      }
+      return section;
+    });
+
+    const newMenu = { ...menu, content: newMenuContent };
+    onChangeMenu && onChangeMenu(newMenu);
   };
 
   const handleAddPage = (newPageIndex: number) => {
@@ -255,15 +271,31 @@ const ContentPages = ({
       {sortedMenuContent.map((section, i) => {
         return (
           <React.Fragment key={section.id}>
-            <div className="flex h-28 items-center justify-center">
+            <div className={`flex h-28 items-center justify-center`}>
               <button
-                className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-6"
+                className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5"
                 onClick={() => handleAddPage(i)}>
-                <FaPlus className="text-2xl text-black" />
+                <FaPlus className="text-xl text-black" />
               </button>
             </div>
             <div className="flex h-full min-h-16 w-full items-center justify-between border-y-2 border-black bg-[#F6FE9B] px-8 font-bold text-black shadow-xl">
               <div>
+                {i !== 0 && (
+                  <button
+                    onClick={() => switchIndices(i, i - 1)}
+                    className="mr-1 rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
+                    <FaArrowUp />
+                  </button>
+                )}
+                {i + 1 !== menu.content.length && (
+                  <button
+                    onClick={() => switchIndices(i, i + 1)}
+                    className="rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
+                    <FaArrowDown />
+                  </button>
+                )}
+              </div>
+              <div className={`${figtree.className}`}>
                 Page {section.page_index + 1}, Section{" "}
                 {section.section_index + 1}
               </div>
@@ -492,9 +524,9 @@ const ContentPages = ({
       })}
       <div className="flex h-28 items-center justify-center">
         <button
-          className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-6"
+          className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5"
           onClick={() => handleAddPage(menu.content.length)}>
-          <FaPlus className="text-2xl text-black" />
+          <FaPlus className="text-xl text-black" />
         </button>
       </div>
     </div>
@@ -515,7 +547,7 @@ const EditButton = ({
   return (
     <button
       onClick={() => onClick && onClick()}
-      className={`margin-x min-h-10 rounded-xl border-2 border-black bg-[#F6FE9B] px-4 font-bold text-black ${className}`}>
+      className={`margin-x min-h-10 rounded-xl border-2 border-black bg-[#F6FE9B] px-4 font-bold text-black ${className} ${figtree.className}`}>
       <span className="flex items-center justify-center">
         {preIcon && <span className="mr-2">{preIcon}</span>} {children}
       </span>
@@ -542,7 +574,8 @@ const TitlePage = ({
 
   return (
     <>
-      <div className="mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
+      <div
+        className={`mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
         Title Page
       </div>
       <section
@@ -592,7 +625,8 @@ const TitlePage = ({
 const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
   return (
     <>
-      <div className="flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
+      <div
+        className={`flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
         Footer Page
       </div>
       <section
