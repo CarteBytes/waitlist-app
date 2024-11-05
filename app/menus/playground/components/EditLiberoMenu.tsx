@@ -53,22 +53,19 @@ function EditLiberoMenu({
 
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/menus/${menu.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...menu,
-            content: menu.content.map((section) => ({
-              ...section,
-              items: section.items?.map((item) => item.id),
-            })),
-          }),
+      const response = await fetch(`/api/menus/${menu.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          ...menu,
+          content: menu.content.map((section) => ({
+            ...section,
+            items: section.items?.map((item) => item.id),
+          })),
+        }),
+      });
 
       if (!response.ok) {
         // Handle response errors

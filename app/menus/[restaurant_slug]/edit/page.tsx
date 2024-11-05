@@ -6,13 +6,12 @@ import { MenuT } from "../../playground/types/menu";
 import { RestaurantT } from "../../playground/types/restaurant";
 
 const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
-  const restaurantData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurantSlug}`,
-    { cache: "no-store" },
-  );
+  const restaurantData = await fetch(`/api/restaurants/${restaurantSlug}`, {
+    cache: "no-store",
+  });
   const restaurant = await restaurantData.json();
   const menuData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurant.id}/menus?default`,
+    `/api/restaurants/${restaurant.id}/menus?default`,
     { cache: "no-store" },
   );
   const menu = await menuData.json();
