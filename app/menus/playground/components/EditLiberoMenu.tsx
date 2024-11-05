@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import FooterLogoCTA from "./FooterLogoCTA";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  FaArrowLeft,
   FaArrowRight,
   FaBowlFood,
   FaDollarSign,
@@ -10,7 +10,9 @@ import {
   FaGripLines,
   FaImage,
   FaPhone,
+  FaPlus,
   FaStore,
+  FaTrashCan,
   FaUtensils,
 } from "react-icons/fa6";
 import chroma from "chroma-js";
@@ -25,6 +27,8 @@ import { dynaPuff, oswald } from "@/app/ui/fonts";
 import ExpandingTextArea from "./ExpandingTextArea";
 import LiberoMenu from "./LiberoMenu";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
+import autoAnimate from "@formkit/auto-animate";
+import { v4 as uuidv4 } from "uuid";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
@@ -46,6 +50,38 @@ function EditLiberoMenu({
   // const [showSave, setShowSave] = useState(false);
 
   const isSpanish = menu.language === "es";
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/menus/${menu.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...menu,
+            content: menu.content.map((section) => ({
+              ...section,
+              items: section.items?.map((item) => item.id),
+            })),
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        // Handle response errors
+        const errorData = await response.json();
+        console.error("Failed to update menu:", errorData);
+      } else {
+        const updatedMenu = await response.json();
+        console.log("Menu updated successfully:", updatedMenu);
+      }
+    } catch (error) {
+      console.error("Error updating menu:", error);
+    }
+  };
 
   let content = (
     <>
@@ -83,18 +119,19 @@ function EditLiberoMenu({
         }>
         <EnhancedButton
           variant="expandIcon"
-          Icon={FaArrowRight}
+          Icon={showPreview ? FaArrowLeft : FaArrowRight}
           type="submit"
-          iconPlacement="right"
+          iconPlacement={showPreview ? "left" : "right"}
           className="mr-2"
           onClick={() => setShowPreview(!showPreview)}>
-          {showPreview ? "Hide" : "Show"} Preview
+          {showPreview ? "Back to Editor" : "Show Preview"}
         </EnhancedButton>
         <EnhancedButton
           variant="expandIcon"
           Icon={FaFloppyDisk}
           type="submit"
-          iconPlacement="right">
+          iconPlacement="right"
+          onClick={handleSave}>
           Save now
         </EnhancedButton>
       </div>
@@ -111,6 +148,11 @@ const ContentPages = ({
   menu: MenuT;
   onChangeMenu?: (newMenu: MenuT) => void;
 }) => {
+  const parent = useRef(null);
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current, { duration: 400 });
+  }, [parent]);
+
   const getPageBackgroundColor = (index: number) => {
     if (index % 2 !== 0) return restaurant.primary_color;
     if (index % 4 === 0) return restaurant.secondary_color;
@@ -145,6 +187,39 @@ const ContentPages = ({
     return restaurant.secondary_color;
   };
 
+  const handleAddPage = (newPageIndex: number) => {
+    const newMenuContent = menu.content.map((section) => {
+      if (section.page_index >= newPageIndex) {
+        section.page_index = section.page_index + 1;
+      }
+      return section;
+    });
+
+    const newPage: MenuSectionT = {
+      id: uuidv4(),
+      page_index: newPageIndex,
+      section_index: 0,
+    };
+    newMenuContent.push(newPage);
+    const newMenu = { ...menu, content: newMenuContent };
+    onChangeMenu && onChangeMenu(newMenu);
+  };
+
+  const handleDeletePage = (deletePageIndex: number) => {
+    let newMenuContent = menu.content.filter(
+      (section) => section.page_index !== deletePageIndex,
+    );
+    newMenuContent = newMenuContent.map((section) => {
+      if (section.page_index >= deletePageIndex) {
+        section.page_index = section.page_index - 1;
+      }
+      return section;
+    });
+
+    const newMenu = { ...menu, content: newMenuContent };
+    onChangeMenu && onChangeMenu(newMenu);
+  };
+
   const handleChangeSection = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
     section: MenuSectionT,
@@ -174,13 +249,32 @@ const ContentPages = ({
     onChangeMenu && onChangeMenu(newMenu);
   };
 
+  const sortedMenuContent = menu.content?.sort(
+    (a, b) => a.page_index - b.page_index,
+  );
+
   return (
-    <>
-      {menu.content?.map((section, i) => {
+    <div ref={parent}>
+      {sortedMenuContent.map((section, i) => {
         return (
-          <React.Fragment key={i}>
-            <div className="mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
-              Page {section.page_index + 1}, Section {section.section_index + 1}
+          <React.Fragment key={section.id}>
+            <div className="flex h-28 items-center justify-center">
+              <button
+                className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-6"
+                onClick={() => handleAddPage(i)}>
+                <FaPlus className="text-2xl text-black" />
+              </button>
+            </div>
+            <div className="flex h-full min-h-16 w-full items-center justify-between border-y-2 border-black bg-[#F6FE9B] px-8 font-bold text-black shadow-xl">
+              <div>
+                Page {section.page_index + 1}, Section{" "}
+                {section.section_index + 1}
+              </div>
+              <button
+                onClick={() => handleDeletePage(i)}
+                className="rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
+                <FaTrashCan />
+              </button>
             </div>
             <section
               className="flex flex-col"
@@ -215,7 +309,7 @@ const ContentPages = ({
                   ) : (
                     <ExpandingTextArea
                       name="group_title"
-                      id={`group_title_${i}`}
+                      id={`group_title_${section.id}`}
                       placeholder="Group Name"
                       value={section.group_title!}
                       className={`${getFontFamily(restaurant.font_family)} text-3xl font-semibold`}
@@ -238,7 +332,7 @@ const ContentPages = ({
                   ) : (
                     <ExpandingTextArea
                       name="group_price"
-                      id={`group_price_${i}`}
+                      id={`group_price_${section.id}`}
                       placeholder={restaurant.currency_prefix}
                       value={section.group_price!}
                       className={`ml-4 text-right ${getFontFamily(restaurant.font_family)} ml-4 w-max text-nowrap text-3xl font-semibold`}
@@ -278,7 +372,7 @@ const ContentPages = ({
                 ) : (
                   <ExpandingTextArea
                     name="group_description"
-                    id={`group_description_${i}`}
+                    id={`group_description_${section.id}`}
                     placeholder="Group Description"
                     value={section.group_description!}
                     className={`${getFontFamily(restaurant.font_family)} text-lg leading-tight`}
@@ -293,7 +387,7 @@ const ContentPages = ({
 
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
                 {section.items?.map((item: any, i: number) => (
-                  <div key={i + 50}>
+                  <div key={item.id}>
                     <div className="flex items-start justify-between">
                       <div>
                         <p
@@ -360,7 +454,7 @@ const ContentPages = ({
                   ) : (
                     <ExpandingTextArea
                       name="extra_details"
-                      id={`extra_details_${i}`}
+                      id={`extra_details_${section.id}`}
                       placeholder="Extra Details"
                       value={section.extra_details!}
                       className={`${getFontFamily(restaurant.font_family)}`}
@@ -382,7 +476,7 @@ const ContentPages = ({
                   ) : (
                     <ExpandingTextArea
                       name="extra_price"
-                      id={`extra_price_${i}`}
+                      id={`extra_price_${section.id}`}
                       placeholder="$"
                       value={section.extra_price!}
                       className={`${getFontFamily(restaurant.font_family)} ml-4 w-max text-nowrap text-right`}
@@ -399,7 +493,14 @@ const ContentPages = ({
           </React.Fragment>
         );
       })}
-    </>
+      <div className="flex h-28 items-center justify-center">
+        <button
+          className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-6"
+          onClick={() => handleAddPage(menu.content.length)}>
+          <FaPlus className="text-2xl text-black" />
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -494,7 +595,7 @@ const TitlePage = ({
 const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
   return (
     <>
-      <div className="mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
+      <div className="flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl">
         Footer Page
       </div>
       <section

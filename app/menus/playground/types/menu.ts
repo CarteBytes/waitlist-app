@@ -10,6 +10,7 @@ export type MenuT = {
 };
 
 export type MenuSectionT = {
+  id?: string;
   page_index: number;
   section_index: number;
   hero_image?: string;

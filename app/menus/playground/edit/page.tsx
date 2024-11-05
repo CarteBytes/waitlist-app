@@ -13,7 +13,6 @@ export default function Page() {
       <EditLiberoMenu
         restaurant={restaurantObject}
         menu={menuObject}
-        isEdit
         onChangeMenu={setMenuObject}
         onChangeRestaurant={setRestaurantObject}
       />

@@ -93,10 +93,10 @@ export async function PUT(
     }));
 
     // Insert all new content items
-    const updatedMenuContents = await db
-      .insert(menu_contents)
-      .values(contentItems)
-      .returning();
+    const updatedMenuContents =
+      body.content.length > 0
+        ? await db.insert(menu_contents).values(contentItems).returning()
+        : [];
 
     // Return the updated menu along with its new content
     return NextResponse.json(
