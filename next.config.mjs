@@ -1,8 +1,9 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   async headers() {
     return [
       {
-        // Apply these headers to all API routes
+        // Apply CORS headers to all API routes
         source: "/api/:path*",
         headers: [
           {
@@ -11,7 +12,7 @@ module.exports = {
           },
           {
             key: "Access-Control-Allow-Origin",
-            value: "*", // Allow all origins (update to your domain as needed)
+            value: "*", // Set this to your domain for security in production
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -27,3 +28,5 @@ module.exports = {
     ];
   },
 };
+
+export default nextConfig;
