@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import React, { useEffect, useRef, useState } from "react";
 import {
   FaArrowLeft,
@@ -52,32 +53,31 @@ function EditLiberoMenu({
   const isSpanish = menu.language === "es";
 
   const handleSave = async () => {
-    try {
-      const response = await fetch(`/api/menus/${menu.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...menu,
-          content: menu.content.map((section) => ({
-            ...section,
-            items: section.items?.map((item) => item.id),
-          })),
+    toast.promise(
+      () =>
+        fetch(`/api/menus/${menu.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...menu,
+            content: menu.content.map((section) => ({
+              ...section,
+              items: section.items?.map((item) => item.id),
+            })),
+          }),
         }),
-      });
-
-      if (!response.ok) {
-        // Handle response errors
-        const errorData = await response.json();
-        console.error("Failed to update menu:", errorData);
-      } else {
-        const updatedMenu = await response.json();
-        console.log("Menu updated successfully:", updatedMenu);
-      }
-    } catch (error) {
-      console.error("Error updating menu:", error);
-    }
+      {
+        loading: "Saving your changes...",
+        success: (data) => {
+          return "Changes have been saved! 🎉";
+        },
+        error: (error) => {
+          return "An error occurred while saving. Please try again 😢.";
+        },
+      },
+    );
   };
 
   let content = (
