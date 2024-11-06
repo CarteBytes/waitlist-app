@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { restaurants } from "@/models/restaurant";
-import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
+import { supabase } from "@/lib/db";
 import { ZodError } from "zod";
-import { eq } from "drizzle-orm";
+import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import { checkOrgExists } from "@/lib/helpers";
 
+// GET ALL RESTAURANTS
 // GET ALL RESTAURANTS
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -13,10 +12,19 @@ export async function GET(req: NextRequest) {
 
   checkOrgExists(orgId!);
 
-  const all = await db
-    .select()
-    .from(restaurants)
-    .where(eq(restaurants.org_id, orgId!));
+  const { data: all, error } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("org_id", orgId!);
+
+  if (error) {
+    console.error("Error fetching restaurants:", error);
+    return NextResponse.json(
+      { error: "Error fetching restaurants" },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json(all);
 }
 
@@ -28,16 +36,24 @@ export async function POST(req: NextRequest) {
 
     checkOrgExists(parsedData.org_id);
 
-    const [newRestaurant] = await db
-      .insert(restaurants)
-      .values(parsedData)
-      .returning();
+    const { data: newRestaurant, error } = await supabase
+      .from("restaurants")
+      .insert(parsedData)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error creating restaurant:", error);
+      return NextResponse.json(
+        { error: "Error creating restaurant" },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json(newRestaurant, { status: 201 });
   } catch (error: unknown) {
     console.error("Error creating restaurant:", error);
     if (error instanceof ZodError) {
-      // Handle validation errors
       return NextResponse.json({ error: error.errors }, { status: 400 });
     }
     return NextResponse.json(

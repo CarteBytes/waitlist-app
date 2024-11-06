@@ -9,7 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organization";
 
-export const items = pgTable("items", {
+export const items = pgTable("menu_items", {
   id: uuid("id").primaryKey().default("gen_random_uuid()"),
   org_id: uuid("org_id").references(() => organizations.id, {
     onDelete: "cascade",

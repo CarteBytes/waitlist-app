@@ -1,47 +1,53 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { restaurants } from "@/models/restaurant";
+import { supabase } from "@/lib/db"; // Make sure to import your Supabase client
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
-import { and, eq } from "drizzle-orm";
 import { checkOrgExists } from "@/lib/helpers";
 
+// TODO: change to items!
+
+// Get a restaurant by slug
 export async function GET(
   req: NextRequest,
   { params }: { params: { slug?: string } },
 ) {
-  const restaurant = await db
-    .select()
-    .from(restaurants)
-    .where(eq(restaurants.slug, params.slug!));
-  if (!restaurant) {
+  const { data: restaurant, error } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("slug", params.slug!)
+    .single(); // Fetch a single restaurant by slug
+
+  if (error || !restaurant) {
     return NextResponse.json(
       { error: "Restaurant not found" },
       { status: 404 },
     );
   }
-  return NextResponse.json(restaurant[0]);
+
+  return NextResponse.json(restaurant);
 }
 
+// Update a restaurant
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } },
-  // would get org_id from token or body
 ) {
   try {
     const body = await req.json();
-
-    checkOrgExists(body.org_id);
+    checkOrgExists(body.org_id); // Ensure organization exists
 
     const updatedRestaurant = insertRestaurantSchema.parse(body);
 
-    const result = await db
-      .update(restaurants)
-      .set(updatedRestaurant)
-      .where(
-        and(eq(restaurants.org_id, body.org_id), eq(restaurants.id, params.id)),
-      );
+    const { data, error } = await supabase
+      .from("restaurants")
+      .update(updatedRestaurant)
+      .eq("org_id", body.org_id)
+      .eq("id", params.id); // Update the restaurant with the given id
 
-    return NextResponse.json(result);
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json(data);
   } catch (error: unknown) {
     return NextResponse.json(
       { error: (error as Error).message },
@@ -50,12 +56,21 @@ export async function PUT(
   }
 }
 
+// Delete a restaurant
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
-    await db.delete(restaurants).where(eq(restaurants.id, params.id));
+    const { error } = await supabase
+      .from("restaurants")
+      .delete()
+      .eq("id", params.id); // Delete the restaurant with the given id
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
     return NextResponse.json({ message: "Restaurant deleted" });
   } catch (error: unknown) {
     return NextResponse.json(

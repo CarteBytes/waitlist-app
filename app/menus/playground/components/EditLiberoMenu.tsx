@@ -30,8 +30,9 @@ import { dynaPuff, oswald, figtree } from "@/app/ui/fonts";
 import ExpandingTextArea from "./ExpandingTextArea";
 import LiberoMenu from "./LiberoMenu";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
-import autoAnimate from "@formkit/auto-animate";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { v4 as uuidv4 } from "uuid";
+import { ItemT } from "../types/item";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
@@ -147,10 +148,7 @@ const ContentPages = ({
   menu: MenuT;
   onChangeMenu?: (newMenu: MenuT) => void;
 }) => {
-  const parent = useRef(null);
-  useEffect(() => {
-    parent.current && autoAnimate(parent.current, { duration: 400 });
-  }, [parent]);
+  const [parent] = useAutoAnimate({ duration: 300 });
 
   const getPageBackgroundColor = (index: number) => {
     if (index % 2 !== 0) return restaurant.primary_color;
@@ -205,7 +203,7 @@ const ContentPages = ({
       if (section.page_index >= newPageIndex) {
         section.page_index = section.page_index + 1;
       }
-      return section;
+      return { ...section };
     });
 
     const newPage: MenuSectionT = {
@@ -214,7 +212,10 @@ const ContentPages = ({
       section_index: 0,
     };
     newMenuContent.push(newPage);
-    const newMenu = { ...menu, content: newMenuContent };
+    const newMenu = {
+      ...menu,
+      content: newMenuContent,
+    };
     onChangeMenu && onChangeMenu(newMenu);
   };
 
@@ -226,7 +227,7 @@ const ContentPages = ({
       if (section.page_index >= deletePageIndex) {
         section.page_index = section.page_index - 1;
       }
-      return section;
+      return { ...section };
     });
 
     const newMenu = { ...menu, content: newMenuContent };
@@ -270,7 +271,7 @@ const ContentPages = ({
     <div ref={parent}>
       {sortedMenuContent.map((section, i) => {
         return (
-          <React.Fragment key={section.id}>
+          <div key={section.id}>
             <div className={`flex h-28 items-center justify-center`}>
               <button
                 className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5"
@@ -386,7 +387,7 @@ const ContentPages = ({
               <div className="px-8 text-lg leading-tight">
                 {doesNotExist(section.group_description) ? (
                   <EditButton
-                    className="mt-2 w-full"
+                    className="text-md mt-2 w-full"
                     preIcon={<FaGripLines className="text-xl" />}
                     onClick={() =>
                       handleEditSectionField(
@@ -415,7 +416,7 @@ const ContentPages = ({
               </div>
 
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
-                {section.items?.map((item: any, i: number) => (
+                {section.items?.map((item: ItemT) => (
                   <div key={item.id}>
                     <div className="flex items-start justify-between">
                       <div>
@@ -519,7 +520,7 @@ const ContentPages = ({
                 </div>
               </div>
             </section>
-          </React.Fragment>
+          </div>
         );
       })}
       <div className="flex h-28 items-center justify-center">

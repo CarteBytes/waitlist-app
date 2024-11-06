@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { supabase } from "@/lib/db"; // Use Supabase client instead of db
 import { ZodError } from "zod";
-import { eq, and } from "drizzle-orm";
 import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
-import { menu_contents, menus } from "@/models/menu";
 import { MenuSectionT } from "@/app/menus/playground/types/menu";
 
 // GET ALL RESTAURANT MENUS
@@ -16,25 +14,39 @@ export async function GET(req: NextRequest) {
   checkOrgExists(orgId!);
   checkRestaurantExists(restaurantId!);
 
-  // Get menus with corresponding menu_content items
-  const menusData = await db
-    .select()
-    .from(menus)
-    .where(
-      and(eq(menus.org_id, orgId!), eq(menus.restaurant_id, restaurantId!)),
-    );
+  // Get menus with corresponding menu_section items
+  const { data: menusData, error: menuError } = await supabase
+    .from("menus")
+    .select("*")
+    .match({ org_id: orgId, restaurant_id: restaurantId });
 
-  // Fetch menu_content for each menu and include it in the response
+  if (menuError) {
+    console.error("Error fetching menus:", menuError);
+    return NextResponse.json(
+      { error: "Error fetching menus" },
+      { status: 500 },
+    );
+  }
+
+  // Fetch menu_section for each menu and include it in the response
   const menusWithContent = await Promise.all(
-    menusData.map(async (menu) => {
-      const contentItems = await db
-        .select()
-        .from(menu_contents)
-        .where(eq(menu_contents.menu_id, menu.id)); // Assuming `menu.id` corresponds to the menu ID
+    menusData!.map(async (menu) => {
+      const { data: contentItems, error: contentError } = await supabase
+        .from("menu_sections")
+        .select("*")
+        .eq("menu_id", menu.id);
+
+      if (contentError) {
+        console.error("Error fetching menu content:", contentError);
+        return NextResponse.json(
+          { error: "Error fetching menu content" },
+          { status: 500 },
+        );
+      }
 
       return {
         ...menu,
-        content: contentItems, // Include the content items for this menu
+        content: contentItems,
       };
     }),
   );
@@ -52,31 +64,48 @@ export async function POST(req: NextRequest) {
     await checkRestaurantExists(body.restaurant_id);
 
     // Insert new menu and return its details
-    const [newMenu] = await db
-      .insert(menus)
-      .values({
+    const { data: newMenu, error: menuInsertError } = await supabase
+      .from("menus")
+      .insert({
         org_id: body.org_id,
         restaurant_id: body.restaurant_id,
-        name: body.name, // or other fields as per your schema
+        name: body.name, // Other fields as per your schema
         description: body.description,
         theme: body.theme,
       })
-      .returning();
+      .select()
+      .single();
 
-    // Map content items to include the new menu's ID and insert into menu_contents
+    if (menuInsertError) {
+      console.error("Error inserting menu:", menuInsertError);
+      return NextResponse.json(
+        { error: "Error creating menu" },
+        { status: 500 },
+      );
+    }
+
+    // Map content items to include the new menu's ID and insert into menu_sections
     const contentItems = body.content.map((item: MenuSectionT) => ({
       menu_id: newMenu.id,
       org_id: body.org_id,
       restaurant_id: body.restaurant_id,
       ...item,
-      // other fields as per menu_contents schema
+      // other fields as per menu_sections schema
     }));
 
     // Insert all content items
-    const newMenuContents = await db
-      .insert(menu_contents)
-      .values(contentItems)
-      .returning();
+    const { data: newMenuContents, error: contentInsertError } = await supabase
+      .from("menu_sections")
+      .insert(contentItems)
+      .select();
+
+    if (contentInsertError) {
+      console.error("Error inserting menu content:", contentInsertError);
+      return NextResponse.json(
+        { error: "Error creating menu content" },
+        { status: 500 },
+      );
+    }
 
     // Return the new menu along with its content
     return NextResponse.json(

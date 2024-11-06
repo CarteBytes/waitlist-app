@@ -9,6 +9,7 @@ import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import Link from "next/link";
 import { dynaPuff, oswald } from "@/app/ui/fonts";
+import { ItemT } from "../types/item";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
@@ -50,6 +51,10 @@ const ContentPages = ({
   restaurant: RestaurantT;
   menu: MenuT;
 }) => {
+  const sortedMenuContent = menu.content?.sort(
+    (a, b) => a.page_index - b.page_index,
+  );
+
   const getPageBackgroundColor = (index: number) => {
     if (index % 2 !== 0) return restaurant.primary_color;
     if (index % 4 === 0) return restaurant.secondary_color;
@@ -86,10 +91,10 @@ const ContentPages = ({
 
   return (
     <>
-      {menu.content?.map((section, i) => {
+      {sortedMenuContent?.map((section) => {
         return (
           <section
-            key={i}
+            key={section.id}
             className="flex flex-col"
             style={{ background: getPageBackgroundColor(section.page_index) }}>
             {section.hero_image && (
@@ -129,8 +134,8 @@ const ContentPages = ({
 
             {(!!section.extra_details || (section?.items?.length ?? 0) > 0) && (
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
-                {section.items?.map((item: any, i: number) => (
-                  <div key={i + 50}>
+                {section.items?.map((item: ItemT) => (
+                  <div key={item.id}>
                     <div className="flex items-start justify-between">
                       <div>
                         <p

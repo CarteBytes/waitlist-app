@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { supabase } from "@/lib/db";
 import { ZodError } from "zod";
-import { organizations } from "@/models/organization";
 import { insertOrganizationSchema } from "@/schemas/organizationSchema";
 
 // GET ALL ORGS
 export async function GET() {
-  const all = await db.select().from(organizations);
+  const { data: all, error } = await supabase.from("organizations").select("*");
+
+  if (error) {
+    console.error("Error fetching organizations:", error);
+    return NextResponse.json(
+      { error: "Error fetching organizations" },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json(all);
 }
 
@@ -15,13 +23,25 @@ export async function POST(req: NextRequest) {
   try {
     // Parse request body
     const body = await req.json();
+
     // Validate the request body using the schema
     const parsedData = insertOrganizationSchema.parse(body); // Will throw if validation fails
+
     // Insert organization into the database
-    const [newOrganization] = await db
-      .insert(organizations)
-      .values(parsedData) // Insert the name into the table
-      .returning(); // Get the inserted organization back
+    const { data: newOrganization, error } = await supabase
+      .from("organizations")
+      .insert(parsedData)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error creating organization:", error);
+      return NextResponse.json(
+        { error: "Error creating organization" },
+        { status: 500 },
+      );
+    }
+
     // Return the newly created organization
     return NextResponse.json(newOrganization, { status: 201 });
   } catch (error) {

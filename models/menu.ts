@@ -27,7 +27,7 @@ export const menus = pgTable("menus", {
   last_updated: timestamp("last_updated").defaultNow(),
 });
 
-export const menu_contents = pgTable("menu_contents", {
+export const menu_sections = pgTable("menu_sections", {
   id: uuid("id").primaryKey().defaultRandom(), // Automatically generates a UUID
   org_id: uuid("org_id")
     .notNull()
@@ -47,7 +47,7 @@ export const menu_contents = pgTable("menu_contents", {
   group_description: text("group_description").default(""),
   extra_details: text("extra_details").default(""),
   extra_price: text("extra_price").default(""),
-  items: uuid("items").array(), // Array of UUIDs for food items
+  items: uuid("menu_items").array(), // Array of UUIDs for food items
 });
 
 type TMenu = typeof menus.$inferInsert;
