@@ -1,153 +1,38 @@
-"use client";
-
-import { toast } from "sonner";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import {
   FaArrowDown,
-  FaArrowLeft,
-  FaArrowRight,
   FaArrowUp,
   FaBowlFood,
   FaDollarSign,
-  FaFloppyDisk,
   FaGripLines,
   FaImage,
-  FaPhone,
   FaPlus,
-  FaStore,
   FaTrashCan,
   FaUtensils,
 } from "react-icons/fa6";
-import chroma from "chroma-js";
-import { doesNotExist, isLight } from "../utils";
-import { RestaurantT, SupportedFontFamilies } from "../types/restaurant";
-import { MenuSectionT, MenuT } from "../types/menu";
-import SocialMediaGroup from "./SocialMediaGroup";
-import AdminWrapper from "./AdminWrapper";
-import EditRestaurantForm from "./EditRestaurantForm";
-import Link from "next/link";
-import { dynaPuff, oswald, figtree } from "@/app/ui/fonts";
-import ExpandingTextArea from "./ExpandingTextArea";
-import LiberoMenu from "./LiberoMenu";
-import { EnhancedButton } from "@/components/ui/enhanced-btn";
+import { doesNotExist, isLight } from "../../utils";
+import { RestaurantT, SupportedFontFamilies } from "../../types/restaurant";
+import { MenuSectionT, MenuT } from "../../types/menu";
+import { dynaPuff, figtree, oswald } from "@/app/ui/fonts";
+import ExpandingTextArea from "../ExpandingTextArea";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { v4 as uuidv4 } from "uuid";
-import { ItemT } from "../types/item";
+import { ItemT } from "../../types/item";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
   return oswald.className;
 };
 
-function EditLiberoMenu({
+export default function ContentPages({
   restaurant,
   menu,
   onChangeMenu,
-  onChangeRestaurant,
 }: {
   restaurant: RestaurantT;
   menu: MenuT;
   onChangeMenu?: (newMenu: MenuT) => void;
-  onChangeRestaurant?: (newRes: RestaurantT) => void;
 }) {
-  const [showPreview, setShowPreview] = useState(false);
-  // const [showSave, setShowSave] = useState(false);
-
-  const isSpanish = menu.language === "es";
-
-  const handleSave = async () => {
-    toast.promise(
-      () =>
-        fetch(`/api/menus/${menu.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...menu,
-            content: menu.content.map((section) => ({
-              ...section,
-              items: section.items?.map((item) => item.id),
-            })),
-          }),
-        }),
-      {
-        loading: "Saving your changes...",
-        success: (data) => {
-          return "Changes have been saved! 🎉";
-        },
-        error: (error) => {
-          return "An error occurred while saving. Please try again 😢.";
-        },
-      },
-    );
-  };
-
-  let content = (
-    <>
-      <EditRestaurantForm
-        restaurant={restaurant}
-        onChangeRestaurant={onChangeRestaurant!}
-      />
-      <div
-        id="menu"
-        className={`${getFontFamily(restaurant.font_family)} overflow-hidden antialiased`}
-        style={{ color: restaurant.primary_text_color }}>
-        <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
-        <ContentPages
-          onChangeMenu={onChangeMenu}
-          restaurant={restaurant}
-          menu={menu}
-        />
-        <FooterPage restaurant={restaurant} />
-        {/* <FooterLogoCTA lang={menu.language} /> */}
-      </div>
-    </>
-  );
-
-  if (showPreview) {
-    content = <LiberoMenu restaurant={restaurant} menu={menu} />;
-  }
-
-  return (
-    <div className="w-full max-w-xl">
-      {content}
-
-      <div
-        className={
-          "sticky bottom-0 flex h-16 items-center justify-between border-t-2 bg-[#F6FE9B] px-8 shadow-2xl"
-        }>
-        <EnhancedButton
-          variant="expandIcon"
-          Icon={showPreview ? FaArrowLeft : FaArrowRight}
-          type="submit"
-          iconPlacement={showPreview ? "left" : "right"}
-          className="mr-2"
-          onClick={() => setShowPreview(!showPreview)}>
-          {showPreview ? "Back to Editor" : "Show Preview"}
-        </EnhancedButton>
-        <EnhancedButton
-          variant="expandIcon"
-          Icon={FaFloppyDisk}
-          type="submit"
-          iconPlacement="right"
-          onClick={handleSave}>
-          Save now
-        </EnhancedButton>
-      </div>
-    </div>
-  );
-}
-
-const ContentPages = ({
-  restaurant,
-  menu,
-  onChangeMenu,
-}: {
-  restaurant: RestaurantT;
-  menu: MenuT;
-  onChangeMenu?: (newMenu: MenuT) => void;
-}) => {
   const [parent] = useAutoAnimate({ duration: 300 });
 
   const getPageBackgroundColor = (index: number) => {
@@ -284,7 +169,7 @@ const ContentPages = ({
                 {i !== 0 && (
                   <button
                     onClick={() => switchIndices(i, i - 1)}
-                    className="mr-1 rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
+                    className="mr-2 rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
                     <FaArrowUp />
                   </button>
                 )}
@@ -532,7 +417,7 @@ const ContentPages = ({
       </div>
     </div>
   );
-};
+}
 
 const EditButton = ({
   children,
@@ -555,129 +440,3 @@ const EditButton = ({
     </button>
   );
 };
-
-const TitlePage = ({
-  restaurant,
-  isSpanish,
-}: {
-  restaurant: RestaurantT;
-  isSpanish?: boolean;
-}) => {
-  const gradientColors = chroma
-    .scale([
-      chroma(restaurant.primary_color).brighten(0.2),
-      restaurant.primary_color,
-      chroma(restaurant.primary_color).darken(0.2),
-    ])
-    .mode("lab")
-    .colors(5);
-  const gradientString = `linear-gradient(90deg, ${gradientColors.join(", ")})`;
-
-  return (
-    <>
-      <div
-        className={`mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
-        Title Page
-      </div>
-      <section
-        id="hero"
-        className={`hero duration-2000 flex h-svh flex-col px-8 py-12 transition-all ease-linear`}
-        style={{ background: gradientString }}>
-        <div id="hero-header" className="flex justify-between">
-          <h1 className="text-5xl font-semibold">
-            {isSpanish ? (
-              <>
-                Menú <br />
-                Digital{" "}
-              </>
-            ) : (
-              <>
-                Digital <br />
-                Menu{" "}
-              </>
-            )}
-          </h1>
-        </div>
-        <div className="flex h-full flex-col justify-center text-center">
-          <img className="h-auto w-full" id="hero-logo" src={restaurant.logo} />
-          {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
-          {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
-          <AdminWrapper>
-            <h3 className="mt-4 text-2xl font-semibold">
-              {restaurant.city}, {restaurant.state}
-            </h3>
-          </AdminWrapper>
-        </div>
-        <SocialMediaGroup
-          id="hero_socials"
-          className="justify-end"
-          primaryTextColor={restaurant.primary_text_color}
-          secondaryTextColor={restaurant.secondary_text_color}
-          facebookUrl={restaurant.facebook_url}
-          instagramUrl={restaurant.instagram_url}
-          whatsappUrl={restaurant.whatsapp_url}
-          tiktokUrl={restaurant.tiktok_url}
-        />
-      </section>
-    </>
-  );
-};
-
-const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
-  return (
-    <>
-      <div
-        className={`flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
-        Footer Page
-      </div>
-      <section
-        id="footer"
-        className="flex flex-col items-center gap-12 px-8 py-24"
-        style={{
-          background: restaurant.secondary_color, //getPageBackgroundColor(menu.pages.length + 2),
-          color: restaurant.primary_text_color, //getPageBodyTextColor(menu.pages.length + 2),
-        }}>
-        <img className="h-auto w-full" id="footer-logo" src={restaurant.logo} />
-        <div className="flex h-full flex-col justify-center">
-          {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
-          {restaurant.phone && (
-            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-              <div className="mt-1">
-                <FaPhone />
-              </div>
-              <div>{restaurant.phone}</div>
-            </h3>
-          )}
-          {restaurant.address && (
-            <h3 className="mt-2 flex items-start gap-4 text-2xl font-semibold">
-              <div className="mt-1">
-                <FaStore />
-              </div>
-              <Link
-                href={`http://maps.google.com/?q=${restaurant.address}%20${restaurant.city}%20${restaurant.state}%20${restaurant.zip_code}`}
-                target="_blank">
-                <div>
-                  {" "}
-                  {restaurant.address} <br /> {restaurant.city},{" "}
-                  {restaurant.state} {restaurant.zip_code}
-                </div>
-              </Link>
-            </h3>
-          )}
-        </div>
-        <SocialMediaGroup
-          id="hero_socials"
-          className="justify-center"
-          primaryTextColor={restaurant.primary_text_color}
-          secondaryTextColor={restaurant.secondary_text_color}
-          facebookUrl={restaurant.facebook_url}
-          instagramUrl={restaurant.instagram_url}
-          whatsappUrl={restaurant.whatsapp_url}
-          tiktokUrl={restaurant.tiktok_url}
-        />
-      </section>
-    </>
-  );
-};
-
-export default EditLiberoMenu;

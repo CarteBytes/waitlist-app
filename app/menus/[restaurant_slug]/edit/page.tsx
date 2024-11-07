@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EditLiberoMenu from "../../playground/components/EditLiberoMenu";
 import { MenuT } from "../../playground/types/menu";
 import { RestaurantT } from "../../playground/types/restaurant";
+import EditLiberoMenu from "../../playground/components/EditLiberoMenu";
 
 const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
   const restaurantData = await fetch(`/api/restaurants/${restaurantSlug}`, {

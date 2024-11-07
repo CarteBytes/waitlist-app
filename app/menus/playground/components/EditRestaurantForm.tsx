@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EnhancedButton } from "@/components/ui/enhanced-btn";
+// import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import {
   FaArrowRight,
   FaFacebook,
@@ -25,7 +25,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import autoAnimate from "@formkit/auto-animate";
-import Link from "next/link";
+// import Link from "next/link";
 
 const EditRestaurantForm = ({
   restaurant,
@@ -106,9 +106,7 @@ const EditRestaurantForm = ({
   };
   return (
     <div className="min-h-screen w-full max-w-xl overflow-hidden bg-[#F6FE9B] p-8 text-black">
-      <img src="/logo.svg" className="mx-auto h-12 w-auto" />
-
-      <h1 className="mt-8 text-xl font-bold">Edit Restaurant Details</h1>
+      <h1 className="text-xl font-bold">Edit Restaurant Details</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {/* Restaurant Details */}
@@ -537,7 +535,7 @@ const EditRestaurantForm = ({
             </div>
           </div>
 
-          <Link href="/">
+          {/* <Link href="/">
             <EnhancedButton
               variant="expandIcon"
               Icon={FaArrowRight}
@@ -546,7 +544,7 @@ const EditRestaurantForm = ({
               className="mt-12 w-full">
               Go to waitlist
             </EnhancedButton>
-          </Link>
+          </Link> */}
         </form>
       </Form>
     </div>
