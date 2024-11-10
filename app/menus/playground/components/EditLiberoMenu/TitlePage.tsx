@@ -25,7 +25,7 @@ export default function TitlePage({
   return (
     <>
       <div
-        className={`mt-16 flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
+        className={`flex h-full min-h-16 w-full items-center justify-center border-y-2 border-black bg-[#F6FE9B] font-bold text-black shadow-xl ${figtree.className}`}>
         Title Page
       </div>
       <section

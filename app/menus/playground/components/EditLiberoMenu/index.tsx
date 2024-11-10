@@ -71,10 +71,6 @@ export default function EditLiberoMenu({
 
   let content = (
     <>
-      {/* <EditRestaurantForm
-        restaurant={restaurant}
-        onChangeRestaurant={onChangeRestaurant!}
-      /> */}
       <div
         id="menu"
         className={`${getFontFamily(restaurant.font_family)} overflow-hidden antialiased`}
