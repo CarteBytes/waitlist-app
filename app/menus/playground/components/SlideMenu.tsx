@@ -62,8 +62,8 @@ const SlideMenu = ({
               [slideFrom]: 0, // Align the menu to the specified side
               height: "100%",
               width: "100%", // Adjust width as desired for the menu
-              maxWidth: "400px", // Optional: set a max width for the slide menu
-              background: "#fff", // Menu background color
+              maxWidth: "420px", // Optional: set a max width for the slide menu
+              background: "#F6FE9B", // Menu background color
               zIndex: 11,
               color: "#000",
               overflowY: "auto",
