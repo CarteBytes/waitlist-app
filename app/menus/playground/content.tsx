@@ -2,6 +2,7 @@ import { MenuT } from "./types/menu";
 import { RestaurantT } from "./types/restaurant";
 
 export const RESTAURANT: RestaurantT = {
+  org_id: "121",
   id: "123",
   font_family: "Oswald",
   name: "Raising Cane's",
@@ -40,6 +41,7 @@ export const MENU: MenuT = {
       group_title: "COMBOS",
       items: [
         {
+          category_id: "2",
           id: "1",
           name: "THE BOX COMBO®",
           description:
@@ -48,6 +50,7 @@ export const MENU: MenuT = {
           calories: "1250 - 1440",
         },
         {
+          category_id: "2",
           id: "12",
           name: "THE CANIAC™ COMBO",
           description:
@@ -56,6 +59,7 @@ export const MENU: MenuT = {
           calories: "1250 - 1440",
         },
         {
+          category_id: "2",
           id: "13",
           name: "THE 3 FINGER COMBO®",
           description:
@@ -64,6 +68,7 @@ export const MENU: MenuT = {
           calories: "1250 - 1440",
         },
         {
+          category_id: "2",
           id: "14",
           name: "THE SANDWICH COMBO",
           description:
@@ -81,24 +86,28 @@ export const MENU: MenuT = {
       group_title: "TAILGATES™",
       items: [
         {
+          category_id: "2",
           id: "15",
           name: "25 Chicken Fingers",
           description: "25 of our fresh, never frozen Chicken Fingers.",
           price: "33.99",
         },
         {
+          category_id: "2",
           id: "16",
           name: "50 Chicken Fingers",
           description: "50 of our fresh, never frozen Chicken Fingers.",
           price: "65.99",
         },
         {
+          category_id: "2",
           id: "17",
           name: "75 Chicken Fingers",
           description: "75 of our fresh, never frozen Chicken Fingers.",
           price: "95.99",
         },
         {
+          category_id: "2",
           id: "18",
           name: "100 Chicken Fingers",
           description: "100 of our fresh, never frozen Chicken Fingers.",
@@ -112,24 +121,28 @@ export const MENU: MenuT = {
       group_title: "EXTRAS",
       items: [
         {
+          category_id: "2",
           id: "19",
           name: "Cane's Sauce®",
           description: "Our signature Cane's Sauce® made fresh daily.",
           price: "0.39",
         },
         {
+          category_id: "2",
           id: "110",
           name: "Crinkle-Cut Fries",
           description: "Golden, crinkle-cut fries made fresh.",
           price: "1.49",
         },
         {
+          category_id: "2",
           id: "111",
           name: "Texas Toast",
           description: "Thick-cut, buttered, and grilled Texas toast.",
           price: "0.99",
         },
         {
+          category_id: "2",
           id: "112",
           name: "Coleslaw",
           description: "Crispy, tangy coleslaw made fresh daily.",
@@ -145,30 +158,35 @@ export const MENU: MenuT = {
       group_title: "DRINKS",
       items: [
         {
+          category_id: "2",
           id: "113",
           name: "Fountain Drink (22 oz.)",
           description: "A refreshing selection of fountain drinks.",
           price: "1.79",
         },
         {
+          category_id: "2",
           id: "114",
           name: "Fountain Drink (32 oz.)",
           description: "A large refreshing selection of fountain drinks.",
           price: "2.09",
         },
         {
+          category_id: "2",
           id: "115",
           name: "Sweet Tea (22 oz.)",
           description: "Freshly brewed sweet tea, southern style.",
           price: "1.79",
         },
         {
+          category_id: "2",
           id: "116",
           name: "Sweet Tea (32 oz.)",
           description: "Freshly brewed sweet tea, southern style.",
           price: "2.09",
         },
         {
+          category_id: "2",
           id: "117",
           name: "Lemonade (22 oz.)",
           description: "Freshly squeezed lemonade made daily.",
