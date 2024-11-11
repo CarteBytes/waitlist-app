@@ -137,10 +137,10 @@ const MenuItemForm = ({
   };
 
   return (
-    <div className="h-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pb-4 pt-4 text-black">
+    <div className="h-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pt-4 text-black">
       <h1 className="text-xl font-bold">{!!item ? "Edit" : "Add"} Menu Item</h1>
       <Form {...form}>
-        <form onSubmit={onSubmit} className="space-y-8">
+        <form onSubmit={onSubmit}>
           <div className="mt-3 flex flex-col gap-y-3">
             {/* Name */}
             <FormField
@@ -306,7 +306,7 @@ const MenuItemForm = ({
             Icon={FaArrowRight}
             type="submit"
             iconPlacement="right"
-            className="mt-12 w-full">
+            className="mb-4 mt-12 w-full">
             Submit
           </EnhancedButton>
         </form>
