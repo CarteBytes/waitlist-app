@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,6 +20,15 @@ import { useState } from "react";
 import { ItemT } from "../types/item";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { FaArrowRight } from "react-icons/fa6";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const MenuItemForm = ({
   item,
@@ -36,6 +46,7 @@ const MenuItemForm = ({
       calories: "",
       price: null,
       category_id: null,
+      status: "unpublished",
     },
   );
 
@@ -229,25 +240,61 @@ const MenuItemForm = ({
               control={form.control}
               name="category"
               render={({ field }) => (
-                <FormItem className="flex flex-col gap-y-0">
-                  <FormLabel>Category</FormLabel>
-                  <FormControl>
-                    <select
-                      name="category"
-                      value={menuItemForm.category}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        handleInputChange(e);
-                      }}
-                      className="border p-2">
-                      <option value="">Select Category</option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </FormControl>
+                <FormItem className="text-white">
+                  <FormLabel className="text-black">Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category for this item" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        {categories.map((c) => (
+                          <SelectItem key={c.id} value={c.id!}>
+                            {c.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    You can manage categories in the categories section.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* status */}
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className="text-white placeholder:text-gray-600">
+                  <FormLabel className="text-black">Publish Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a status for this item" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value={"unpublished"}>
+                          Unpublished
+                        </SelectItem>
+                        <SelectItem value={"published"}>Published</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Control if your content is visible to users or not.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

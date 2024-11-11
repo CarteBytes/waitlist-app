@@ -63,8 +63,8 @@ export default function EditRestaurantMenu({
                 setSelectedItem(item);
                 setShowItemForm(true);
               }}>
-              <div className="">{item.name}</div>
-              <div className="">{item.description}</div>
+              <div className="text-lg font-bold">{item.name}</div>
+              <div className="opacity-70">{item.description}</div>
             </div>
           ))}
         </div>
