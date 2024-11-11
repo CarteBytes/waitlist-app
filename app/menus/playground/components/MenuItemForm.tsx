@@ -306,7 +306,7 @@ const MenuItemForm = ({
             Icon={FaArrowRight}
             type="submit"
             iconPlacement="right"
-            className="mb-4 mt-12 w-full">
+            className="my-8 w-full">
             Submit
           </EnhancedButton>
         </form>
