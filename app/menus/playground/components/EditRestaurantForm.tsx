@@ -105,7 +105,7 @@ const EditRestaurantForm = ({
     console.log("Restaurant updated:", data);
   };
   return (
-    <div className="min-h-screen w-full max-w-xl overflow-hidden bg-[#F6FE9B] p-8 text-black">
+    <div className="min-h-screen w-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pb-8 pt-4 text-black">
       <h1 className="text-xl font-bold">Edit Restaurant Details</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

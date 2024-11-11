@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
     const { data: newItem, error } = await supabase
       .from("menu_items")
       .insert([parsedData])
+      .select()
       .single();
 
     if (error) {
@@ -48,6 +49,8 @@ export async function POST(req: NextRequest) {
         { status: 500 },
       );
     }
+
+    console.log(body, newItem);
 
     return NextResponse.json(newItem, { status: 201 });
   } catch (error: unknown) {

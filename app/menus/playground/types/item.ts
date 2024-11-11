@@ -1,13 +1,14 @@
 export type ItemT = {
-  id: string;
+  id?: string;
   name: string;
   description?: string;
-  price?: string;
+  price: string | null;
+  category_id: string | null;
   calories?: string;
   category?: string;
   allergens?: string;
   image_url?: string;
   dietary_labels?: string[];
   availability?: string; // AVAILABLE, UNAVAILABLE
-  status?: string; // ACTIVE, DRAFT, ARCHIVED
+  status?: string; // PUBLISHED, UNPUBLISHED, ARCHIVED
 };

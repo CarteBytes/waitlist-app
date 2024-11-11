@@ -7,10 +7,12 @@ const SlideMenu = ({
   isOpen,
   onClose,
   children,
+  slideFrom = "right",
 }: {
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
+  slideFrom?: "left" | "right";
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -20,15 +22,19 @@ const SlideMenu = ({
     }
   }, [isOpen]);
 
+  // Set slide direction based on the slideFrom prop
+  const initialX = slideFrom === "left" ? "-100%" : "100%";
+  const exitX = slideFrom === "left" ? "-100%" : "100%";
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
           key="menu"
-          initial={{ x: "-100%" }}
+          initial={{ x: initialX }}
           animate={{ x: 0 }}
-          exit={{ x: "-100%" }}
-          transition={{ type: "tween", duration: 0.4 }}
+          exit={{ x: exitX }}
+          transition={{ type: "tween", duration: 0.3 }}
           style={{
             position: "fixed",
             top: 0,
@@ -36,13 +42,13 @@ const SlideMenu = ({
             height: "100%",
             width: "100%",
             background: "rgba(0, 0, 0, 0.3)", // dark overlay
-            zIndex: 1000,
+            zIndex: 11,
             color: "#fff",
             overflowY: "auto",
           }}>
           <button
             onClick={onClose}
-            className="flex w-full max-w-xl items-center bg-[#F6FE9B] px-8 pt-4 text-black">
+            className="sticky top-0 flex w-full max-w-xl items-center bg-[#F6FE9B] px-8 py-4 text-black">
             <FaArrowLeft className="mr-2" /> Back
           </button>
           {children}

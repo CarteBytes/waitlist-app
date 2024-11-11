@@ -1,5 +1,6 @@
 export type RestaurantT = {
   id: string;
+  org_id: string;
   name: string;
   phone: string;
   font_family: SupportedFontFamilies;

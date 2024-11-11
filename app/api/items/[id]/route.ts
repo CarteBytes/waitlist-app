@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Make sure to import your Supabase client
-import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import { checkOrgExists } from "@/lib/helpers";
+import { insertItemSchema } from "@/schemas/item";
 
 // TODO: change to items!
 
@@ -26,7 +26,7 @@ export async function GET(
   return NextResponse.json(restaurant);
 }
 
-// Update a restaurant
+// Update an item
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } },
@@ -35,11 +35,11 @@ export async function PUT(
     const body = await req.json();
     checkOrgExists(body.org_id); // Ensure organization exists
 
-    const updatedRestaurant = insertRestaurantSchema.parse(body);
+    const updatedItem = insertItemSchema.parse(body);
 
     const { data, error } = await supabase
-      .from("restaurants")
-      .update(updatedRestaurant)
+      .from("menu_items")
+      .update(updatedItem)
       .eq("org_id", body.org_id)
       .eq("id", params.id); // Update the restaurant with the given id
 
