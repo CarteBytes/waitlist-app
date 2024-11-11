@@ -1,31 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db";
-import { insertItemSchema } from "@/schemas/item";
 import { ZodError } from "zod";
 import { checkOrgExists } from "@/lib/helpers";
+import { insertCategorySchema } from "@/schemas/category";
 
-// GET ALL ITEMS FROM RESTAURANT
+// GET ALL CATEGORIES FROM ORG
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const orgId = searchParams.get("org_id");
-  const categoryId = searchParams.get("category_id");
 
   checkOrgExists(orgId!);
 
-  // Start building the query with the required `org_id` condition
-  let query = supabase.from("menu_items").select("*").eq("org_id", orgId);
-
-  // Add category filtering if `category_id` is provided
-  if (categoryId) {
-    query = query.eq("category_id", categoryId);
-  }
-
-  const { data: all, error } = await query;
+  const { data: all, error } = await supabase
+    .from("item_categories")
+    .select("*")
+    .eq("org_id", orgId);
 
   if (error) {
-    console.error("Error fetching menu items:", error);
+    console.error("Error fetching menu categories:", error);
     return NextResponse.json(
-      { error: "Error fetching menu items" },
+      { error: "Error fetching menu categories" },
       { status: 500 },
     );
   }
@@ -33,32 +27,30 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(all);
 }
 
-// CREATE ITEM
+// CREATE CATEGORY
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const parsedData = insertItemSchema.parse(body);
+    const parsedData = insertCategorySchema.parse(body);
 
     checkOrgExists(parsedData.org_id!);
 
-    const { data: newItem, error } = await supabase
-      .from("menu_items")
+    const { data: newCategory, error } = await supabase
+      .from("item_categories")
       .insert([parsedData])
       .select()
       .single();
 
     if (error) {
-      console.error("Error inserting item:", error);
+      console.error("Error inserting category:", error);
       return NextResponse.json(
-        { error: "Error creating item" },
+        { error: "Error creating category" },
         { status: 500 },
       );
     }
 
-    console.log(body, newItem);
-
-    return NextResponse.json(newItem, { status: 201 });
+    return NextResponse.json(newCategory, { status: 201 });
   } catch (error: unknown) {
     console.error("Error creating item:", error);
     if (error instanceof ZodError) {

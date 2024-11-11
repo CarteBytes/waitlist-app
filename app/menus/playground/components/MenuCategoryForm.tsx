@@ -16,13 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { insertItemSchema } from "@/schemas/item"; // Adjust the schema for MenuItem
 import { ItemCategoryT } from "../types/category";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { ItemT } from "../types/item";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { FaArrowRight } from "react-icons/fa6";
@@ -37,33 +31,29 @@ import {
 import { revalidateTag } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
 
-const MenuItemForm = ({
-  item,
-  categories,
+const MenuCategoryForm = ({
+  category,
   orgId,
 }: {
   orgId: string;
-  item?: ItemT;
-  categories: ItemCategoryT[]; // List of categories
+  category?: ItemCategoryT;
 }) => {
-  const [menuItemForm, setMenuItemForm] = useState<ItemT>(
-    item ?? {
+  const [menuCategoryForm, setMenuCategoryForm] = useState<ItemCategoryT>(
+    category ?? {
       name: "",
       description: "",
-      calories: "",
       price: null,
-      category_id: null,
       status: "unpublished",
     },
   );
 
-  const onChangeMenuItem = (updatedMenuItem: ItemT) => {
-    setMenuItemForm(updatedMenuItem);
+  const onChangeMenuItem = (updatedMenuItem: ItemCategoryT) => {
+    setMenuCategoryForm(updatedMenuItem);
   };
 
   const form = useForm({
     resolver: zodResolver(insertItemSchema), // Use a MenuItem schema
-    defaultValues: menuItemForm,
+    defaultValues: menuCategoryForm,
   });
 
   const handleInputChange = (
@@ -73,7 +63,7 @@ const MenuItemForm = ({
   ) => {
     const { name, value } = e.target;
     const updatedMenuItem = {
-      ...menuItemForm,
+      ...menuCategoryForm,
       [name]: value, // Ensure numbers for calories and price
     };
     onChangeMenuItem(updatedMenuItem);
@@ -82,19 +72,11 @@ const MenuItemForm = ({
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const {
-      name,
-      description,
-      calories,
-      category_id,
-      image_url,
-      price,
-      status,
-    } = menuItemForm;
-    if (!!item) {
+    const { name, description, image_url, price } = menuCategoryForm;
+    if (!!category) {
       toast.promise(
         () =>
-          fetch(`/api/items/${item.id}`, {
+          fetch(`/api/categories/${category.id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -103,17 +85,14 @@ const MenuItemForm = ({
               org_id: orgId,
               name,
               description,
-              calories,
-              category_id,
               image_url,
               price: price ? +price : null,
-              status,
             }),
           }),
         {
-          loading: "Updating item...",
+          loading: "Updating category...",
           success: (data) => {
-            return "Your item has been updated! 🎉";
+            return "Your category has been updated! 🎉";
           },
           error: (error) => {
             return "An error occurred while updating. Please try again 😢.";
@@ -123,18 +102,17 @@ const MenuItemForm = ({
     } else {
       toast.promise(
         () =>
-          fetch(`/api/items`, {
+          fetch(`/api/categories`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ org_id: orgId, ...menuItemForm }),
+            body: JSON.stringify({ org_id: orgId, ...menuCategoryForm }),
           }),
         {
-          loading: "Creating item...",
+          loading: "Creating category...",
           success: (data) => {
-            revalidateTag("orgItems");
-            return "Your item has been created! 🎉";
+            return "Your category has been created! 🎉";
           },
           error: (error) => {
             return "An error occurred while creating. Please try again 😢.";
@@ -146,7 +124,9 @@ const MenuItemForm = ({
 
   return (
     <div className="max-w-xl bg-[#F6FE9B] px-8 pt-4 text-black">
-      <h1 className="text-xl font-bold">{!!item ? "Edit" : "Add"} Menu Item</h1>
+      <h1 className="text-xl font-bold">
+        {!!category ? "Edit" : "Add"} Menu Category
+      </h1>
       <Form {...form}>
         <form onSubmit={onSubmit}>
           <div className="mt-3 flex flex-col gap-y-3">
@@ -156,12 +136,11 @@ const MenuItemForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-y-0">
-                  <FormLabel>Item Name</FormLabel>
+                  <FormLabel>Category Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Item name"
                       {...field}
-                      value={menuItemForm.name}
+                      value={menuCategoryForm.name}
                       onChange={(e) => {
                         field.onChange(e);
                         handleInputChange(e);
@@ -183,7 +162,7 @@ const MenuItemForm = ({
                   <FormControl>
                     <Textarea
                       {...field}
-                      value={menuItemForm.description}
+                      value={menuCategoryForm.description}
                       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
                         field.onChange(e);
                         handleInputChange(e);
@@ -205,7 +184,7 @@ const MenuItemForm = ({
                   <FormControl>
                     <Input
                       {...field}
-                      value={menuItemForm.calories}
+                      value={menuCategoryForm.calories}
                       onChange={(e) => {
                         field.onChange(e);
                         handleInputChange(e);
@@ -227,7 +206,7 @@ const MenuItemForm = ({
                   <FormControl>
                     <Input
                       {...field}
-                      value={menuItemForm.price ?? ""}
+                      value={menuCategoryForm.price ?? ""}
                       onChange={(e: any) => {
                         // Remove non-numeric characters except for decimal points
                         let formattedValue = e.target.value.replace(
@@ -269,42 +248,6 @@ const MenuItemForm = ({
               )}
             />
 
-            {/* Category */}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }: any) => (
-                <FormItem className="text-white">
-                  <FormLabel className="text-black">Category</FormLabel>
-                  <Select
-                    onValueChange={(newVal: string) => {
-                      field.onChange(newVal);
-                      onChangeMenuItem({ ...menuItemForm, status: newVal });
-                    }}
-                    value={menuItemForm.category_id ?? undefined}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category for this item" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectGroup>
-                        {categories.map((c) => (
-                          <SelectItem key={c.id} value={c.id!}>
-                            {c.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    You can manage categories in the categories section.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             {/* status */}
             <FormField
               control={form.control}
@@ -313,9 +256,9 @@ const MenuItemForm = ({
                 <FormItem className="text-white placeholder:text-gray-600">
                   <FormLabel className="text-black">Publish Status</FormLabel>
                   <Select
-                    onValueChange={(newVal: string) => {
+                    onValueChange={(newVal: "published" | "unpublished") => {
                       field.onChange(newVal);
-                      onChangeMenuItem({ ...menuItemForm, status: newVal });
+                      onChangeMenuItem({ ...menuCategoryForm, status: newVal });
                     }}
                     defaultValue={field.value}>
                     <FormControl>
@@ -340,7 +283,6 @@ const MenuItemForm = ({
               )}
             />
           </div>
-
           <EnhancedButton
             variant="expandIcon"
             Icon={FaArrowRight}
@@ -355,4 +297,4 @@ const MenuItemForm = ({
   );
 };
 
-export default MenuItemForm;
+export default MenuCategoryForm;
