@@ -2,6 +2,7 @@ import { MenuT } from "../playground/types/menu";
 import { RestaurantT } from "../playground/types/restaurant";
 
 export const RESTAURANT: RestaurantT = {
+  org_id: "123",
   id: "123",
   font_family: "Oswald",
   name: "The Good Coffee Company",
@@ -39,6 +40,7 @@ export const MENU: MenuT = {
       group_title: "THE CLASSICS",
       items: [
         {
+          category_id: "2",
           id: "1",
           name: "DRIP",
           description:
@@ -47,6 +49,7 @@ export const MENU: MenuT = {
           calories: "0-ish",
         },
         {
+          category_id: "2",
           id: "12",
           name: "POUR OVER",
           description:
@@ -55,6 +58,7 @@ export const MENU: MenuT = {
           calories: "0-ish",
         },
         {
+          category_id: "2",
           id: "13",
           name: "CAPPUCCINO",
           description: "Espresso + Steamed Milk = YUM. (6 oz.)",
@@ -62,6 +66,7 @@ export const MENU: MenuT = {
           calories: "112",
         },
         {
+          category_id: "2",
           id: "14",
           name: "Vanilla Latte",
           description:
@@ -78,12 +83,14 @@ export const MENU: MenuT = {
       group_title: "HOUSE SIGNATURES",
       items: [
         {
+          category_id: "2",
           id: "15",
           name: "Hidden Grounds",
           description: "Iced Vanilla latte with Cinnamon cold Foam (12 oz.)",
           price: "5",
         },
         {
+          category_id: "2",
           id: "16",
           name: "S’mores Cookie Latte",
           description:
@@ -91,12 +98,14 @@ export const MENU: MenuT = {
           price: "5",
         },
         {
+          category_id: "2",
           id: "17",
           name: "The 1 and 1",
           description: "a cortado and an extra shot of espresso on the side",
           price: "4",
         },
         {
+          category_id: "2",
           id: "18",
           name: "TopoSpresso",
           description:
@@ -111,6 +120,7 @@ export const MENU: MenuT = {
       group_title: "Everything Else",
       items: [
         {
+          category_id: "2",
           id: "19",
           name: "Chai Tea Latte",
           description:
@@ -118,6 +128,7 @@ export const MENU: MenuT = {
           price: "5",
         },
         {
+          category_id: "2",
           id: "110",
           name: "Maple Brown Sugar Shaken Espresso",
           description:
@@ -125,12 +136,14 @@ export const MENU: MenuT = {
           price: "5",
         },
         {
+          category_id: "2",
           id: "111",
           name: "Matcha Latte",
           description: "Notes of grass (this is a joke.) and vanilla. (12 oz.)",
           price: "5",
         },
         {
+          category_id: "2",
           id: "112",
           name: "Americano",
           description: "Classic espresso and water. (8 oz.)",
@@ -145,30 +158,35 @@ export const MENU: MenuT = {
       group_title: "Bakery",
       items: [
         {
+          category_id: "2",
           id: "113",
           name: "Egg Bites",
           description: "Eggs, cheese, bacon bits. What’s not to like?.",
           price: "4",
         },
         {
+          category_id: "2",
           id: "114",
           name: "S’mores Cookie.",
           description: "House Made and delicious.",
           price: "3",
         },
         {
+          category_id: "2",
           id: "115",
           name: "Oreo Cookie",
           description: "Cookies and cream!",
           price: "3",
         },
         {
+          category_id: "2",
           id: "116",
           name: "Blueberry Muffin",
           description: "You can already taste this just thinking about it.",
           price: "3",
         },
         {
+          category_id: "2",
           id: "117",
           name: "Chocolate Chip Muffin)",
           description: "Like the blueberry one but with chocolate.",
