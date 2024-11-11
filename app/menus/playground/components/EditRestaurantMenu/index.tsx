@@ -45,7 +45,7 @@ export default function EditRestaurantMenu({
   };
 
   return (
-    <div className="min-h-svh w-full max-w-xl">
+    <div className="min-h-svh w-full max-w-xl pb-24">
       <NavHeader
         restaurant={restaurant}
         onChangeRestaurant={setRestaurantObject}
@@ -69,7 +69,7 @@ export default function EditRestaurantMenu({
           ))}
         </div>
 
-        <div className="fixed bottom-8 left-2 z-10 transform">
+        <div className="fixed bottom-6 left-3 z-10 transform">
           <TogglePill
             op1={{ label: "Items", value: "items" }}
             op2={{ label: "Categories", value: "categories" }}
@@ -78,7 +78,7 @@ export default function EditRestaurantMenu({
             handleToggle={setType}
           />
         </div>
-        <div className="fixed bottom-7 right-2 z-10 transform">
+        <div className="fixed bottom-4 right-3 z-10 transform">
           <button
             onClick={handleClickAdd}
             className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5">
