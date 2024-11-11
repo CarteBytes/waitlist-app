@@ -137,7 +137,7 @@ const MenuItemForm = ({
   };
 
   return (
-    <div className="h-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pt-4 text-black">
+    <div className="h-full max-w-xl bg-[#F6FE9B] px-8 pt-4 text-black">
       <h1 className="text-xl font-bold">{!!item ? "Edit" : "Add"} Menu Item</h1>
       <Form {...form}>
         <form onSubmit={onSubmit}>
