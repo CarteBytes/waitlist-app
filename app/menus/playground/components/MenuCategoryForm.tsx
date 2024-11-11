@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { revalidateTag } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUploadComponent from "./ImageUploadComponent";
 
 const MenuCategoryForm = ({
   category,
@@ -275,13 +276,14 @@ const MenuCategoryForm = ({
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <FormDescription>
+                  <FormDescription className="text-gray-600">
                     Control if your content is visible to users or not.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <ImageUploadComponent />
           </div>
           <EnhancedButton
             variant="expandIcon"

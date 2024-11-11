@@ -13,6 +13,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import MenuCategoryForm from "../MenuCategoryForm";
 import LiberoMenu from "../LiberoMenu";
 import { ItemCategoryT } from "../../types/category";
+import AddMenuEntity from "../AddMenuEntity";
+import { figtree } from "@/app/ui/fonts";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -26,7 +28,7 @@ export default function EditRestaurantMenu({
   categories: ItemCategoryT[];
 }) {
   const [parent] = useAutoAnimate();
-  const [type, setType] = useState("items");
+  const [type, setType] = useState("categories");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [selectedItem, setSelectedItem] = useState(undefined);
@@ -40,18 +42,14 @@ export default function EditRestaurantMenu({
     } else if (type === "categories") {
       return categories;
     } else if (type === "menu") {
-      return categories.filter((c) => c.status === "published");
+      return [];
     }
 
     return [];
   };
 
-  const handleClickMainCTA = () => {
-    if (type === "menu") {
-      setShowPreview(true);
-    } else {
-      setShowAddForm(true);
-    }
+  const handleClickAdd = () => {
+    setShowAddForm(true);
   };
 
   const handleClickCard = (entity: any) => {
@@ -102,8 +100,8 @@ export default function EditRestaurantMenu({
 
           <div className="fixed bottom-6 left-3 z-10 transform">
             <TogglePill
-              op1={{ label: "Items", value: "items" }}
-              op2={{ label: "Categories", value: "categories" }}
+              op1={{ label: "Categories", value: "categories" }}
+              op2={{ label: "Items", value: "items" }}
               op3={{ label: "Menu", value: "menu" }}
               value={type}
               handleToggle={setType}
@@ -111,13 +109,9 @@ export default function EditRestaurantMenu({
           </div>
           <div className="fixed bottom-5 right-3 z-10 transform">
             <button
-              onClick={handleClickMainCTA}
+              onClick={handleClickAdd}
               className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4">
-              {type === "menu" ? (
-                <FaEye className="text-xl text-black" />
-              ) : (
-                <FaPlus className="text-xl text-black" />
-              )}
+              <FaPlus className="text-xl text-black" />
             </button>
           </div>
         </div>
@@ -142,6 +136,9 @@ export default function EditRestaurantMenu({
                 orgId={restaurant.org_id}
               />
             )}
+            {type === "menu" && (
+              <AddMenuEntity availableCategories={categories} />
+            )}
           </SlideMenu>
         </div>
       </>
@@ -149,7 +146,7 @@ export default function EditRestaurantMenu({
   };
 
   return (
-    <div className="min-h-svh w-full max-w-xl pb-24">
+    <div className={`min-h-svh w-full max-w-xl pb-24`}>
       <NavHeader
         restaurant={restaurant}
         onChangeRestaurant={setRestaurantObject}
