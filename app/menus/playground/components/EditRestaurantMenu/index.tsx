@@ -69,7 +69,7 @@ export default function EditRestaurantMenu({
           ))}
         </div>
 
-        <div className="fixed bottom-8 left-6 z-10 transform">
+        <div className="fixed bottom-8 left-2 z-10 transform">
           <TogglePill
             op1={{ label: "Items", value: "items" }}
             op2={{ label: "Categories", value: "categories" }}
@@ -78,7 +78,7 @@ export default function EditRestaurantMenu({
             handleToggle={setType}
           />
         </div>
-        <div className="fixed bottom-7 right-6 z-10 transform">
+        <div className="fixed bottom-7 right-2 z-10 transform">
           <button
             onClick={handleClickAdd}
             className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5">
