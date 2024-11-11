@@ -9,6 +9,7 @@ import { ItemT } from "../../types/item";
 import { FaPlus } from "react-icons/fa6";
 import SlideMenu from "../SlideMenu";
 import MenuItemForm from "../MenuItemForm";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -21,6 +22,7 @@ export default function EditRestaurantMenu({
   items: ItemT[];
   categories: any[];
 }) {
+  const [parent] = useAutoAnimate();
   const [type, setType] = useState("items");
   const [showItemForm, setShowItemForm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(undefined);
@@ -52,9 +54,11 @@ export default function EditRestaurantMenu({
       />
 
       <div className="px-4">
-        <h2 className="py-6 text-2xl capitalize">{type}</h2>
+        <h2 className="py-6 text-2xl capitalize">
+          {type} ({getData()?.length ?? 0})
+        </h2>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" ref={parent}>
           {getData()?.map((item) => (
             <div
               key={item.id}
@@ -78,10 +82,10 @@ export default function EditRestaurantMenu({
             handleToggle={setType}
           />
         </div>
-        <div className="fixed bottom-4 right-3 z-10 transform">
+        <div className="fixed bottom-5 right-3 z-10 transform">
           <button
             onClick={handleClickAdd}
-            className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-5">
+            className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4">
             <FaPlus className="text-xl text-black" />
           </button>
         </div>
