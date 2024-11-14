@@ -123,7 +123,6 @@ const EditRestaurantForm = ({
                   <FormLabel>Restaurant Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Restaurant name"
                       {...field}
                       value={restaurant.name}
                       onChange={(e) => {
@@ -146,7 +145,6 @@ const EditRestaurantForm = ({
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Phone number"
                       {...field}
                       value={restaurant.phone}
                       onChange={(e) => {
@@ -169,7 +167,6 @@ const EditRestaurantForm = ({
                   <FormLabel>Address</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Restaurant address"
                       {...field}
                       value={restaurant.address}
                       onChange={(e) => {
@@ -192,7 +189,6 @@ const EditRestaurantForm = ({
                   <FormLabel>City</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="City"
                       {...field}
                       value={restaurant.city}
                       onChange={(e) => {
@@ -215,7 +211,6 @@ const EditRestaurantForm = ({
                   <FormLabel>State</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="State"
                       {...field}
                       value={restaurant.state}
                       onChange={(e) => {

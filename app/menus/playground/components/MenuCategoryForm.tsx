@@ -171,6 +171,7 @@ const MenuCategoryForm = ({
                   <FormControl>
                     <Textarea
                       {...field}
+                      className="text-yellow-100"
                       value={menuCategoryForm.description}
                       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
                         field.onChange(e);
@@ -270,13 +271,13 @@ const MenuCategoryForm = ({
                       onChangeMenuItem({ ...menuCategoryForm, status: newVal });
                     }}
                     defaultValue={field.value}>
-                    <FormControl>
+                    <FormControl className="text-yellow-100">
                       <SelectTrigger>
                         <SelectValue placeholder="Select a status for this item" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectGroup>
+                      <SelectGroup className="text-yellow-100">
                         <SelectItem value={"unpublished"}>
                           Unpublished
                         </SelectItem>

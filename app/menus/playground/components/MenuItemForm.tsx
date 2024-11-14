@@ -168,7 +168,6 @@ const MenuItemForm = ({
                   <FormLabel>Item Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Item name"
                       {...field}
                       value={menuItemForm.name}
                       onChange={(e) => {
@@ -192,6 +191,7 @@ const MenuItemForm = ({
                   <FormControl>
                     <Textarea
                       {...field}
+                      className="text-yellow-100"
                       value={menuItemForm.description}
                       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
                         field.onChange(e);
@@ -291,13 +291,13 @@ const MenuItemForm = ({
                       onChangeMenuItem({ ...menuItemForm, status: newVal });
                     }}
                     value={menuItemForm.category_id ?? undefined}>
-                    <FormControl>
+                    <FormControl className="text-yellow-100">
                       <SelectTrigger>
                         <SelectValue placeholder="Select a category for this item" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectGroup>
+                      <SelectGroup className="text-yellow-100">
                         {categories?.map((c) => (
                           <SelectItem key={c.id} value={c.id!}>
                             {c.name}
@@ -327,13 +327,13 @@ const MenuItemForm = ({
                       onChangeMenuItem({ ...menuItemForm, status: newVal });
                     }}
                     defaultValue={field.value}>
-                    <FormControl>
+                    <FormControl className="text-yellow-100">
                       <SelectTrigger>
                         <SelectValue placeholder="Select a status for this item" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectGroup>
+                      <SelectGroup className="text-yellow-100">
                         <SelectItem value={"unpublished"}>
                           Unpublished
                         </SelectItem>
