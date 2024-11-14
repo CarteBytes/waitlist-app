@@ -6,7 +6,13 @@ import NavHeader from "../NavHeader";
 import { useState } from "react";
 import TogglePill from "../TogglePill";
 import { ItemT } from "../../types/item";
-import { FaEye, FaEyeSlash, FaPlus } from "react-icons/fa6";
+import {
+  FaCircleMinus,
+  FaEye,
+  FaEyeSlash,
+  FaPlus,
+  FaTrash,
+} from "react-icons/fa6";
 import SlideMenu from "../SlideMenu";
 import MenuItemForm from "../MenuItemForm";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -14,7 +20,6 @@ import MenuCategoryForm from "../MenuCategoryForm";
 import LiberoMenu from "../LiberoMenu";
 import { ItemCategoryT } from "../../types/category";
 import AddMenuEntity from "../AddMenuEntity";
-import { figtree } from "@/app/ui/fonts";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -31,25 +36,39 @@ export default function EditRestaurantMenu({
   const [type, setType] = useState("categories");
   const [showAddForm, setShowAddForm] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [showRemovalModal, setShowRemovalModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(undefined);
   const [selectedCategory, setSelectedCategory] = useState(undefined);
   const [restaurantObject, setRestaurantObject] = useState(restaurant);
   const [menuObject, setMenuObject] = useState(menu);
 
   const getData = () => {
+    let data: any[] = [];
     if (type === "items") {
-      return items;
+      data = items;
     } else if (type === "categories") {
-      return categories;
+      data = categories;
     } else if (type === "menu") {
-      return [];
+      data = [];
     }
 
-    return [];
+    return data ?? [];
   };
 
   const handleClickAdd = () => {
     setShowAddForm(true);
+  };
+
+  const handleRemoval = (e: any, entity: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (type === "items") {
+      setSelectedItem(entity);
+    } else if (type === "categories") {
+      setSelectedCategory(entity);
+    } else if (type === "menu") {
+    }
+    setShowRemovalModal(true);
   };
 
   const handleClickCard = (entity: any) => {
@@ -92,8 +111,32 @@ export default function EditRestaurantMenu({
                 onClick={() => {
                   handleClickCard(item);
                 }}>
-                <div className="text-lg font-bold">{item.name}</div>
+                {item.image_url && (
+                  <img
+                    src={item.image_url}
+                    className="h-16 w-auto object-cover"
+                  />
+                )}
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-bold">{item.name}</div>
+                  {!!item.status && (
+                    <div className="flex items-center gap-2 text-sm">
+                      {/* Publish status: */}
+                      <div
+                        className={`h-3 w-3 rounded-full ${item.status === "published" ? "bg-green-400" : "bg-red-600"}`}
+                      />
+                    </div>
+                  )}
+                </div>
                 <div className="opacity-70">{item.description}</div>
+                {/* <div className="mt-1 flex justify-end">
+                  <button
+                    className="flex items-center gap-2 rounded-lg text-sm text-[#F6FE9B] underline disabled:text-gray-500"
+                    onClick={(e) => handleRemoval(e, item)}>
+                    {type === "menu" ? "Remove" : "Delete"}
+                    {type === "menu" ? <FaCircleMinus /> : <FaTrash />}
+                  </button>
+                </div> */}
               </div>
             ))}
           </div>

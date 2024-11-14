@@ -45,7 +45,7 @@ function AddMenuEntity({
             Icon={FaArrowRight}
             iconPlacement="right"
             className="my-8 w-full">
-            Submit
+            Confirm
           </EnhancedButton>
         </>
       );
@@ -63,7 +63,7 @@ function AddMenuEntity({
             Icon={FaArrowRight}
             iconPlacement="right"
             className="my-8 w-full">
-            Submit
+            Confirm
           </EnhancedButton>
         </>
       );

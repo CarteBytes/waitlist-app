@@ -51,7 +51,7 @@ export default function TitlePage({
           <img
             className="h-auto w-full"
             id="hero-logo"
-            src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/asset_bucket/${restaurant.id}/logo-${restaurant.id}`}
+            src={restaurant.logo_url}
           />
           <ImageUpload restaurantId={restaurant.id} />
           {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}

@@ -25,7 +25,7 @@ export default function FooterPage({
         <img
           className="h-auto w-full"
           id="footer-logo"
-          src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/asset_bucket/${restaurant.id}/logo-${restaurant.id}`}
+          src={restaurant.logo_url}
         />
         <div className="flex h-full flex-col justify-center">
           {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}

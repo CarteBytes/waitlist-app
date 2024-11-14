@@ -25,6 +25,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import autoAnimate from "@formkit/auto-animate";
+import ImageUploadComponent from "./ImageUploadComponent";
 // import Link from "next/link";
 
 const EditRestaurantForm = ({
@@ -34,6 +35,7 @@ const EditRestaurantForm = ({
   restaurant: RestaurantT;
   onChangeRestaurant: (newRest: RestaurantT) => void;
 }) => {
+  const [File, setFile] = useState<null | File>(null);
   const [socialToggles, setSocialToggles] = useState({
     facebook: false,
     instagram: false,
@@ -533,6 +535,11 @@ const EditRestaurantForm = ({
                 />
               )}
             </div>
+
+            <ImageUploadComponent
+              file_={restaurant?.logo_url}
+              onFileChange={(newFile: any) => setFile(newFile)}
+            />
           </div>
 
           {/* <Link href="/">

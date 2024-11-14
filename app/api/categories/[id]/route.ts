@@ -2,22 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Make sure to import your Supabase client
 import {
   UploadImageAndRetrieveUrlInterface,
-  checkItemExists,
+  checkCategoryExists,
   checkOrgExists,
   uploadImageAndRetreiveUrl,
 } from "@/lib/helpers";
-import { insertItemSchema } from "@/schemas/item";
+import { insertCategorySchema } from "@/schemas/category";
 
-// // Get a restaurant by slug
+// Get a restaurant by id
 // export async function GET(
 //   req: NextRequest,
-//   { params }: { params: { slug?: string } },
+//   { params }: { params: { id?: string } },
 // ) {
 //   const { data: restaurant, error } = await supabase
 //     .from("restaurants")
 //     .select("*")
-//     .eq("slug", params.slug!)
-//     .single(); // Fetch a single restaurant by slug
+//     .eq("id", params.id!)
+//     .single(); // Fetch a single restaurant by id
 
 //   if (error || !restaurant) {
 //     return NextResponse.json(
@@ -29,7 +29,7 @@ import { insertItemSchema } from "@/schemas/item";
 //   return NextResponse.json(restaurant);
 // }
 
-// Update an item
+// Update a category
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } },
@@ -37,24 +37,23 @@ export async function PUT(
   try {
     const body = await req.json();
     checkOrgExists(body.org_id); // Ensure organization exists
-    checkItemExists(params.id);
+    checkCategoryExists(params.id);
 
     let imageUrl = null;
     if (body.file) {
       imageUrl = await uploadImageAndRetreiveUrl({
         id: params.id,
-        keyType: "item",
+        keyType: "category",
         file: body.file,
         orgId: body.org_id,
       } as UploadImageAndRetrieveUrlInterface);
     }
 
-    console.log(imageUrl);
-    const updatedItem = insertItemSchema.parse(body);
+    const updatedCategory = insertCategorySchema.parse(body);
 
     const { data, error } = await supabase
-      .from("menu_items")
-      .update({ ...updatedItem, image_url: imageUrl })
+      .from("item_categories")
+      .update({ ...updatedCategory, image_url: imageUrl })
       .eq("org_id", body.org_id)
       .eq("id", params.id); // Update the restaurant with the given id
 
@@ -78,7 +77,7 @@ export async function DELETE(
 ) {
   try {
     const { error } = await supabase
-      .from("menu_items")
+      .from("item_categories")
       .delete()
       .eq("id", params.id); // Delete the restaurant with the given id
 
@@ -86,7 +85,7 @@ export async function DELETE(
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ message: "Restaurant deleted" });
+    return NextResponse.json({ message: "Category deleted" });
   } catch (error: unknown) {
     return NextResponse.json(
       { error: (error as Error).message },

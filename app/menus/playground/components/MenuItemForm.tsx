@@ -37,6 +37,7 @@ import {
 import { revalidateTag } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploadComponent from "./ImageUploadComponent";
+import { convertToBase64 } from "@/lib/utils";
 
 const MenuItemForm = ({
   item,
@@ -47,6 +48,7 @@ const MenuItemForm = ({
   item?: ItemT;
   categories: ItemCategoryT[]; // List of categories
 }) => {
+  const [file, setFile] = useState<File | null>(null);
   const [menuItemForm, setMenuItemForm] = useState<ItemT>(
     item ?? {
       name: "",
@@ -83,6 +85,11 @@ const MenuItemForm = ({
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let base64 = null;
+    if (file) {
+      base64 = await convertToBase64(file);
+    }
+
     const {
       name,
       description,
@@ -109,6 +116,7 @@ const MenuItemForm = ({
               image_url,
               price: price ? +price : null,
               status,
+              file: base64,
             }),
           }),
         {
@@ -290,7 +298,7 @@ const MenuItemForm = ({
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        {categories.map((c) => (
+                        {categories?.map((c) => (
                           <SelectItem key={c.id} value={c.id!}>
                             {c.name}
                           </SelectItem>
@@ -340,7 +348,10 @@ const MenuItemForm = ({
                 </FormItem>
               )}
             />
-            <ImageUploadComponent />
+            <ImageUploadComponent
+              file_={item?.image_url}
+              onFileChange={(newFile: any) => setFile(newFile)}
+            />
           </div>
 
           <EnhancedButton

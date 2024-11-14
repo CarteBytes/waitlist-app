@@ -8,7 +8,7 @@ export type RestaurantT = {
   city: string;
   state: string;
   zip_code: string;
-  logo: string;
+  logo_url: string;
   primary_color: string;
   secondary_color: string;
   primary_text_color: string;

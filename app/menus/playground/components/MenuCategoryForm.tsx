@@ -28,9 +28,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { revalidateTag } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploadComponent from "./ImageUploadComponent";
+import { convertToBase64 } from "@/lib/utils";
 
 const MenuCategoryForm = ({
   category,
@@ -39,6 +39,7 @@ const MenuCategoryForm = ({
   orgId: string;
   category?: ItemCategoryT;
 }) => {
+  const [file, setFile] = useState<File | null>(null);
   const [menuCategoryForm, setMenuCategoryForm] = useState<ItemCategoryT>(
     category ?? {
       name: "",
@@ -73,6 +74,11 @@ const MenuCategoryForm = ({
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    let base64 = null;
+    if (file) {
+      base64 = await convertToBase64(file);
+    }
+
     const { name, description, image_url, price } = menuCategoryForm;
     if (!!category) {
       toast.promise(
@@ -88,6 +94,7 @@ const MenuCategoryForm = ({
               description,
               image_url,
               price: price ? +price : null,
+              file: base64,
             }),
           }),
         {
@@ -96,6 +103,7 @@ const MenuCategoryForm = ({
             return "Your category has been updated! 🎉";
           },
           error: (error) => {
+            console.log(error);
             return "An error occurred while updating. Please try again 😢.";
           },
         },
@@ -283,7 +291,10 @@ const MenuCategoryForm = ({
                 </FormItem>
               )}
             />
-            <ImageUploadComponent />
+            <ImageUploadComponent
+              file_={category?.image_url}
+              onFileChange={(newFile: any) => setFile(newFile)}
+            />
           </div>
           <EnhancedButton
             variant="expandIcon"

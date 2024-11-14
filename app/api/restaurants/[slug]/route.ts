@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Ensure this is set up
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
-import { checkOrgExists } from "@/lib/helpers";
+import {
+  UploadImageAndRetrieveUrlInterface,
+  checkOrgExists,
+  checkRestaurantExists,
+  uploadImageAndRetreiveUrl,
+} from "@/lib/helpers";
 
+// TODO: move to own slug route, prevent id/slug confusion
 // GET a restaurant by slug
 export async function GET(
   req: NextRequest,
@@ -27,19 +33,30 @@ export async function GET(
 // Update a restaurant by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { slug: string } },
 ) {
   try {
     const body = await req.json();
     checkOrgExists(body.org_id);
+    checkRestaurantExists(params.slug);
+
+    let imageUrl = null;
+    if (body.file) {
+      imageUrl = await uploadImageAndRetreiveUrl({
+        id: params.slug,
+        keyType: "restaurant",
+        file: body.file,
+        orgId: body.org_id,
+      } as UploadImageAndRetrieveUrlInterface);
+    }
 
     const updatedRestaurant = insertRestaurantSchema.parse(body);
 
     const { data, error } = await supabase
       .from("restaurants")
-      .update(updatedRestaurant)
+      .update({ ...updatedRestaurant, logo_url: imageUrl })
       .eq("org_id", body.org_id)
-      .eq("id", params.id);
+      .eq("id", params.slug);
 
     if (error) {
       throw new Error(error.message);

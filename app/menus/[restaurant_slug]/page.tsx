@@ -39,7 +39,7 @@ export async function generateMetadata(
     title: `${restaurant.name} | CarteBytes`,
     description: `${menu.name} | ${menu.description}`,
     openGraph: {
-      images: [restaurant.logo],
+      images: [restaurant.logo_url],
     },
   };
 }

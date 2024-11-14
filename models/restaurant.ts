@@ -16,7 +16,7 @@ export const restaurants = pgTable("restaurants", {
   zip_code: varchar("zip_code", { length: 15 }).notNull(),
   country: varchar("country", { length: 255 }),
   currency_prefix: varchar("currency_prefix", { length: 10 }).default("$"),
-  logo: text("logo"),
+  logo_url: text("logo_url"),
   font_family: text("font_family").notNull().default("Oswald"),
   // Colors breakdown into individual columns
   primary_color: varchar("primary_color", { length: 10 }).notNull(),

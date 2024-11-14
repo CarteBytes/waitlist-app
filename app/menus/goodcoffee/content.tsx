@@ -12,7 +12,7 @@ export const RESTAURANT: RestaurantT = {
   currency_prefix: "$",
   state: "PA",
   zip_code: "19106",
-  logo: "https://i.ibb.co/sHR6PzX/Logo-Color.png",
+  logo_url: "https://i.ibb.co/sHR6PzX/Logo-Color.png",
   primary_color: "#e1701d",
   secondary_color: "#ffffff",
   primary_text_color: "#e1701d",

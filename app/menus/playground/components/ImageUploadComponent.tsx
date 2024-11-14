@@ -1,12 +1,24 @@
 "use client";
 
 import { FormLabel } from "@/components/ui/form";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
 
-function ImageUploadComponent({ file_ }: { file_?: string }) {
+function ImageUploadComponent({
+  file_,
+  onFileChange,
+}: {
+  file_?: string;
+  onFileChange?: (newFile: File | null) => void;
+}) {
   const [fileStr, setFileStr] = useState<string | null>(file_ ?? null);
   const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (onFileChange) {
+      onFileChange(file);
+    }
+  }, [file]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

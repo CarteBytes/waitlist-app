@@ -12,7 +12,8 @@ export const RESTAURANT: RestaurantT = {
   currency_prefix: "$",
   state: "TN",
   zip_code: "37205",
-  logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
+  logo_url:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Raising_Cane%27s_Chicken_Fingers_logo.svg/1200px-Raising_Cane%27s_Chicken_Fingers_logo.svg.png",
   primary_color: "#E82531",
   secondary_color: "#E82531",
   primary_text_color: "#FFFFFF",
