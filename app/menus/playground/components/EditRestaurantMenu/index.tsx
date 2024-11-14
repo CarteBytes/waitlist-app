@@ -99,7 +99,7 @@ export default function EditRestaurantMenu({
     return (
       <>
         <div className="px-4">
-          <h2 className="py-6 text-2xl capitalize">
+          <h2 className="pb-3 pt-6 text-2xl capitalize">
             {type} ({getData()?.length ?? 0})
           </h2>
 
@@ -150,7 +150,7 @@ export default function EditRestaurantMenu({
               handleToggle={setType}
             />
           </div>
-          <div className="fixed bottom-5 right-3 z-10 transform">
+          <div className="fixed bottom-[22px] right-3 z-10 transform">
             <button
               onClick={handleClickAdd}
               className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4">
