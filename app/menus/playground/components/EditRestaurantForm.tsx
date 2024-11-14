@@ -529,12 +529,15 @@ const EditRestaurantForm = ({
                   )}
                 />
               )}
-            </div>
+              <div className="mt-3">
+                <h2 className="mb-3 text-lg font-semibold">Restaurant Logo</h2>
 
-            <ImageUploadComponent
-              file_={restaurant?.logo_url}
-              onFileChange={(newFile: any) => setFile(newFile)}
-            />
+                <ImageUploadComponent
+                  file_={restaurant?.logo_url}
+                  onFileChange={(newFile: any) => setFile(newFile)}
+                />
+              </div>
+            </div>
           </div>
 
           {/* <Link href="/">
