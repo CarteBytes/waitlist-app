@@ -14,9 +14,8 @@ export const categories = pgTable("item_categories", {
   }),
   name: varchar("name", { length: 255 }).notNull(),
   description: varchar("description", { length: 1000 }).default(""),
-  price: numeric({ precision: 10, scale: 2 }).default(""),
+  // price: numeric("price", { precision: 10, scale: 2 }), TODO: fix
   image_url: varchar("image_url", { length: 500 }).default(""),
-  // status: varchar("status", { length: 50 }).default("unpublished"), // Status of the food item
   created_at: timestamp("created_at").defaultNow(),
   last_updated: timestamp("last_updated").defaultNow(),
 });

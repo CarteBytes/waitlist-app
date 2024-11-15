@@ -81,12 +81,12 @@ export default function EditRestaurantMenu({
     setMenuObject(newMenu);
   };
 
+  const handleClickPreview = () => {
+    setShowPreview(true);
+  };
+
   const handleClickAdd = () => {
-    if (type === "menu") {
-      setShowPreview(true);
-    } else {
-      setShowAddForm(true);
-    }
+    setShowAddForm(true);
   };
 
   const handleDeletePage = (deletePageIndex: number) => {
@@ -290,7 +290,7 @@ export default function EditRestaurantMenu({
           </div>
           <div className="fixed bottom-[22px] right-3 z-10 transform">
             <button
-              onClick={handleClickAdd}
+              onClick={type === "menu" ? handleClickPreview : handleClickAdd}
               className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4 text-xl text-black">
               {type === "menu" ? <FaEye /> : <FaPlus />}
             </button>

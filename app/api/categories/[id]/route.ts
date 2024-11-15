@@ -49,6 +49,7 @@ export async function PUT(
       } as UploadImageAndRetrieveUrlInterface);
     }
 
+    console.log(body);
     const updatedCategory = insertCategorySchema.parse(body);
 
     const { data, error } = await supabase

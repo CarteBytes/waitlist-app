@@ -93,7 +93,7 @@ function AddMenuEntity({
           </h1>
           <div className="mt-3">
             <ImageUploadComponent
-              onFileChange={(newFile) => setFile(newFile)}
+              onFileChange={(newFile: File) => setFile(newFile)}
             />
           </div>
           <EnhancedButton
