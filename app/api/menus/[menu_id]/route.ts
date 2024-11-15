@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Ensure this is set up
 import { ZodError } from "zod";
 import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
-import { MenuSectionT } from "@/app/menus/playground/types/menu";
+import { MenuSectionT } from "@/app/menu/playground/types/menu";
 
 // this gets a particular menu
 export async function GET(

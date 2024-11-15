@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Use Supabase client instead of db
 import { ZodError } from "zod";
 import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
-import { MenuSectionT } from "@/app/menus/playground/types/menu";
+import { MenuSectionT } from "@/app/menu/playground/types/menu";
 
 // GET ALL RESTAURANT MENUS
 export async function GET(req: NextRequest) {
