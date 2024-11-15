@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db"; // Ensure this is set up
 import { ZodError } from "zod";
-import { checkOrgExists, checkRestaurantExists } from "@/lib/helpers";
+import {
+  checkMenuExists,
+  checkOrgExists,
+  checkRestaurantExists,
+} from "@/lib/helpers";
 import { MenuSectionT } from "@/app/menu/playground/types/menu";
 
 // this gets a particular menu
@@ -31,25 +35,25 @@ export async function GET(
     );
   }
 
-  const itemIdsArray = [...new Set(content.flatMap((c) => c.items || []))];
-  const { data: itemObjects, error: itemError } = await supabase
-    .from("menu_items")
-    .select("*")
-    .in("id", itemIdsArray);
+  // const itemIdsArray = [...new Set(content.flatMap((c) => c.items || []))];
+  // const { data: itemObjects, error: itemError } = await supabase
+  //   .from("menu_items")
+  //   .select("*")
+  //   .in("id", itemIdsArray);
 
-  if (itemError) {
-    return NextResponse.json(
-      { error: "Error fetching menu items" },
-      { status: 500 },
-    );
-  }
+  // if (itemError) {
+  //   return NextResponse.json(
+  //     { error: "Error fetching menu items" },
+  //     { status: 500 },
+  //   );
+  // }
 
-  const itemIdsMap: Record<string, any> = {};
-  itemObjects?.forEach((itemObj) => (itemIdsMap[itemObj.id] = itemObj));
+  // const itemIdsMap: Record<string, any> = {};
+  // itemObjects?.forEach((itemObj) => (itemIdsMap[itemObj.id] = itemObj));
 
-  content.forEach((c) => {
-    c.items = c.items?.map((itemId: any) => itemIdsMap[itemId]) || [];
-  });
+  // content.forEach((c) => {
+  //   c.items = c.items?.map((itemId: any) => itemIdsMap[itemId]) || [];
+  // });
 
   return NextResponse.json({ ...menu, content });
 }
@@ -73,6 +77,7 @@ export async function PUT(
     // Ensure organization and restaurant exist
     await checkOrgExists(body.org_id);
     await checkRestaurantExists(body.restaurant_id);
+    await checkMenuExists(menu_id);
 
     // Update the menu details
     const { data: updatedMenu, error: updateError } = await supabase
@@ -92,7 +97,7 @@ export async function PUT(
 
     // Delete existing content items for this menu
     const { error: deleteContentError } = await supabase
-      .from("menu_sections")
+      .from("menu_sections_org")
       .delete()
       .eq("menu_id", menu_id);
 
@@ -101,17 +106,21 @@ export async function PUT(
     }
 
     // Map new content items to include the menu's ID and insert into menu_sections
-    const contentItems = body.content.map((item: MenuSectionT) => ({
-      menu_id: menu_id,
+    const contentSections = body.content.map((section: MenuSectionT) => ({
       org_id: body.org_id,
       restaurant_id: body.restaurant_id,
-      ...item,
+      menu_id: menu_id,
+      ...section,
+      category: section.category?.id ?? null,
+      items: null, // todo: fix to include dyanmic items (resortable)
+      created_at: section.created_at ?? new Date().toISOString(),
+      last_updated: new Date().toISOString(),
     }));
 
     // Insert all new content items
     const { data: updatedMenuContents, error: insertError } = await supabase
-      .from("menu_sections")
-      .insert(contentItems);
+      .from("menu_sections_org")
+      .insert(contentSections);
 
     if (insertError) {
       throw new Error(insertError.message);

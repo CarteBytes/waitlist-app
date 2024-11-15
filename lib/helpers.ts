@@ -84,6 +84,20 @@ export const checkRestaurantExists = async (restaurantId: string) => {
   }
 };
 
+// Check if MENU exists
+export const checkMenuExists = async (id: string) => {
+  const tableName = "menus";
+  const { data: el, error } = await supabase
+    .from(tableName)
+    .select("id")
+    .eq("id", id)
+    .single(); // Fetch a single Menu element by id
+
+  if (error || !el) {
+    return NextResponse.json({ error: "Menu not found" }, { status: 404 });
+  }
+};
+
 // Check if CATEGORY exists
 export const checkCategoryExists = async (id: string) => {
   const tableName = "item_categories";

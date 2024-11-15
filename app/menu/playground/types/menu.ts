@@ -16,6 +16,7 @@ export type MenuSectionT = {
   hero_image?: string;
   items?: ItemT[];
   category?: MenuCategoryT;
+  created_at?: number;
 };
 
 export type MenuCategoryT = {

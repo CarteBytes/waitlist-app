@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organization";
 import { restaurants } from "./restaurant";
+import { categories } from "./categories";
 
 export const menus = pgTable("menus", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -41,12 +42,7 @@ export const menu_sections = pgTable("menu_sections", {
   page_index: integer("page_index").notNull().default(0),
   section_index: integer("section_index").notNull().default(0),
   hero_image: text("hero_image").default(""),
-  sub_image: text("sub_image").default(""),
-  group_title: text("group_title").default(""),
-  group_price: text("group_price").default(""),
-  group_description: text("group_description").default(""),
-  extra_details: text("extra_details").default(""),
-  extra_price: text("extra_price").default(""),
+  category: uuid("category").references(() => categories.id),
   items: uuid("menu_items").array(), // Array of UUIDs for food items
 });
 

@@ -163,24 +163,21 @@ export default function EditRestaurantMenu({
     };
 
     const saveMenu = () => {
-      fetch(`/api/menus/${menu.id}`, {
+      return fetch(`/api/menus/${menu.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...menu,
-          content: menu.content.map((section) => ({
-            ...section,
-            items: section.items?.map((item) => item.id),
-          })),
+          ...menuObject,
         }),
       });
     };
 
     toast.promise(
       () => {
-        return saveRestaurant();
+        return saveMenu();
       },
       {
         loading: "Saving your changes...",
