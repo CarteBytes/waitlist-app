@@ -11,6 +11,7 @@ import {
   FaArrowUp,
   FaEye,
   FaEyeSlash,
+  FaFloppyDisk,
   FaPlus,
 } from "react-icons/fa6";
 import SlideMenu from "../SlideMenu";
@@ -22,6 +23,7 @@ import { ItemCategoryT } from "../../types/category";
 import AddMenuEntity from "../AddMenuEntity";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
+import { EnhancedButton } from "@/components/ui/enhanced-btn";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -44,6 +46,9 @@ export default function EditRestaurantMenu({
   const [restaurantObject, setRestaurantObject] = useState(restaurant);
   const [menuObject, setMenuObject] = useState(menu);
   const [modPageIndex, setModPageIndex] = useState<null | number>(null);
+  const menuFormIsDirty = JSON.stringify(menuObject) !== JSON.stringify(menu);
+  const restaurantFormIsDirty =
+    JSON.stringify(restaurantObject) !== JSON.stringify(restaurant);
 
   const onResetSideMenu = () => {
     setShowAddForm(false);
@@ -176,6 +181,7 @@ export default function EditRestaurantMenu({
     } else if (type === "categories") {
       setSelectedCategory(entity);
     } else if (type === "menu") {
+      return;
     }
     setShowAddForm(true);
   };
@@ -202,22 +208,16 @@ export default function EditRestaurantMenu({
             <h2 className="pb-3 pt-6 text-2xl capitalize">
               {type} ({getData()?.length ?? 0})
             </h2>
-            {type === "menu" &&
-              JSON.stringify(menuObject) !== JSON.stringify(menu) && (
-                <button
-                  className="bg-black text-[#F6FE9B]"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    menuObject.content.forEach(
-                      (c) =>
-                        c.category?.image_url &&
-                        URL.revokeObjectURL(c.category?.image_url),
-                    );
-                    setMenuObject(menu);
-                  }}>
-                  Revert all changes
-                </button>
-              )}
+            {(menuFormIsDirty || restaurantFormIsDirty) && (
+              <EnhancedButton
+                variant="expandIcon"
+                Icon={FaFloppyDisk}
+                onClick={handleSave}
+                iconPlacement="right"
+                className="my-8 w-max bg-[#F6FE9B] text-black">
+                Publish
+              </EnhancedButton>
+            )}
           </div>
 
           <div className="flex flex-col gap-3" ref={parent}>
@@ -241,6 +241,22 @@ export default function EditRestaurantMenu({
                   item={item}
                 />
               ),
+            )}
+
+            {type === "menu" && menuFormIsDirty && (
+              <button
+                className="mt-16 cursor-pointer rounded-lg border-[1px] border-[#F6FE9B] px-6 py-3 text-[#F6FE9B]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  menuObject.content.forEach(
+                    (c) =>
+                      c.category?.image_url &&
+                      URL.revokeObjectURL(c.category?.image_url),
+                  );
+                  setMenuObject(menu);
+                }}>
+                Revert all changes
+              </button>
             )}
           </div>
 
@@ -293,7 +309,7 @@ export default function EditRestaurantMenu({
     <div
       className={`min-h-svh w-full max-w-xl ${showPreview ? "pb-0" : "pb-24"}`}>
       <NavHeader
-        restaurant={restaurant}
+        restaurant={restaurantObject}
         onChangeRestaurant={setRestaurantObject}
       />
       {getContent()}
@@ -346,7 +362,7 @@ const ContentCard = ({
               <img
                 alt={"content image"}
                 src={imageUrl}
-                className="h-16 w-16 rounded-lg object-cover"
+                className="h-24 w-24 rounded-lg object-cover"
               />
             </div>
           )}
@@ -440,7 +456,7 @@ const ItemCard = ({
           <img
             alt={`${item.name} image`}
             src={item.image_url}
-            className="h-16 w-16 rounded-lg object-cover"
+            className="h-24 w-24 rounded-lg object-cover"
           />
         </div>
       )}
