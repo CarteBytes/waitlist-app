@@ -93,7 +93,6 @@ const ContentPages = ({
   return (
     <>
       {sortedMenuContent?.map((section) => {
-        console.log(section);
         return (
           <section
             key={section.id}
@@ -250,12 +249,14 @@ const TitlePage = ({
         </h1>
       </div>
       <div className="flex h-full flex-col justify-center text-center">
-        <img
-          alt={`${restaurant.name} logo`}
-          className="h-auto w-full"
-          id="hero-logo"
-          src={restaurant.logo_url}
-        />
+        {restaurant.logo_url && (
+          <img
+            alt={`${restaurant.name} logo`}
+            className="h-auto w-full"
+            id="hero-logo"
+            src={restaurant.logo_url}
+          />
+        )}
         {/* <h2 className="mt-6 text-4xl font-semibold">{restaurant.name}</h2> */}
         {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
         <AdminWrapper>

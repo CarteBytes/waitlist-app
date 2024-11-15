@@ -49,7 +49,6 @@ export async function PUT(
       } as UploadImageAndRetrieveUrlInterface);
     }
 
-    console.log(imageUrl);
     const updatedItem = insertItemSchema.parse(body);
 
     const { data, error } = await supabase

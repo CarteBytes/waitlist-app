@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { isObjectURL } from "@/lib/utils";
+import React, { ChangeEvent, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
 
 function ImageUploadComponent({
@@ -9,31 +9,27 @@ function ImageUploadComponent({
   onFileChange,
 }: {
   file_?: string;
-  onFileChange?: (newFile: File | null) => void;
+  onFileChange?: any;
 }) {
   const [fileStr, setFileStr] = useState<string | null>(file_ ?? null);
   const [file, setFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (onFileChange) {
-      onFileChange(file);
-    }
-  }, [file]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
       setFileStr(URL.createObjectURL(e.target.files[0]) as string);
+      onFileChange(e.target.files[0]);
     }
   };
 
   const handleRemoveFile = (e: any) => {
     e.preventDefault();
-    if (fileStr) {
-      URL.revokeObjectURL(fileStr);
+    if (isObjectURL(fileStr!)) {
+      URL.revokeObjectURL(fileStr!);
     }
     setFile(null);
     setFileStr(null);
+    onFileChange(null);
   };
 
   return (

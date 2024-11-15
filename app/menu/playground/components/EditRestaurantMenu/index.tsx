@@ -6,14 +6,7 @@ import NavHeader from "../NavHeader";
 import { useState } from "react";
 import TogglePill from "../TogglePill";
 import { ItemT } from "../../types/item";
-import {
-  FaArrowDown,
-  FaArrowUp,
-  FaEye,
-  FaEyeSlash,
-  FaFloppyDisk,
-  FaPlus,
-} from "react-icons/fa6";
+import { FaEye, FaEyeSlash, FaFloppyDisk, FaPlus } from "react-icons/fa6";
 import SlideMenu from "../SlideMenu";
 import MenuItemForm from "../MenuItemForm";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -24,6 +17,9 @@ import AddMenuEntity from "../AddMenuEntity";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
+import { isObjectURL, retrieveFile } from "@/lib/utils";
+import ContentCard from "./ContentCard";
+import ItemCard from "./ItemCard";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -148,21 +144,44 @@ export default function EditRestaurantMenu({
   };
 
   const handleSave = async () => {
-    toast.promise(
-      () =>
-        fetch(`/api/menus/${menu.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...menu,
-            content: menu.content.map((section) => ({
-              ...section,
-              items: section.items?.map((item) => item.id),
-            })),
-          }),
+    const saveRestaurant = async () => {
+      return fetch(`/api/restaurants/${restaurant.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          isObjectURL(restaurantObject.logo_url)
+            ? {
+                ...restaurant,
+                ...restaurantObject,
+                file: await retrieveFile(restaurantObject.logo_url, true),
+              }
+            : { ...restaurant, ...restaurantObject },
+        ),
+      });
+    };
+
+    const saveMenu = () => {
+      fetch(`/api/menus/${menu.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...menu,
+          content: menu.content.map((section) => ({
+            ...section,
+            items: section.items?.map((item) => item.id),
+          })),
         }),
+      });
+    };
+
+    toast.promise(
+      () => {
+        return saveRestaurant();
+      },
       {
         loading: "Saving your changes...",
         success: (data) => {
@@ -245,7 +264,7 @@ export default function EditRestaurantMenu({
 
             {type === "menu" && menuFormIsDirty && (
               <button
-                className="mt-16 cursor-pointer rounded-lg border-[1px] border-[#F6FE9B] px-6 py-3 text-[#F6FE9B]"
+                className="mt-16 cursor-pointer rounded-lg px-6 py-3 text-[#F6FE9B] underline"
                 onClick={(e) => {
                   e.preventDefault();
                   menuObject.content.forEach(
@@ -255,7 +274,7 @@ export default function EditRestaurantMenu({
                   );
                   setMenuObject(menu);
                 }}>
-                Revert all changes
+                Revert menu changes
               </button>
             )}
           </div>
@@ -316,179 +335,5 @@ export default function EditRestaurantMenu({
     </div>
   );
 }
-
-const ContentCard = ({
-  el,
-  index,
-  handleClickCard,
-  handleDelete,
-  setModPageIndex,
-  handleClickAdd,
-  isLast,
-  switchIndices,
-}: {
-  el: any;
-  handleDelete: (pageIndex: number) => void;
-  index: number;
-  handleClickCard: Function;
-  handleClickAdd: () => void;
-  isLast?: boolean;
-  setModPageIndex: (page: number | null) => void;
-  switchIndices: (idxA: number, idxB: number) => void;
-}) => {
-  const imageUrl = el?.hero_image ?? el?.category?.image_url ?? null;
-
-  return (
-    <>
-      <div className={`flex h-8 items-center justify-center`}>
-        <button
-          className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-2"
-          onClick={() => {
-            handleClickAdd();
-            setModPageIndex(index);
-          }}>
-          <FaPlus className="text-lg text-black" />
-        </button>
-      </div>
-      <div className="relative">
-        <div
-          className="flex w-full cursor-pointer rounded-lg border-2 border-[#F6FE9B] p-4"
-          onClick={() => {
-            handleClickCard(el);
-          }}>
-          {/* Image Section */}
-          {imageUrl && (
-            <div className="mr-4 flex-shrink-0">
-              <img
-                alt={"content image"}
-                src={imageUrl}
-                className="h-24 w-24 rounded-lg object-cover"
-              />
-            </div>
-          )}
-
-          {/* Content Section */}
-          <div className="flex-grow">
-            <div className="flex items-center justify-between">
-              <div className="text-lg font-bold">{el.category?.name}</div>
-              {!!el.status && (
-                <div className="flex items-center gap-2 text-sm">
-                  <div
-                    className={`h-3 w-3 rounded-full ${
-                      el.status === "published" ? "bg-green-400" : "bg-red-600"
-                    }`}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="opacity-70">{el.category?.description}</div>
-          </div>
-
-          <div className="flex items-center">
-            {index !== 0 && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchIndices(index, index - 1);
-                }}
-                className="mr-2 rounded-full bg-[#F6FE9B] p-2 text-xl text-black">
-                <FaArrowUp />
-              </button>
-            )}
-            {!isLast && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchIndices(index, index + 1);
-                }}
-                className="rounded-full bg-[#F6FE9B] p-2 text-xl text-black">
-                <FaArrowDown />
-              </button>
-            )}
-          </div>
-        </div>
-        <div className="absolute bottom-[-24px] right-2">
-          <button
-            className="mr-1 mt-[-9px] text-sm text-[#F6FE9B] underline disabled:text-gray-500"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleDelete(index);
-            }}>
-            Remove
-          </button>
-        </div>
-      </div>
-      {isLast && (
-        <div className={`flex h-10 items-center justify-center`}>
-          <button
-            className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-2"
-            onClick={() => {
-              handleClickAdd();
-              setModPageIndex(index + 1);
-            }}>
-            <FaPlus className="text-lg text-black" />
-          </button>
-        </div>
-      )}
-    </>
-  );
-};
-
-const ItemCard = ({
-  item,
-  handleClickCard,
-}: {
-  item: ItemCategoryT | ItemT;
-  handleClickCard: (i: ItemCategoryT | ItemT) => void;
-}) => {
-  return (
-    <div
-      className="flex w-full cursor-pointer rounded-lg border-2 border-[#F6FE9B] p-4"
-      onClick={() => {
-        handleClickCard(item);
-      }}>
-      {/* Image Section */}
-      {item.image_url && (
-        <div className="mr-4 flex-shrink-0">
-          <img
-            alt={`${item.name} image`}
-            src={item.image_url}
-            className="h-24 w-24 rounded-lg object-cover"
-          />
-        </div>
-      )}
-
-      {/* Content Section */}
-      <div className="flex-grow">
-        <div className="flex items-center justify-between">
-          <div className="text-lg font-bold">{item.name}</div>
-          {!!(item as ItemT).status && (
-            <div className="flex items-center gap-2 text-sm">
-              <div
-                className={`h-3 w-3 rounded-full ${
-                  (item as ItemT).status === "published"
-                    ? "bg-green-400"
-                    : "bg-red-600"
-                }`}
-              />
-            </div>
-          )}
-        </div>
-        <div className="opacity-70">{item.description}</div>
-      </div>
-      {/* <div className="mt-1 flex justify-end">
-                  <button
-                    className="flex items-center gap-2 rounded-lg text-sm text-[#F6FE9B] underline disabled:text-gray-500"
-                    onClick={(e) => handleRemoval(e, item)}>
-                    {type === "menu" ? "Remove" : "Delete"}
-                    {type === "menu" ? <FaCircleMinus /> : <FaTrash />}
-                  </button>
-                </div> */}
-    </div>
-  );
-};
 
 //-translate-x-1/2

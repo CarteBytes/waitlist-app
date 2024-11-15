@@ -104,7 +104,6 @@ const EditRestaurantForm = ({
 
   const onSubmit = (data: any) => {
     // Handle form submission logic
-    console.log("Restaurant updated:", data);
   };
   return (
     <div className="min-h-screen w-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pb-8 pt-4 text-black">
@@ -534,7 +533,12 @@ const EditRestaurantForm = ({
 
                 <ImageUploadComponent
                   file_={restaurant?.logo_url}
-                  onFileChange={(newFile: any) => setFile(newFile)}
+                  onFileChange={(newFile: any) => {
+                    onChangeRestaurant({
+                      ...restaurant,
+                      logo_url: newFile ? URL.createObjectURL(newFile) : "",
+                    });
+                  }}
                 />
               </div>
             </div>

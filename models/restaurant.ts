@@ -13,7 +13,7 @@ export const restaurants = pgTable("restaurants", {
   address2: text("address2"),
   city: varchar("city", { length: 255 }).notNull(),
   state: varchar("state", { length: 50 }).notNull(),
-  zip_code: varchar("zip_code", { length: 15 }).notNull(),
+  zip_code: varchar("zip_code", { length: 15 }),
   country: varchar("country", { length: 255 }),
   currency_prefix: varchar("currency_prefix", { length: 10 }).default("$"),
   logo_url: text("logo_url"),
