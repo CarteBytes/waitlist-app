@@ -140,53 +140,56 @@ const ContentPages = ({
 
             {(section?.items?.length ?? 0) > 0 && (
               <div className="flex flex-col gap-3 px-8 pb-20 pt-2">
-                {section.items?.map((item: ItemT) => (
-                  <div key={item.id}>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p
-                          className="text-xl font-semibold"
-                          style={{
-                            color: getPageBodyTextColor(section.page_index),
-                          }}>
-                          {item.name}
-                        </p>
-                      </div>
-                      {item.price && (
+                {section.items?.map((item: ItemT) => {
+                  if (item.status === "unpublished") return null;
+                  return (
+                    <div key={item.id}>
+                      <div className="flex items-start justify-between">
                         <div>
                           <p
-                            className="ml-4 w-max text-nowrap text-lg font-semibold"
+                            className="text-xl font-semibold"
                             style={{
                               color: getPageBodyTextColor(section.page_index),
                             }}>
-                            {restaurant.currency_prefix}
-                            {item.price}
+                            {item.name}
                           </p>
                         </div>
+                        {item.price && (
+                          <div>
+                            <p
+                              className="ml-4 w-max text-nowrap text-lg font-semibold"
+                              style={{
+                                color: getPageBodyTextColor(section.page_index),
+                              }}>
+                              {restaurant.currency_prefix}
+                              {item.price}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      {item.description && (
+                        <p
+                          className="text-md leading-tight"
+                          style={{
+                            color: getPageBodyTextColor(section.page_index),
+                            opacity: 0.75,
+                          }}>
+                          {item.description}
+                        </p>
+                      )}
+                      {item.calories && (
+                        <p
+                          className="text-md font-thin leading-tight"
+                          style={{
+                            color: getPageBodyTextColor(section.page_index),
+                            opacity: 0.75,
+                          }}>
+                          {item.calories} Cal
+                        </p>
                       )}
                     </div>
-                    {item.description && (
-                      <p
-                        className="text-md leading-tight"
-                        style={{
-                          color: getPageBodyTextColor(section.page_index),
-                          opacity: 0.75,
-                        }}>
-                        {item.description}
-                      </p>
-                    )}
-                    {item.calories && (
-                      <p
-                        className="text-md font-thin leading-tight"
-                        style={{
-                          color: getPageBodyTextColor(section.page_index),
-                          opacity: 0.75,
-                        }}>
-                        {item.calories} Cal
-                      </p>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
 
                 {/* <div
                   className="flex items-start justify-between text-lg leading-tight"

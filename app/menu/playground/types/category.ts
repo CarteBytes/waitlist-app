@@ -7,5 +7,5 @@ export type ItemCategoryT = {
   org_id?: string;
   created_at?: string;
   last_updated?: string;
-  status: "published" | "unpublished";
+  // status: "published" | "unpublished";
 };

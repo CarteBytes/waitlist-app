@@ -45,7 +45,7 @@ const MenuCategoryForm = ({
       name: "",
       description: "",
       price: null,
-      status: "unpublished",
+      // status: "unpublished",
     },
   );
 
@@ -259,7 +259,7 @@ const MenuCategoryForm = ({
             />
 
             {/* status */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="status"
               render={({ field }) => (
@@ -291,7 +291,7 @@ const MenuCategoryForm = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <ImageUploadComponent
               file_={category?.image_url}
               onFileChange={(newFile: any) => setFile(newFile)}

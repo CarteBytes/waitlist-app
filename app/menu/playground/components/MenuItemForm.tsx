@@ -348,10 +348,10 @@ const MenuItemForm = ({
                 </FormItem>
               )}
             />
-            <ImageUploadComponent
+            {/* <ImageUploadComponent
               file_={item?.image_url}
               onFileChange={(newFile: any) => setFile(newFile)}
-            />
+            /> */}
           </div>
 
           <EnhancedButton

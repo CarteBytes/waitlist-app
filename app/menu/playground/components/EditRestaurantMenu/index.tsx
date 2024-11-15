@@ -9,9 +9,9 @@ import { ItemT } from "../../types/item";
 import {
   FaArrowDown,
   FaArrowUp,
+  FaEye,
   FaEyeSlash,
   FaPlus,
-  FaTrash,
 } from "react-icons/fa6";
 import SlideMenu from "../SlideMenu";
 import MenuItemForm from "../MenuItemForm";
@@ -22,7 +22,6 @@ import { ItemCategoryT } from "../../types/category";
 import AddMenuEntity from "../AddMenuEntity";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
-import Image from "next/image";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -82,7 +81,11 @@ export default function EditRestaurantMenu({
   };
 
   const handleClickAdd = () => {
-    setShowAddForm(true);
+    if (type === "menu") {
+      setShowPreview(true);
+    } else {
+      setShowAddForm(true);
+    }
   };
 
   const handleDeletePage = (deletePageIndex: number) => {
@@ -253,8 +256,8 @@ export default function EditRestaurantMenu({
           <div className="fixed bottom-[22px] right-3 z-10 transform">
             <button
               onClick={handleClickAdd}
-              className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4">
-              <FaPlus className="text-xl text-black" />
+              className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4 text-xl text-black">
+              {type === "menu" ? <FaEye /> : <FaPlus />}
             </button>
           </div>
         </div>
@@ -445,11 +448,13 @@ const ItemCard = ({
       <div className="flex-grow">
         <div className="flex items-center justify-between">
           <div className="text-lg font-bold">{item.name}</div>
-          {!!item.status && (
+          {!!(item as ItemT).status && (
             <div className="flex items-center gap-2 text-sm">
               <div
                 className={`h-3 w-3 rounded-full ${
-                  item.status === "published" ? "bg-green-400" : "bg-red-600"
+                  (item as ItemT).status === "published"
+                    ? "bg-green-400"
+                    : "bg-red-600"
                 }`}
               />
             </div>
