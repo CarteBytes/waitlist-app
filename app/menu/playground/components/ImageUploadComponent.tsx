@@ -1,7 +1,7 @@
 "use client";
 
 import { isObjectURL } from "@/lib/utils";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa6";
 
 function ImageUploadComponent({
@@ -12,11 +12,13 @@ function ImageUploadComponent({
   onFileChange?: any;
 }) {
   const [fileStr, setFileStr] = useState<string | null>(file_ ?? null);
-  const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    setFileStr(file_ ?? null);
+  }, [file_]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
       setFileStr(URL.createObjectURL(e.target.files[0]) as string);
       onFileChange(e.target.files[0]);
     }
@@ -24,10 +26,15 @@ function ImageUploadComponent({
 
   const handleRemoveFile = (e: any) => {
     e.preventDefault();
+    const inputElement = document.getElementById(
+      "dropzone-file",
+    ) as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = ""; // Clear the input value
+    }
     if (isObjectURL(fileStr!)) {
       URL.revokeObjectURL(fileStr!);
     }
-    setFile(null);
     setFileStr(null);
     onFileChange(null);
   };

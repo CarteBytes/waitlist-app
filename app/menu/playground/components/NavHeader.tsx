@@ -4,15 +4,20 @@ import SlideMenu from "./SlideMenu";
 import EditRestaurantForm from "./EditRestaurantForm";
 import { RestaurantT } from "../types/restaurant";
 import Image from "next/image";
+import { or } from "drizzle-orm";
 
 function NavHeader({
+  originalRestaurant,
   restaurant,
   onChangeRestaurant,
 }: {
+  originalRestaurant?: RestaurantT;
   restaurant: RestaurantT;
   onChangeRestaurant: (newRes: RestaurantT) => void;
 }) {
   const [showMenu, setShowMenu] = useState(false);
+  const restaurantFormIsDirty =
+    JSON.stringify(restaurant) !== JSON.stringify(originalRestaurant);
 
   return (
     <>
@@ -37,6 +42,18 @@ function NavHeader({
           restaurant={restaurant}
           onChangeRestaurant={onChangeRestaurant!}
         />
+        {originalRestaurant && restaurantFormIsDirty && (
+          <div className="flex w-full justify-center">
+            <button
+              className="mx-auto mb-8 mt-16 cursor-pointer rounded-lg px-6 py-3 text-black underline"
+              onClick={(e) => {
+                e.preventDefault();
+                onChangeRestaurant({ ...originalRestaurant });
+              }}>
+              Revert restaurant changes
+            </button>
+          </div>
+        )}
       </SlideMenu>
     </>
   );

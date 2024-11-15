@@ -328,6 +328,7 @@ export default function EditRestaurantMenu({
     <div
       className={`min-h-svh w-full max-w-xl ${showPreview ? "pb-0" : "pb-24"}`}>
       <NavHeader
+        originalRestaurant={restaurant}
         restaurant={restaurantObject}
         onChangeRestaurant={setRestaurantObject}
       />
