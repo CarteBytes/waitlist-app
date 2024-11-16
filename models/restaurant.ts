@@ -7,12 +7,12 @@ export const restaurants = pgTable("restaurants", {
   org_id: varchar("org_id")
     .references(() => organizations.id)
     .notNull(), // Foreign key
-  name: varchar("name", { length: 255 }).notNull(),
-  phone: varchar("phone", { length: 15 }).notNull(),
-  address: text("address").notNull(),
-  address2: text("address2"),
-  city: varchar("city", { length: 255 }).notNull(),
-  state: varchar("state", { length: 50 }).notNull(),
+  name: varchar("name", { length: 255 }).default(""),
+  phone: varchar("phone", { length: 15 }).default(""),
+  address: text("address").default(""),
+  address2: text("address2").default(""),
+  city: varchar("city", { length: 255 }).default(""),
+  state: varchar("state", { length: 50 }).default(""),
   zip_code: varchar("zip_code", { length: 15 }),
   country: varchar("country", { length: 255 }),
   currency_prefix: varchar("currency_prefix", { length: 10 }).default("$"),

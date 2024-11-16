@@ -106,7 +106,7 @@ export default function EditRestaurantMenu({
     setMenuObject(newMenu);
   };
 
-  const handleAddPage = (page: any) => {
+  const handleAddPage = async (page: any) => {
     const newMenuContent = menuObject.content.map((section) => {
       const newSection = { ...section };
       if (newSection.page_index >= modPageIndex!) {
@@ -117,10 +117,17 @@ export default function EditRestaurantMenu({
 
     const newPage: MenuSectionT = {
       id: uuidv4(),
-      page_index: modPageIndex!,
+      page_index: menuObject.content.length === 0 ? 0 : modPageIndex!,
       section_index: 0,
       ...page,
     };
+
+    if (page.category.type === "default") {
+      const itemsData = await fetch(
+        `/api/items?org_id=${restaurant.org_id}&category_id=${page.category?.id ?? ""}`,
+      );
+      newPage.items = (await itemsData.json()) ?? [];
+    }
 
     newMenuContent.push(newPage);
     const newMenu = {

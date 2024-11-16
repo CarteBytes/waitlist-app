@@ -30,7 +30,7 @@ function LiberoMenu({
     <div>
       <div
         id="menu"
-        className={`w-full max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}
+        className={`w-screen max-w-xl overflow-hidden ${getFontFamily(restaurant.font_family)} antialiased`}
         style={{ color: restaurant.primary_text_color }}>
         <TitlePage restaurant={restaurant} isSpanish={isSpanish} />
         {/* <RusticEdge1
@@ -231,7 +231,7 @@ const TitlePage = ({
   return (
     <section
       id="hero"
-      className={`hero duration-2000 flex h-svh flex-col px-8 py-12 transition-all ease-linear`}
+      className={`hero duration-2000 flex min-h-svh flex-col px-8 py-12 transition-all ease-linear`}
       style={{ background: gradientString }}>
       <div id="hero-header" className="flex justify-between">
         <h1 className="text-5xl font-semibold">
@@ -261,7 +261,8 @@ const TitlePage = ({
         {/* <h3 className="mt-2 text-xl font-semibold">{restaurant.phone}</h3> */}
         <AdminWrapper>
           <h3 className="mt-4 text-2xl font-semibold">
-            {restaurant.city}, {restaurant.state}
+            {restaurant.city}
+            {!!restaurant.city && !!restaurant.state && ","} {restaurant.state}
           </h3>
         </AdminWrapper>
       </div>
