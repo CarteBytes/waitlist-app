@@ -231,7 +231,7 @@ const TitlePage = ({
   return (
     <section
       id="hero"
-      className={`hero duration-2000 flex min-h-svh flex-col px-8 py-12 transition-all ease-linear`}
+      className={`hero duration-2000 flex h-svh flex-col px-8 py-12 transition-all ease-linear`}
       style={{ background: gradientString }}>
       <div id="hero-header" className="flex justify-between">
         <h1 className="text-5xl font-semibold">

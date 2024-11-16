@@ -100,7 +100,7 @@ export async function PUT(
 
     // Delete existing content items for this menu
     const { error: deleteContentError } = await supabase
-      .from("menu_sections_org")
+      .from("menu_sections")
       .delete()
       .eq("menu_id", menu_id);
 
@@ -161,7 +161,7 @@ export async function PUT(
 
     // Insert all new content items
     const { data: updatedMenuContents, error: insertError } = await supabase
-      .from("menu_sections_org")
+      .from("menu_sections")
       .insert(contentSections);
 
     if (insertError) {

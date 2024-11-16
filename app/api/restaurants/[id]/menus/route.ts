@@ -109,7 +109,7 @@ export async function GET(
   const defaultMenu = defaultOnly ? menuArr[0] : menuArr;
 
   const { data: content, error: contentError } = await supabase
-    .from("menu_sections_org")
+    .from("menu_sections")
     .select("*")
     .eq("menu_id", defaultMenu.id);
 
