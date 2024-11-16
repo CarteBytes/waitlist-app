@@ -237,6 +237,16 @@ export default function EditRestaurantMenu({
           </div>
 
           <div className="flex flex-col gap-3" ref={parent}>
+            {getData().length === 0 && (
+              <p className="px-10 text-center text-lg text-[#F6FE9B]">
+                Here you can add your first{" "}
+                {type === "menu"
+                  ? "piece of content to your menu and preview it"
+                  : type === "items"
+                    ? "item and assign it to a category"
+                    : "category, you should do so before continuing"}
+              </p>
+            )}
             {getData()?.map((item, idx) =>
               type === "menu" ? (
                 <ContentCard
@@ -287,9 +297,17 @@ export default function EditRestaurantMenu({
           </div>
           <div className="fixed bottom-[22px] right-3 z-10 transform">
             <button
-              onClick={type === "menu" ? handleClickPreview : handleClickAdd}
+              onClick={
+                type === "menu" && menuObject.content.length > 0
+                  ? handleClickPreview
+                  : handleClickAdd
+              }
               className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-4 text-xl text-black">
-              {type === "menu" ? <FaEye /> : <FaPlus />}
+              {type === "menu" && menuObject.content.length > 0 ? (
+                <FaEye />
+              ) : (
+                <FaPlus />
+              )}
             </button>
           </div>
         </div>
