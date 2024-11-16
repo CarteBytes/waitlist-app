@@ -288,7 +288,10 @@ const MenuItemForm = ({
                   <Select
                     onValueChange={(newVal: string) => {
                       field.onChange(newVal);
-                      onChangeMenuItem({ ...menuItemForm, status: newVal });
+                      onChangeMenuItem({
+                        ...menuItemForm,
+                        category_id: newVal,
+                      });
                     }}
                     value={menuItemForm.category_id ?? undefined}>
                     <FormControl className="text-yellow-100">
