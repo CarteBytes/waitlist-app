@@ -162,7 +162,7 @@ export default function EditRestaurantMenu({
       });
     };
 
-    const saveMenu = () => {
+    const saveMenu = async () => {
       return fetch(`/api/menus/${menu.id}`, {
         method: "PUT",
         headers: {
@@ -176,17 +176,28 @@ export default function EditRestaurantMenu({
     };
 
     toast.promise(
-      () => {
-        return saveMenu();
+      async () => {
+        // Execute both saveRestaurant and saveMenu concurrently
+        const [restaurantResponse, menuResponse] = await Promise.all([
+          saveRestaurant(),
+          saveMenu(),
+        ]);
+
+        // Handle errors if necessary
+        if (!restaurantResponse.ok) {
+          throw new Error("Failed to save restaurant");
+        }
+
+        if (!menuResponse.ok) {
+          throw new Error("Failed to save menu");
+        }
+
+        return [restaurantResponse, menuResponse];
       },
       {
         loading: "Saving your changes...",
-        success: (data) => {
-          return "Changes have been saved! 🎉";
-        },
-        error: (error) => {
-          return "An error occurred while saving. Please try again 😢.";
-        },
+        success: "Changes have been saved! 🎉",
+        error: "An error occurred while saving. Please try again 😢.",
       },
     );
   };
