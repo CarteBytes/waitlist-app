@@ -5,8 +5,11 @@ import {
   checkMenuExists,
   checkOrgExists,
   checkRestaurantExists,
+  uploadImageAndRetreiveUrl,
 } from "@/lib/helpers";
 import { MenuSectionT } from "@/app/menu/playground/types/menu";
+import { insertCategorySchema } from "@/schemas/category";
+import { v4 } from "uuid";
 
 // this gets a particular menu
 export async function GET(
@@ -105,8 +108,47 @@ export async function PUT(
       throw new Error(deleteContentError.message);
     }
 
+    // handle new images
+    const newBodyContent: MenuSectionT[] = await Promise.all(
+      body.content.map(async (section: MenuSectionT) => {
+        if (!!(section.category as any)?.file) {
+          const newId = v4();
+
+          const image_url = await uploadImageAndRetreiveUrl({
+            file: (section.category as any).file,
+            keyType: "category",
+            orgId: body.org_id,
+            id: newId,
+          });
+
+          const parsedData = insertCategorySchema.parse({
+            ...section.category,
+            org_id: body.org_id,
+            name: "",
+            id: newId,
+            type: "image",
+            image_url,
+          });
+
+          const { data: newCategory, error } = await supabase
+            .from("item_categories")
+            .insert([parsedData])
+            .select()
+            .single();
+
+          if (error) {
+            console.error("Error inserting new category:", error);
+            return section; // Return unchanged section in case of an error
+          }
+
+          section.category = newCategory;
+        }
+        return section; // Always return the updated or unchanged section
+      }),
+    );
+
     // Map new content items to include the menu's ID and insert into menu_sections
-    const contentSections = body.content.map((section: MenuSectionT) => ({
+    const contentSections = newBodyContent.map((section: MenuSectionT) => ({
       org_id: body.org_id,
       restaurant_id: body.restaurant_id,
       menu_id: menu_id,

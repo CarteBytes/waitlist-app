@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { convertToBase64 } from "@/lib/utils";
 
 function AddMenuEntity({
   availableCategories,
@@ -29,7 +30,7 @@ function AddMenuEntity({
   );
   const [entity, setEntity] = useState();
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     let newPage: any = {
       category: entity,
     };
@@ -37,6 +38,8 @@ function AddMenuEntity({
       newPage = {
         category: {
           image_url: file ? URL.createObjectURL(file) : null,
+          type: "image",
+          file: file ? await convertToBase64(file!) : null,
         },
       };
     }

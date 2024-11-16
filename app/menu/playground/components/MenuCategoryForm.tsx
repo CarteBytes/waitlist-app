@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,17 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { insertItemSchema } from "@/schemas/item"; // Adjust the schema for MenuItem
 import { ItemCategoryT } from "../types/category";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ItemT } from "../types/item";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { FaArrowRight } from "react-icons/fa6";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploadComponent from "./ImageUploadComponent";
 import { convertToBase64 } from "@/lib/utils";
