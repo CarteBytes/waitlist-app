@@ -116,6 +116,7 @@ function AddMenuEntity({
         <h1 className="text-xl font-bold">What would you like to insert?</h1>
         <div className="mt-3 flex flex-col gap-y-3">
           <EnhancedButton
+            disabled={availableCategories.length === 0}
             onClick={() => setAddEntityKey("category")}
             variant="expandIcon"
             Icon={FaBowlFood}
