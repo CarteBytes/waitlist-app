@@ -20,7 +20,7 @@ export const items = pgTable("menu_items", {
   }),
   name: varchar("name", { length: 255 }).notNull(),
   description: varchar("description", { length: 1000 }).default(""),
-  price: numeric({ precision: 10, scale: 2 }).default(""),
+  // price: numeric({ precision: 10, scale: 2 }).default(""),
   calories: text("calories").default(""),
 
   // allergens: json("allergens").default([]), // Array of allergens
