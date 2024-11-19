@@ -13,16 +13,9 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { insertItemSchema } from "@/schemas/item"; // Adjust the schema for MenuItem
 import { ItemCategoryT } from "../types/category";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEvent,
-  FormEventHandler,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { ItemT } from "../types/item";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { FaArrowRight } from "react-icons/fa6";
@@ -34,20 +27,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { revalidateTag } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
-import ImageUploadComponent from "./ImageUploadComponent";
 import { convertToBase64 } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const MenuItemForm = ({
   item,
   categories,
   orgId,
+  onSubmitCallback,
 }: {
   orgId: string;
   item?: ItemT;
   categories: ItemCategoryT[]; // List of categories
+  onSubmitCallback: () => void;
 }) => {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [menuItemForm, setMenuItemForm] = useState<ItemT>(
     item ?? {
@@ -122,6 +117,8 @@ const MenuItemForm = ({
         {
           loading: "Updating item...",
           success: (data) => {
+            router.refresh();
+            onSubmitCallback();
             return "Your item has been updated! 🎉";
           },
           error: (error) => {
@@ -142,7 +139,9 @@ const MenuItemForm = ({
         {
           loading: "Creating item...",
           success: (data) => {
-            revalidateTag("orgItems");
+            router.refresh();
+            onSubmitCallback();
+            // revalidateTag("orgItems");
             return "Your item has been created! 🎉";
           },
           error: (error) => {

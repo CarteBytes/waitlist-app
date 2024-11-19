@@ -21,14 +21,18 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploadComponent from "./ImageUploadComponent";
 import { convertToBase64 } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const MenuCategoryForm = ({
   category,
   orgId,
+  onSubmitCallback,
 }: {
   orgId: string;
   category?: ItemCategoryT;
+  onSubmitCallback: () => void;
 }) => {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [menuCategoryForm, setMenuCategoryForm] = useState<ItemCategoryT>(
     category ?? {
@@ -90,6 +94,8 @@ const MenuCategoryForm = ({
         {
           loading: "Updating category...",
           success: (data) => {
+            router.refresh();
+            onSubmitCallback();
             return "Your category has been updated! 🎉";
           },
           error: (error) => {
@@ -111,6 +117,8 @@ const MenuCategoryForm = ({
         {
           loading: "Creating category...",
           success: (data) => {
+            router.refresh();
+            onSubmitCallback();
             return "Your category has been created! 🎉";
           },
           error: (error) => {

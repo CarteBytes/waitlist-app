@@ -29,7 +29,7 @@ const fetchOrgItems = async (orgId: string) => {
   const itemsData = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/organizations/${orgId}/items`,
     {
-      // cache: "no-store",
+      cache: "no-store",
       next: { tags: ["orgItems"] },
     },
   );
@@ -41,7 +41,7 @@ const fetchOrgCategories = async (orgId: string) => {
   const categoriesData = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/organizations/${orgId}/categories`,
     {
-      // cache: "no-store",
+      cache: "no-store",
       next: { tags: ["orgCategories"] },
     },
   );

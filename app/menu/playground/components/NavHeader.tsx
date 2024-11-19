@@ -15,7 +15,7 @@ function NavHeader({
   restaurant: RestaurantT;
   onChangeRestaurant: (newRes: RestaurantT) => void;
 }) {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showRestaurantForm, setShowRestaurantForm] = useState(false);
   const restaurantFormIsDirty =
     JSON.stringify(restaurant) !== JSON.stringify(originalRestaurant);
 
@@ -23,7 +23,7 @@ function NavHeader({
     <>
       <div className="sticky top-0 z-10 flex h-20 items-center justify-between border-b-2 bg-[#F6FE9B] px-8 shadow-2xl">
         <button
-          onClick={() => setShowMenu(true)}
+          onClick={() => setShowRestaurantForm(true)}
           className="rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
           <FaStore />
         </button>
@@ -36,11 +36,12 @@ function NavHeader({
       </div>
       <SlideMenu
         slideFrom="left"
-        isOpen={showMenu}
-        onClose={() => setShowMenu(false)}>
+        isOpen={showRestaurantForm}
+        onClose={() => setShowRestaurantForm(false)}>
         <EditRestaurantForm
           restaurant={restaurant}
           onChangeRestaurant={onChangeRestaurant!}
+          onSubmitCallback={() => setShowRestaurantForm(false)}
         />
         {originalRestaurant && restaurantFormIsDirty && (
           <div className="flex w-full justify-center">

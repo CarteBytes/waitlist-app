@@ -56,8 +56,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(body, newItem);
-
     return NextResponse.json(newItem, { status: 201 });
   } catch (error: unknown) {
     console.error("Error creating item:", error);

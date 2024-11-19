@@ -14,7 +14,8 @@ export async function GET(
   const { data: menuCategoriesArr, error: menuCategoriesError } = await supabase
     .from("item_categories")
     .select("*")
-    .eq("org_id", orgId!);
+    .eq("org_id", orgId!)
+    .eq("type", "default");
 
   if (menuCategoriesError) {
     console.error("Error fetching menu categories:", menuCategoriesError);

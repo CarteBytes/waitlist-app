@@ -32,7 +32,10 @@ export async function PUT(
 
     const { data, error } = await supabase
       .from("restaurants")
-      .update({ ...updatedRestaurant, logo_url: imageUrl })
+      .update({
+        ...updatedRestaurant,
+        logo_url: imageUrl ?? updatedRestaurant.logo_url,
+      })
       .eq("org_id", body.org_id)
       .eq("id", params.id);
 

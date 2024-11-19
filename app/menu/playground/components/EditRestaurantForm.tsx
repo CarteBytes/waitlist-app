@@ -26,16 +26,22 @@ import { useEffect, useRef, useState } from "react";
 import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import autoAnimate from "@formkit/auto-animate";
 import ImageUploadComponent from "./ImageUploadComponent";
+import { EnhancedButton } from "@/components/ui/enhanced-btn";
+import { isObjectURL, retrieveFile } from "@/lib/utils";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 // import Link from "next/link";
 
 const EditRestaurantForm = ({
   restaurant,
   onChangeRestaurant,
+  onSubmitCallback,
 }: {
   restaurant: RestaurantT;
   onChangeRestaurant: (newRest: RestaurantT) => void;
+  onSubmitCallback: () => void;
 }) => {
-  const [File, setFile] = useState<null | File>(null);
+  const router = useRouter();
   const [socialToggles, setSocialToggles] = useState({
     facebook: false,
     instagram: false,
@@ -104,6 +110,36 @@ const EditRestaurantForm = ({
 
   const onSubmit = (data: any) => {
     // Handle form submission logic
+
+    const saveRestaurant = async () => {
+      return fetch(`/api/restaurants/${restaurant.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(
+          isObjectURL(restaurant.logo_url)
+            ? {
+                ...restaurant,
+                file: await retrieveFile(restaurant.logo_url, true),
+              }
+            : { ...restaurant },
+        ),
+      });
+    };
+
+    toast.promise(() => saveRestaurant(), {
+      loading: "Updating Restaurant details...",
+      success: (data) => {
+        router.refresh();
+        onSubmitCallback();
+        // revalidateTag("orgItems");
+        return "Your Restaurant has been updated! 🎉";
+      },
+      error: (error) => {
+        return "An error occurred while updating. Please try again 😢.";
+      },
+    });
   };
   return (
     <div className="min-h-screen w-full max-w-xl overflow-hidden bg-[#F6FE9B] px-8 pb-8 pt-4 text-black">
@@ -544,16 +580,14 @@ const EditRestaurantForm = ({
             </div>
           </div>
 
-          {/* <Link href="/">
-            <EnhancedButton
-              variant="expandIcon"
-              Icon={FaArrowRight}
-              type="submit"
-              iconPlacement="right"
-              className="mt-12 w-full">
-              Go to waitlist
-            </EnhancedButton>
-          </Link> */}
+          <EnhancedButton
+            variant="expandIcon"
+            Icon={FaArrowRight}
+            type="submit"
+            iconPlacement="right"
+            className="mt-12 w-full">
+            Save
+          </EnhancedButton>
         </form>
       </Form>
     </div>

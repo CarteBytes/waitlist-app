@@ -49,12 +49,14 @@ export async function PUT(
       } as UploadImageAndRetrieveUrlInterface);
     }
 
-    console.log(body);
     const updatedCategory = insertCategorySchema.parse(body);
 
     const { data, error } = await supabase
       .from("item_categories")
-      .update({ ...updatedCategory, image_url: imageUrl })
+      .update({
+        ...updatedCategory,
+        image_url: imageUrl ?? updatedCategory.image_url,
+      })
       .eq("org_id", body.org_id)
       .eq("id", params.id); // Update the restaurant with the given id
 

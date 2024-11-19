@@ -3,7 +3,7 @@
 import { RestaurantT } from "../../types/restaurant";
 import { MenuSectionT, MenuT } from "../../types/menu";
 import NavHeader from "../NavHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TogglePill from "../TogglePill";
 import { ItemT } from "../../types/item";
 import { FaEye, FaEyeSlash, FaFloppyDisk, FaPlus } from "react-icons/fa6";
@@ -17,9 +17,9 @@ import AddMenuEntity from "../AddMenuEntity";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
-import { isObjectURL, retrieveFile } from "@/lib/utils";
 import ContentCard from "./ContentCard";
 import ItemCard from "./ItemCard";
+import { useRouter } from "next/navigation";
 
 export default function EditRestaurantMenu({
   restaurant,
@@ -32,6 +32,7 @@ export default function EditRestaurantMenu({
   items: ItemT[];
   categories: ItemCategoryT[];
 }) {
+  const router = useRouter();
   const [parent] = useAutoAnimate();
   const [type, setType] = useState("categories");
   const [showAddForm, setShowAddForm] = useState(false);
@@ -42,9 +43,16 @@ export default function EditRestaurantMenu({
   const [restaurantObject, setRestaurantObject] = useState(restaurant);
   const [menuObject, setMenuObject] = useState(menu);
   const [modPageIndex, setModPageIndex] = useState<null | number>(null);
+
+  useEffect(() => {
+    setRestaurantObject(restaurant);
+  }, [restaurant]);
+
+  useEffect(() => {
+    setMenuObject(menu);
+  }, [menu]);
+
   const menuFormIsDirty = JSON.stringify(menuObject) !== JSON.stringify(menu);
-  const restaurantFormIsDirty =
-    JSON.stringify(restaurantObject) !== JSON.stringify(restaurant);
 
   const onResetSideMenu = () => {
     setShowAddForm(false);
@@ -122,13 +130,6 @@ export default function EditRestaurantMenu({
       ...page,
     };
 
-    if (page.category.type === "default") {
-      const itemsData = await fetch(
-        `/api/items?org_id=${restaurant.org_id}&category_id=${page.category?.id ?? ""}`,
-      );
-      newPage.items = (await itemsData.json()) ?? [];
-    }
-
     newMenuContent.push(newPage);
     const newMenu = {
       ...menuObject,
@@ -151,24 +152,6 @@ export default function EditRestaurantMenu({
   };
 
   const handleSave = async () => {
-    const saveRestaurant = async () => {
-      return fetch(`/api/restaurants/${restaurant.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(
-          isObjectURL(restaurantObject.logo_url)
-            ? {
-                ...restaurant,
-                ...restaurantObject,
-                file: await retrieveFile(restaurantObject.logo_url, true),
-              }
-            : { ...restaurant, ...restaurantObject },
-        ),
-      });
-    };
-
     const saveMenu = async () => {
       return fetch(`/api/menus/${menu.id}`, {
         method: "PUT",
@@ -182,31 +165,15 @@ export default function EditRestaurantMenu({
       });
     };
 
-    toast.promise(
-      async () => {
-        // Execute both saveRestaurant and saveMenu concurrently
-        const [restaurantResponse, menuResponse] = await Promise.all([
-          saveRestaurant(),
-          saveMenu(),
-        ]);
-
-        // Handle errors if necessary
-        if (!restaurantResponse.ok) {
-          throw new Error("Failed to save restaurant");
-        }
-
-        if (!menuResponse.ok) {
-          throw new Error("Failed to save menu");
-        }
-
-        return [restaurantResponse, menuResponse];
+    toast.promise(async () => saveMenu(), {
+      loading: "Publishing your menu changes...",
+      success: (data) => {
+        router.refresh();
+        return "Changes have been published! 🎉";
       },
-      {
-        loading: "Saving your changes...",
-        success: "Changes have been saved! 🎉",
-        error: "An error occurred while saving. Please try again 😢.",
-      },
-    );
+      error: (error) =>
+        "An error occurred while publishing. Please try again 😢.",
+    });
   };
 
   const handleClickCard = (entity: any) => {
@@ -242,7 +209,7 @@ export default function EditRestaurantMenu({
             <h2 className="pb-3 pt-6 text-2xl capitalize">
               {type} ({getData()?.length ?? 0})
             </h2>
-            {(menuFormIsDirty || restaurantFormIsDirty) && (
+            {menuFormIsDirty && (
               <EnhancedButton
                 variant="expandIcon"
                 Icon={FaFloppyDisk}
@@ -287,7 +254,7 @@ export default function EditRestaurantMenu({
               ),
             )}
 
-            {type === "menu" && menuFormIsDirty && (
+            {menuFormIsDirty && type === "menu" && (
               <button
                 className="mt-16 cursor-pointer rounded-lg px-6 py-3 text-[#F6FE9B] underline"
                 onClick={(e) => {
@@ -336,12 +303,14 @@ export default function EditRestaurantMenu({
                 categories={categories}
                 item={selectedItem}
                 orgId={restaurant.org_id}
+                onSubmitCallback={() => setShowAddForm(false)}
               />
             )}
             {type === "categories" && (
               <MenuCategoryForm
                 category={selectedCategory}
                 orgId={restaurant.org_id}
+                onSubmitCallback={() => setShowAddForm(false)}
               />
             )}
             {type === "menu" && (

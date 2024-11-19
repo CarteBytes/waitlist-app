@@ -53,9 +53,9 @@ export async function PUT(
 
     const { data, error } = await supabase
       .from("menu_items")
-      .update({ ...updatedItem, image_url: imageUrl })
+      .update({ ...updatedItem, image_url: imageUrl ?? updatedItem.image_url })
       .eq("org_id", body.org_id)
-      .eq("id", params.id); // Update the restaurant with the given id
+      .eq("id", params.id); // Update the item with the given id
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
