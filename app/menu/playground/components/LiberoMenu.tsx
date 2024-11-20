@@ -8,12 +8,13 @@ import { MenuT } from "../types/menu";
 import SocialMediaGroup from "./SocialMediaGroup";
 import AdminWrapper from "./AdminWrapper";
 import Link from "next/link";
-import { dynaPuff, oswald } from "@/app/ui/fonts";
+import { dynaPuff, oswald, libreBaskerville } from "@/app/ui/fonts";
 import { ItemT } from "../types/item";
 import Image from "next/image";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
+  if (fontFamily === "Libre Baskerville") return libreBaskerville.className;
   return oswald.className;
 };
 

@@ -23,4 +23,4 @@ export type RestaurantT = {
   youtube_url?: string;
 };
 
-export type SupportedFontFamilies = "DynaPuff" | "Oswald";
+export type SupportedFontFamilies = "DynaPuff" | "Oswald" | "Libre Baskerville";

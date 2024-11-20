@@ -164,7 +164,7 @@ const MenuItemForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-y-0">
-                  <FormLabel>Item Name</FormLabel>
+                  <FormLabel>Item Name*</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -283,7 +283,7 @@ const MenuItemForm = ({
               name="category"
               render={({ field }: any) => (
                 <FormItem className="text-white">
-                  <FormLabel className="text-black">Category</FormLabel>
+                  <FormLabel className="text-black">Category*</FormLabel>
                   <Select
                     onValueChange={(newVal: string) => {
                       field.onChange(newVal);
@@ -308,7 +308,7 @@ const MenuItemForm = ({
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <FormDescription>
+                  <FormDescription className="text-gray-600">
                     You can manage categories in the categories section.
                   </FormDescription>
                   <FormMessage />

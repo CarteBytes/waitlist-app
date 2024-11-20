@@ -143,7 +143,7 @@ const MenuCategoryForm = ({
               name="name"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-y-0">
-                  <FormLabel>Category Name</FormLabel>
+                  <FormLabel>Category Name*</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
