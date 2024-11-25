@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     const { data: newItem, error } = await supabase
       .from("menu_items")
-      .insert([parsedData])
+      .insert([{ ...parsedData, price: body.price ?? null }])
       .select()
       .single();
 

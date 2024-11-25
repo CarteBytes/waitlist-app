@@ -53,7 +53,11 @@ export async function PUT(
 
     const { data, error } = await supabase
       .from("menu_items")
-      .update({ ...updatedItem, image_url: imageUrl ?? updatedItem.image_url })
+      .update({
+        ...updatedItem,
+        image_url: imageUrl ?? updatedItem.image_url,
+        price: body.price ?? null,
+      })
       .eq("org_id", body.org_id)
       .eq("id", params.id); // Update the item with the given id
 

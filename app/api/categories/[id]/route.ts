@@ -56,6 +56,7 @@ export async function PUT(
       .update({
         ...updatedCategory,
         image_url: imageUrl ?? updatedCategory.image_url,
+        price: body.price ?? null,
       })
       .eq("org_id", body.org_id)
       .eq("id", params.id); // Update the restaurant with the given id

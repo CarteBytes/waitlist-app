@@ -124,7 +124,7 @@ const ContentPages = ({
                       color: getPageSectionTitleColor(section.page_index),
                     }}>
                     {restaurant.currency_prefix}
-                    {section.category?.price}
+                    {section.category?.price.toFixed(2)}
                   </h3>
                 )}
               </div>
@@ -162,7 +162,7 @@ const ContentPages = ({
                                 color: getPageBodyTextColor(section.page_index),
                               }}>
                               {restaurant.currency_prefix}
-                              {item.price}
+                              {item.price.toFixed(2)}
                             </p>
                           </div>
                         )}
@@ -233,7 +233,7 @@ const TitlePage = ({
     <section
       id="hero"
       className={`hero duration-2000 flex h-svh flex-col px-8 py-12 transition-all ease-linear`}
-      style={{ background: gradientString }}>
+      style={{ background: restaurant.primary_color ?? gradientString }}>
       <div id="hero-header" className="flex justify-between">
         <h1 className="text-5xl font-semibold">
           {isSpanish ? (

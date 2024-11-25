@@ -53,7 +53,14 @@ export async function POST(req: NextRequest) {
 
     const { data: newCategory, error } = await supabase
       .from("item_categories")
-      .insert([{ ...parsedData, id: newId, image_url: imageUrl }])
+      .insert([
+        {
+          ...parsedData,
+          id: newId,
+          image_url: imageUrl,
+          price: body.price ?? null,
+        },
+      ])
       .select()
       .single();
 

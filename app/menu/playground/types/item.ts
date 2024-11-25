@@ -2,7 +2,7 @@ export type ItemT = {
   id?: string;
   name: string;
   description?: string;
-  price: string | null;
+  price: number | null;
   category_id: string | null;
   calories?: string;
   category?: string;

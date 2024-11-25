@@ -23,7 +23,7 @@ export type MenuCategoryT = {
   id?: string;
   org_id?: string;
   name?: string;
-  price?: string;
+  price?: number;
   description?: string;
   image_url?: string;
 };
