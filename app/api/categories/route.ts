@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db";
 import { ZodError } from "zod";
-import { checkOrgExists } from "@/lib/helpers";
+import {
+  checkOrgExists,
+  uploadImageAndRetreiveUrl,
+  UploadImageAndRetrieveUrlInterface,
+} from "@/lib/helpers";
 import { insertCategorySchema } from "@/schemas/category";
+import { v4 } from "uuid";
 
 // GET ALL CATEGORIES FROM ORG
 export async function GET(req: NextRequest) {
@@ -31,14 +36,24 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    checkOrgExists(body.org_id!);
+    const newId = v4();
+
+    let imageUrl = null;
+    if (body.file) {
+      imageUrl = await uploadImageAndRetreiveUrl({
+        id: newId,
+        keyType: "category",
+        file: body.file,
+        orgId: body.org_id,
+      } as UploadImageAndRetrieveUrlInterface);
+    }
 
     const parsedData = insertCategorySchema.parse(body);
 
-    checkOrgExists(parsedData.org_id!);
-
     const { data: newCategory, error } = await supabase
       .from("item_categories")
-      .insert([parsedData])
+      .insert([{ ...parsedData, id: newId, image_url: imageUrl }])
       .select()
       .single();
 

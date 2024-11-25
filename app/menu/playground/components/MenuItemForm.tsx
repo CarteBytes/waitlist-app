@@ -18,7 +18,7 @@ import { ItemCategoryT } from "../types/category";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { ItemT } from "../types/item";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaTrash } from "react-icons/fa6";
 import {
   Select,
   SelectContent,
@@ -364,6 +364,37 @@ const MenuItemForm = ({
             className="my-8 w-full">
             Submit
           </EnhancedButton>
+          {!!item && (
+            <div className="flex justify-center">
+              <button
+                className="mb-8 rounded-full border-2 border-black p-2 text-lg text-black"
+                onClick={(e) => {
+                  e.preventDefault();
+                  toast.promise(
+                    () =>
+                      fetch(`/api/items/${item.id}`, {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }),
+                    {
+                      loading: "Deleting item...",
+                      success: (data) => {
+                        router.refresh();
+                        onSubmitCallback();
+                        return "Your item has been deleted.";
+                      },
+                      error: (error) => {
+                        return "An error occurred while deleting. Please try again 😢.";
+                      },
+                    },
+                  );
+                }}>
+                <FaTrash />
+              </button>
+            </div>
+          )}
         </form>
       </Form>
     </div>

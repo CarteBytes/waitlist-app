@@ -17,7 +17,7 @@ import { insertItemSchema } from "@/schemas/item"; // Adjust the schema for Menu
 import { ItemCategoryT } from "../types/category";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaTrash } from "react-icons/fa6";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploadComponent from "./ImageUploadComponent";
 import { convertToBase64 } from "@/lib/utils";
@@ -112,7 +112,14 @@ const MenuCategoryForm = ({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ org_id: orgId, ...menuCategoryForm }),
+            body: JSON.stringify({
+              org_id: orgId,
+              name,
+              description,
+              image_url,
+              price: price ? +price : null,
+              file: base64,
+            }),
           }),
         {
           loading: "Creating category...",
@@ -303,6 +310,37 @@ const MenuCategoryForm = ({
             className="my-8 w-full">
             Submit
           </EnhancedButton>
+          {!!category && (
+            <div className="flex justify-center">
+              <button
+                className="mb-8 rounded-full border-2 border-black p-2 text-lg text-black"
+                onClick={(e) => {
+                  e.preventDefault();
+                  toast.promise(
+                    () =>
+                      fetch(`/api/categories/${category.id}`, {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }),
+                    {
+                      loading: "Deleting category...",
+                      success: (data) => {
+                        router.refresh();
+                        onSubmitCallback();
+                        return "Your category has been deleted.";
+                      },
+                      error: (error) => {
+                        return `An error occurred while deleting. Please try again 😢.`;
+                      },
+                    },
+                  );
+                }}>
+                <FaTrash />
+              </button>
+            </div>
+          )}
         </form>
       </Form>
     </div>

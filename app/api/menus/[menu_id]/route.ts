@@ -38,26 +38,6 @@ export async function GET(
     );
   }
 
-  // const itemIdsArray = [...new Set(content.flatMap((c) => c.items || []))];
-  // const { data: itemObjects, error: itemError } = await supabase
-  //   .from("menu_items")
-  //   .select("*")
-  //   .in("id", itemIdsArray);
-
-  // if (itemError) {
-  //   return NextResponse.json(
-  //     { error: "Error fetching menu items" },
-  //     { status: 500 },
-  //   );
-  // }
-
-  // const itemIdsMap: Record<string, any> = {};
-  // itemObjects?.forEach((itemObj) => (itemIdsMap[itemObj.id] = itemObj));
-
-  // content.forEach((c) => {
-  //   c.items = c.items?.map((itemId: any) => itemIdsMap[itemId]) || [];
-  // });
-
   return NextResponse.json({ ...menu, content });
 }
 

@@ -73,7 +73,7 @@ export async function PUT(
   }
 }
 
-// Delete a restaurant
+// Delete a category
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
@@ -82,7 +82,7 @@ export async function DELETE(
     const { error } = await supabase
       .from("item_categories")
       .delete()
-      .eq("id", params.id); // Delete the restaurant with the given id
+      .eq("id", params.id); // Delete the category with the given id
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });

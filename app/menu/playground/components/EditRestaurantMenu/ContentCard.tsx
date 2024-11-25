@@ -68,7 +68,7 @@ export default function ContentCard({
           </div>
 
           <div className="flex items-center">
-            {index !== 0 && (
+            {/* {index !== 0 && (
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -78,7 +78,7 @@ export default function ContentCard({
                 className="mr-2 rounded-full bg-[#F6FE9B] p-2 text-xl text-black">
                 <FaArrowUp />
               </button>
-            )}
+            )} */}
             {!isLast && (
               <button
                 onClick={(e) => {
@@ -105,7 +105,7 @@ export default function ContentCard({
         </div>
       </div>
       {isLast && (
-        <div className={`flex h-10 items-center justify-center`}>
+        <div className={`flex h-8 items-center justify-center`}>
           <button
             className="flex items-center justify-center rounded-full bg-[#F6FE9B] p-2"
             onClick={() => {

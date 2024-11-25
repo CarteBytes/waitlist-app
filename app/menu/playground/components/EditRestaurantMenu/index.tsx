@@ -303,14 +303,20 @@ export default function EditRestaurantMenu({
                 categories={categories}
                 item={selectedItem}
                 orgId={restaurant.org_id}
-                onSubmitCallback={() => setShowAddForm(false)}
+                onSubmitCallback={() => {
+                  setShowAddForm(false);
+                  setSelectedItem(undefined);
+                }}
               />
             )}
             {type === "categories" && (
               <MenuCategoryForm
                 category={selectedCategory}
                 orgId={restaurant.org_id}
-                onSubmitCallback={() => setShowAddForm(false)}
+                onSubmitCallback={() => {
+                  setShowAddForm(false);
+                  setSelectedCategory(undefined);
+                }}
               />
             )}
             {type === "menu" && (

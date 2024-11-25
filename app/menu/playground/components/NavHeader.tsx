@@ -25,14 +25,14 @@ function NavHeader({
         <button
           onClick={() => setShowRestaurantForm(true)}
           className="rounded-full bg-black p-2 text-xl text-[#F6FE9B]">
-          <FaStore />
+          <FaStore className="text-2xl" />
         </button>
         <img
           alt={`${restaurant.name} logo`}
           src="/logo.svg"
           className="mx-auto h-12 w-auto"
         />{" "}
-        <FaCircleUser className="h-[36px] w-[36px] text-black" />
+        <FaCircleUser className="h-[40px] w-[40px] text-black" />
       </div>
       <SlideMenu
         slideFrom="left"
