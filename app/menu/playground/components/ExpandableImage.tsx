@@ -33,10 +33,7 @@ export default function ExpandableImage({
         alt={name ?? "category-img"}
         src={imageSrc}
         className="mr-2 h-20 w-20 cursor-pointer rounded-sm"
-        onClick={() => {
-          setCurrentImage(imageSrc);
-          console.log(imageSrc);
-        }}
+        onClick={() => setCurrentImage(imageSrc)}
       />
 
       {/* Dialog */}
