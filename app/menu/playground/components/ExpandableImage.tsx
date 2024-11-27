@@ -32,7 +32,7 @@ export default function ExpandableImage({
       <img
         alt={name ?? "category-img"}
         src={imageSrc}
-        className="mr-3 h-20 w-20 cursor-pointer rounded-sm object-cover"
+        className="mr-3 max-h-20 min-h-20 min-w-20 max-w-20 cursor-pointer rounded-sm object-cover"
         onClick={() => setCurrentImage(imageSrc)}
       />
 
