@@ -86,7 +86,7 @@ export default function ContentCard({
                   e.stopPropagation();
                   switchIndices(index, index + 1);
                 }}
-                className="rounded-full bg-[#F6FE9B] p-2 text-xl text-black">
+                className="ml-2 rounded-full bg-[#F6FE9B] p-2 text-xl text-black">
                 <FaArrowDown />
               </button>
             )}

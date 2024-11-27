@@ -64,9 +64,9 @@ export default function EditRestaurantMenu({
   const getData = () => {
     let data: any[] = [];
     if (type === "items") {
-      data = items;
+      data = items.sort((a, b) => a.name.localeCompare(b.name));
     } else if (type === "categories") {
-      data = categories;
+      data = categories.sort((a, b) => a.name.localeCompare(b.name));
     } else if (type === "menu") {
       data = menuObject.content.sort((a, b) => a.page_index - b.page_index);
     }
