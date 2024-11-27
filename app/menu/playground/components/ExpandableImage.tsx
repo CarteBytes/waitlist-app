@@ -15,12 +15,14 @@ export default function ExpandableImage({
   description,
   bgColor,
   textColor,
+  fontFamily,
 }: {
   imageUrl: string;
   name: string;
   description?: string;
   bgColor: string;
   textColor: string;
+  fontFamily: string;
 }) {
   const [currentImage, setCurrentImage] = useState("");
 
@@ -41,7 +43,9 @@ export default function ExpandableImage({
         <Dialog
           open={Boolean(currentImage)}
           onOpenChange={() => setCurrentImage("")}>
-          <DialogContent style={{ background: bgColor, color: textColor }}>
+          <DialogContent
+            style={{ background: bgColor, color: textColor }}
+            className={fontFamily}>
             <DialogHeader>
               <DialogTitle>{name ?? "Expanded Image"}</DialogTitle>
             </DialogHeader>

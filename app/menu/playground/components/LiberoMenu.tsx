@@ -133,7 +133,7 @@ const ContentPages = ({
 
             {section.category?.description && (
               <div
-                className="px-8 text-lg leading-tight"
+                className="mb-2 px-8 text-lg leading-tight"
                 style={{ color: getPageSectionTitleColor(section.page_index) }}>
                 <p>{section.category?.description}</p>
               </div>
@@ -147,6 +147,7 @@ const ContentPages = ({
                     <div key={item.id} className="flex">
                       {item.image_url && (
                         <ExpandableImage
+                          fontFamily={getFontFamily(restaurant.font_family)}
                           imageUrl={item.image_url}
                           name={item.name}
                           description={item.description}
