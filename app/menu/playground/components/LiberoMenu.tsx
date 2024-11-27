@@ -11,6 +11,7 @@ import Link from "next/link";
 import { dynaPuff, oswald, libreBaskerville } from "@/app/ui/fonts";
 import { ItemT } from "../types/item";
 import Image from "next/image";
+import ExpandableImage from "./ExpandableImage";
 
 const getFontFamily = (fontFamily: SupportedFontFamilies) => {
   if (fontFamily === "DynaPuff") return dynaPuff.className;
@@ -143,50 +144,64 @@ const ContentPages = ({
                 {section.items?.map((item: ItemT) => {
                   if (item.status === "unpublished") return null;
                   return (
-                    <div key={item.id}>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p
-                            className="text-xl font-semibold"
-                            style={{
-                              color: getPageBodyTextColor(section.page_index),
-                            }}>
-                            {item.name}
-                          </p>
-                        </div>
-                        {item.price && (
+                    <div key={item.id} className="flex">
+                      {item.image_url && (
+                        <ExpandableImage
+                          imageUrl={item.image_url}
+                          name={item.name}
+                          description={item.description}
+                          bgColor={restaurant.primary_color}
+                          textColor={restaurant.primary_text_color}
+                        />
+                        // <img src={item.image_url} className="mr-4 h-20 w-20" />
+                      )}
+                      <div className="flex-grow">
+                        <div className="flex items-start justify-between">
                           <div>
                             <p
-                              className="ml-4 w-max text-nowrap text-lg font-semibold"
+                              className="text-xl font-semibold"
                               style={{
                                 color: getPageBodyTextColor(section.page_index),
                               }}>
-                              {restaurant.currency_prefix}
-                              {item.price.toFixed(2)}
+                              {item.name}
                             </p>
                           </div>
+                          {item.price && (
+                            <div>
+                              <p
+                                className="ml-4 w-max text-nowrap text-lg font-semibold"
+                                style={{
+                                  color: getPageBodyTextColor(
+                                    section.page_index,
+                                  ),
+                                }}>
+                                {restaurant.currency_prefix}
+                                {item.price.toFixed(2)}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        {item.description && (
+                          <p
+                            className="text-md leading-tight"
+                            style={{
+                              color: getPageBodyTextColor(section.page_index),
+                              opacity: 0.75,
+                            }}>
+                            {item.description}
+                          </p>
+                        )}
+                        {item.calories && (
+                          <p
+                            className="text-md font-thin leading-tight"
+                            style={{
+                              color: getPageBodyTextColor(section.page_index),
+                              opacity: 0.75,
+                            }}>
+                            {item.calories} Cal
+                          </p>
                         )}
                       </div>
-                      {item.description && (
-                        <p
-                          className="text-md leading-tight"
-                          style={{
-                            color: getPageBodyTextColor(section.page_index),
-                            opacity: 0.75,
-                          }}>
-                          {item.description}
-                        </p>
-                      )}
-                      {item.calories && (
-                        <p
-                          className="text-md font-thin leading-tight"
-                          style={{
-                            color: getPageBodyTextColor(section.page_index),
-                            opacity: 0.75,
-                          }}>
-                          {item.calories} Cal
-                        </p>
-                      )}
                     </div>
                   );
                 })}

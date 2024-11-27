@@ -30,6 +30,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { convertToBase64 } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import ImageUploadComponent from "./ImageUploadComponent";
 
 const MenuItemForm = ({
   item,
@@ -350,10 +351,10 @@ const MenuItemForm = ({
                 </FormItem>
               )}
             />
-            {/* <ImageUploadComponent
+            <ImageUploadComponent
               file_={item?.image_url}
               onFileChange={(newFile: any) => setFile(newFile)}
-            /> */}
+            />
           </div>
 
           <EnhancedButton
