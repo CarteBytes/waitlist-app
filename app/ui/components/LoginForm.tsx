@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
-import { loginUser } from "@/app/clientApi/auth";
+import { loginUser } from "@/app/apiFunctions/auth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

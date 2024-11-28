@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from "next";
 import LiberoMenu from "../../ui/components/LiberoMenu";
-import { fetchRestaurantAndMenu } from "@/app/clientApi/restaurant";
+import { fetchRestaurantAndMenu } from "@/app/apiFunctions/restaurant";
 
 type Props = {
   params: { restaurant_slug: string };

@@ -2,9 +2,9 @@ import { Metadata, ResolvingMetadata } from "next";
 import EditRestaurantMenu from "../../../ui/components/EditRestaurantMenu";
 import { ItemT } from "../../../ui/types/item";
 import { ItemCategoryT } from "../../../ui/types/category";
-import { fetchOrgItems } from "@/app/clientApi/items";
-import { fetchOrgCategories } from "@/app/clientApi/categories";
-import { fetchRestaurantAndMenu } from "@/app/clientApi/restaurant";
+import { fetchOrgItems } from "@/app/apiFunctions/items";
+import { fetchOrgCategories } from "@/app/apiFunctions/categories";
+import { fetchRestaurantAndMenu } from "@/app/apiFunctions/restaurant";
 
 type Props = {
   params: { restaurant_slug: string };
