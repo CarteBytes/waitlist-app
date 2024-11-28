@@ -1,26 +1,10 @@
 import { Metadata, ResolvingMetadata } from "next";
-import LiberoMenu from "../playground/components/LiberoMenu";
+import LiberoMenu from "../../ui/components/LiberoMenu";
+import { fetchRestaurantAndMenu } from "@/app/clientApi/restaurant";
 
 type Props = {
   params: { restaurant_slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
-  const restaurantData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurant/${restaurantSlug}`,
-    {
-      cache: "no-store",
-    },
-  );
-  const restaurant = await restaurantData.json();
-  const menuData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurant.id}/menus?default`,
-    { cache: "no-store" },
-  );
-  const menu = await menuData.json();
-
-  return { restaurant, menu };
 };
 
 export async function generateMetadata(

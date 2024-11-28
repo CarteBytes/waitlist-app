@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/db";
 import { checkRestaurantExists } from "@/lib/helpers";
-import { ItemCategoryT } from "@/app/menu/playground/types/category";
-import { ItemT } from "@/app/menu/playground/types/item";
+import { ItemCategoryT } from "@/app/ui/types/category";
+import { ItemT } from "@/app/ui/types/item";
 
 // This route gets all the restaurant's menus
 // export async function GET(

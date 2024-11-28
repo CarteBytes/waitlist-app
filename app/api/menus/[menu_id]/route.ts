@@ -7,7 +7,7 @@ import {
   checkRestaurantExists,
   uploadImageAndRetreiveUrl,
 } from "@/lib/helpers";
-import { MenuSectionT } from "@/app/menu/playground/types/menu";
+import { MenuSectionT } from "@/app/ui/types/menu";
 import { insertCategorySchema } from "@/schemas/category";
 import { v4 } from "uuid";
 

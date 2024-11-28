@@ -1,52 +1,14 @@
 import { Metadata, ResolvingMetadata } from "next";
-import EditRestaurantMenu from "../../playground/components/EditRestaurantMenu";
-import { ItemT } from "../../playground/types/item";
-import { ItemCategoryT } from "../../playground/types/category";
+import EditRestaurantMenu from "../../../ui/components/EditRestaurantMenu";
+import { ItemT } from "../../../ui/types/item";
+import { ItemCategoryT } from "../../../ui/types/category";
+import { fetchOrgItems } from "@/app/clientApi/items";
+import { fetchOrgCategories } from "@/app/clientApi/categories";
+import { fetchRestaurantAndMenu } from "@/app/clientApi/restaurant";
 
 type Props = {
   params: { restaurant_slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
-};
-
-const fetchRestaurantAndMenu = async (restaurantSlug: string) => {
-  const restaurantData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurant/${restaurantSlug}`,
-    {
-      cache: "no-store",
-    },
-  );
-  const restaurant = await restaurantData.json();
-  const menuData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/restaurants/${restaurant.id}/menus?default`,
-    { cache: "no-store" },
-  );
-  const menu = await menuData.json();
-
-  return { restaurant, menu };
-};
-
-const fetchOrgItems = async (orgId: string) => {
-  const itemsData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/organizations/${orgId}/items`,
-    {
-      cache: "no-store",
-      next: { tags: ["orgItems"] },
-    },
-  );
-  const items = await itemsData.json();
-  return items;
-};
-
-const fetchOrgCategories = async (orgId: string) => {
-  const categoriesData = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/organizations/${orgId}/categories`,
-    {
-      cache: "no-store",
-      next: { tags: ["orgCategories"] },
-    },
-  );
-  const categories = await categoriesData.json();
-  return categories;
 };
 
 export async function generateMetadata(
