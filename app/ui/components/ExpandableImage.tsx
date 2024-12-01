@@ -45,7 +45,7 @@ export default function ExpandableImage({
           onOpenChange={() => setCurrentImage("")}>
           <DialogContent
             style={{ background: bgColor, color: textColor }}
-            className={fontFamily}>
+            className={`${fontFamily}`}>
             <DialogHeader>
               <DialogTitle>{name ?? "Expanded Image"}</DialogTitle>
             </DialogHeader>

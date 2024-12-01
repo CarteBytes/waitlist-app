@@ -5,7 +5,6 @@ import { insertRestaurantSchema } from "@/schemas/restaurantSchema";
 import { checkOrgExists } from "@/lib/helpers";
 
 // GET ALL RESTAURANTS
-// GET ALL RESTAURANTS
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const orgId = searchParams.get("org_id");

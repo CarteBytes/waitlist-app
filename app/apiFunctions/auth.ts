@@ -15,7 +15,6 @@ export const loginUser = async (email: string, password: string) => {
   }
 
   const { session, user } = await response.json();
-  console.log("User logged in:", user);
 
   return { session, user };
 };

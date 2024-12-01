@@ -1,5 +1,6 @@
 import { ItemCategoryT } from "../../types/category";
 import { ItemT } from "../../types/item";
+import { hasCategory } from "../../types/typeguards";
 
 export default function ItemCard({
   item,
@@ -41,7 +42,9 @@ export default function ItemCard({
             </div>
           )}
         </div>
-        <div className="opacity-70">{item.description}</div>
+        <div className="opacity-70">
+          {hasCategory(item) ? item?.category?.name : item?.description}
+        </div>
       </div>
       {/* <div className="mt-1 flex justify-end">
                     <button

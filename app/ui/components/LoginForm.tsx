@@ -8,9 +8,11 @@ import { Input } from "@/components/ui/input";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
-import { loginUser } from "@/app/apiFunctions/auth";
+import { useAuth } from "@/app/context/useAuth";
+import { toast } from "sonner";
 
 export default function LoginForm() {
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,15 +27,19 @@ export default function LoginForm() {
 
   const handleLogin = async () => {
     setLoading(true);
-    try {
-      const data = await loginUser(email, password);
-      alert("Login successful!");
-      // Redirect user to dashboard or desired route
-    } catch (err) {
-      console.error("Unexpected error:", err);
-    } finally {
-      setLoading(false);
-    }
+
+    toast.promise(() => login(email, password), {
+      loading: "Logging in...",
+      success: (data) => {
+        return "Login Successful! 🎉 ";
+      },
+      error: (error) => {
+        console.log(error);
+        return "Login failed, please try again";
+      },
+    });
+
+    setLoading(false);
   };
 
   return (

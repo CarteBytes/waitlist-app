@@ -2,13 +2,13 @@
 
 import LoginForm from "../ui/components/LoginForm";
 import Particles from "@/components/ui/particles";
-import CTA from "@/components/cta";
+import LoginCTA from "@/components/logincta";
 
 export default function Page({}: {}) {
   return (
     <main className="flex min-h-dvh flex-col items-center overflow-x-clip pt-12 md:pt-24">
       <section className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
-        {/* <CTA /> */}
+        <LoginCTA />
         <LoginForm />
       </section>
 

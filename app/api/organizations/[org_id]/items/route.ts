@@ -13,7 +13,7 @@ export async function GET(
 
   const { data: menuItemsArr, error: menuItemsError } = await supabase
     .from("menu_items")
-    .select("*")
+    .select(`*, category:item_categories(*)`)
     .eq("org_id", orgId!);
 
   if (menuItemsError) {
