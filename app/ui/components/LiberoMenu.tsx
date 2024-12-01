@@ -309,7 +309,7 @@ const FooterPage = ({ restaurant }: { restaurant: RestaurantT }) => {
       id="footer"
       className="flex flex-col items-center gap-12 px-8 py-24"
       style={{
-        background: restaurant.secondary_color, //getPageBackgroundColor(menu.pages.length + 2),
+        background: restaurant.primary_color, //getPageBackgroundColor(menu.pages.length + 2),
         color: restaurant.primary_text_color, //getPageBodyTextColor(menu.pages.length + 2),
       }}>
       {restaurant.logo_url && (
