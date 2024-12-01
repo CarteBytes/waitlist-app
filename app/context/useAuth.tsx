@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userData);
           setIsAuthenticated(true);
         } else {
-          logout();
+          //logout();
         }
       } catch (error) {
         console.error("Error getting user data:", error);

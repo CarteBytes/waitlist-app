@@ -59,36 +59,42 @@ const ContentPages = ({
   );
 
   const getPageBackgroundColor = (index: number) => {
-    if (index % 2 !== 0) return restaurant.primary_color;
-    if (index % 4 === 0) return restaurant.secondary_color;
-    return restaurant.primary_text_color;
+    // if (index % 2 !== 0) return restaurant.primary_color;
+    // if (index % 4 === 0) return restaurant.secondary_color;
+    // return restaurant.primary_text_color;
+
+    return restaurant.primary_color;
   };
 
   const getPageBodyTextColor = (index: number) => {
-    const backgroundColor = getPageBackgroundColor(index);
-    // Body text should be primary_text except when the background is primary_text
-    if (backgroundColor === restaurant.primary_text_color) {
-      return restaurant.secondary_text_color; // Use secondary_text to avoid conflict with primary_text background
-    }
+    // const backgroundColor = getPageBackgroundColor(index);
+    // // Body text should be primary_text except when the background is primary_text
+    // if (backgroundColor === restaurant.primary_text_color) {
+    //   return restaurant.secondary_text_color; // Use secondary_text to avoid conflict with primary_text background
+    // }
+    // return restaurant.primary_text_color;
+
     return restaurant.primary_text_color;
   };
 
   const getPageSectionTitleColor = (index: number) => {
-    const backgroundColor = getPageBackgroundColor(index);
-    if (restaurant.primary_color === restaurant.secondary_color) {
-      if (isLight(restaurant.accent_color) && isLight(backgroundColor)) {
-        if (backgroundColor !== restaurant.primary_color)
-          return restaurant.primary_color;
-        return restaurant.secondary_text_color;
-      }
-      return restaurant.accent_color;
-    }
+    // const backgroundColor = getPageBackgroundColor(index);
+    // if (restaurant.primary_color === restaurant.secondary_color) {
+    //   if (isLight(restaurant.accent_color) && isLight(backgroundColor)) {
+    //     if (backgroundColor !== restaurant.primary_color)
+    //       return restaurant.primary_color;
+    //     return restaurant.secondary_text_color;
+    //   }
+    //   return restaurant.accent_color;
+    // }
 
-    // Title should be primary whenever the background is not primary
-    if (backgroundColor !== restaurant.primary_color) {
-      return restaurant.primary_color;
-    }
-    // Fallback title color when background is primary
+    // // Title should be primary whenever the background is not primary
+    // if (backgroundColor !== restaurant.primary_color) {
+    //   return restaurant.primary_color;
+    // }
+    // // Fallback title color when background is primary
+    // return restaurant.secondary_color;
+
     return restaurant.secondary_color;
   };
 
